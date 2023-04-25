@@ -36,8 +36,10 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Loja de Carros </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="css/main.css" rel="stylesheet" >
-
+    <link href="css/main.css" rel="stylesheet">
+    <style>
+        
+    </style>
 </head>
 
 <body>
@@ -48,8 +50,10 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                 Volkswagen
             </a>
 
-            <a class="navbar-brand" href="php/cadVeiculo.php">Novo veiculo</a>
+            <a class="navbar-brand" href="index.php">Lista</a>
+            <a class="navbar-brand" href="php/cadVeiculo.php">Novo</a>
             <a class="navbar-brand" href="php/desativados.php">Veiculos desativados</a>
+            
 
 
             <div class="ml-0">
@@ -110,17 +114,17 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                         <td>" . $row['car_cor'] . "</td>
                                         <td>" . $row['car_modelo'] . "</td>
                                         <td>" . $row['car_ano'] . "</td>
-                                        <td>" . $row['car_preco'] . "</td>
+                                        <td>R$ " . number_format($row['car_preco'], 2, ',', '.'). "</td>
                                         <td>
                                             <form action='php/edit.php' method='GET'>
                                                 <input type='hidden' name='id' value='" . $row['id'] . "'>
-                                                <button type='submit' name='alter'>Alterar</button>
+                                                <button type='submit' name='alter' class='noselect alterar'><span class='text'>Alterar</span><span class='icon'><img src='./img/sincronizar.svg' alt=''></span></button>
                                             </form>
                                         </td>
                                         <td>
                                             <form action='' method='POST'>
                                                 <input type='hidden' name='id' value='" . $row['id'] . "'>
-                                                <button type='submit' name='excluir'>Excluir</button>
+                                                <button type='submit' name='excluir' class='noselect delete'><span class='text'>Delete</span><span class='icon'><img src='./img/delete.svg' alt=''></span></button>
                                             </form>
                                         </td>
                                     </tr>

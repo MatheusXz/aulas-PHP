@@ -49,7 +49,8 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                 Volkswagen
             </a>
 
-            <a class="navbar-brand" href="cadVeiculo.php">Novo veiculo</a>
+            <a class="navbar-brand" href="../index.php">Lista</a>
+            <a class="navbar-brand" href="cadVeiculo.php">Novo</a>
             <a class="navbar-brand" href="#">Veiculos desativados</a>
 
 
