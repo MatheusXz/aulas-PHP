@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en" class="h-100">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+  <meta name="generator" content="Hugo 0.108.0">
+  <title>Trabalhando em sala</title>
+
+  <link rel="canonical" href="https://getbootstrap.com/docs/5.3/examples/cover/">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+  <style>
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .b-example-divider {
+      height: 3rem;
+      background-color: rgba(0, 0, 0, .1);
+      border: solid rgba(0, 0, 0, .15);
+      border-width: 1px 0;
+      box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .b-example-vr {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 100vh;
+    }
+
+    .bi {
+      vertical-align: -.125em;
+      fill: currentColor;
+    }
+
+    .nav-scroller {
+      position: relative;
+      z-index: 2;
+      height: 2.75rem;
+      overflow-y: hidden;
+    }
+
+    .nav-scroller .nav {
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .container2 {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .borderTeste {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.596);
+      border-left: 1px solid rgba(255, 255, 255, 0.226);
+      border-radius: 30px;
+      padding: 2%;
+      /* margin: 2%; */
+      transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+    }
+
+
+    .borderTeste:hover {
+      transform: scale(1.2);
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    }
+
+    /* Safari */
+    @-webkit-keyframes spin {
+      0% {
+        -webkit-transform: rotate(0deg);
+      }
+
+      100% {
+        -webkit-transform: rotate(360deg);
+      }
+    }
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  </style>
+
+  <!-- Custom styles for this template -->
+  <link href="cover.css" rel="stylesheet">
+</head>
+
+<body class="d-flex h-100 text-center text-bg-dark">
+  <div class="container2">
+    <div class="loader"></div>
+  </div>
+
+  <div id="todaEstrutura" class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+      <div>
+        <h3 class="float-md-start mb-0">M. Aureliano</h3>
+        <nav class="nav nav-masthead justify-content-center float-md-end">
+          <a class="nav-link fw-bold py-1 px-0 active" aria-current="page" href="#">Home</a>
+          <a class="nav-link fw-bold py-1 px-0" href="#projects">List of Projects</a>
+          <a class="nav-link fw-bold py-1 px-0" href="finance/index.php">Finance</a>
+          <a class="nav-link fw-bold py-1 px-0" href="#">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="px-3">
+      <h1>Projetos em sala de aula</h1>
+      <p class="lead">Desenvolvimento</p>
+
+    </main>
+
+    <section id="projects">
+      <!-- proximo -->
+      <div class="row my-5">
+        <div class="col mx-2 position-relative borderTeste">
+          <div>
+            <h5 class="mt-0">Variáveis em PHP</h5>
+            <p>Conceitos de variáis</p>
+            <a href="variaveisPhp/index.php" class="stretched-link text-white">Variaveis</a>
+          </div>
+        </div>
+        <div class="col mx-2 position-relative borderTeste">
+          <div>
+            <h5 class="mt-0">Atividades (while>for>switch)</h5>
+            <p>Exercicios da AULA 03</p>
+            <a href="estruturasControle/index.php" class="stretched-link text-white">Aula 03</a>
+          </div>
+        </div>
+      </div>
+      <!-- proximo -->
+      <div class="row my-5">
+        <div class="col position-relative borderTeste">
+          <div>
+            <h5 class="mt-0">Funções</h5>
+            <p>Atividaes 8 no total</p>
+            <a href="aula04/index.php" class="stretched-link text-white">Aula 04</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="my-5">
+      <div class="row">
+        <h2>Contact us</h2>
+
+      </div>
+    </section>
+
+    <footer class="mt-auto text-white-50">
+      <p>by Matheus A. <a
+          href="https://github.com/MatheusXz" target="_blank" class="text-white">GitHub</a>.</p>
+    </footer>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
+    integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js"
+    integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD"
+    crossorigin="anonymous"></script>
+</body>
+<script>
+
+
+  function foo() {
+    document.getElementById("todaEstrutura").style.visibility = "visible";
+    document.querySelector(".container2").style.visibility = "hidden";
+    document.querySelector(".container2").style.position = "absolute";
+  }
+  setTimeout(foo, 500);
+  document.querySelector(".container2").style.position = "absolute";
+  document.getElementById("todaEstrutura").style.display = "none";
+  document.getElementById("todaEstrutura").style.visibility = "hidden";
+
+</script>
+
+</html>
