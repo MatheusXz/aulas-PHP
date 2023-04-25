@@ -3,9 +3,8 @@
 require_once('./php/conn.php');
 
 if (isset($_POST['sair'])) {
-    session_start();
-    session_destroy();
-    header('location: php/login.php');
+    $loca = 'location: php/login.php';
+    exitSession($loca);
 }
 if (isset($_POST['excluir'])) {
 
@@ -37,89 +36,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Loja de Carros </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <style>
-        .cta {
-            display: flex;
-            padding: 11px 33px;
-            text-decoration: none;
-            font-family: 'Poppins', sans-serif;
-            font-size: 25px;
-            color: white;
-            background: #6225E6;
-            transition: 1s;
-            box-shadow: 6px 6px 0 black;
-            transform: skewX(-15deg);
-            border: none;
-        }
-
-        .cta:focus {
-            outline: none;
-        }
-
-        .cta:hover {
-            transition: 0.5s;
-            box-shadow: 10px 10px 0 #FBC638;
-        }
-
-        .cta .second {
-            transition: 0.5s;
-            margin-right: 0px;
-        }
-
-        .cta:hover .second {
-            transition: 0.5s;
-            margin-right: 45px;
-        }
-
-        .span {
-            transform: skewX(15deg)
-        }
-
-        .second {
-            width: 20px;
-            margin-left: 30px;
-            position: relative;
-            top: 12%;
-        }
-
-        .one {
-            transition: 0.4s;
-            transform: translateX(-60%);
-        }
-
-        .two {
-            transition: 0.5s;
-            transform: translateX(-30%);
-        }
-
-        .cta:hover .three {
-            animation: color_anim 1s infinite 0.2s;
-        }
-
-        .cta:hover .one {
-            transform: translateX(0%);
-            animation: color_anim 1s infinite 0.6s;
-        }
-
-        .cta:hover .two {
-            transform: translateX(0%);
-            animation: color_anim 1s infinite 0.4s;
-        }
-
-        @keyframes color_anim {
-            0% {
-                fill: white;
-            }
-
-            50% {
-                fill: #FBC638;
-            }
-
-            100% {
-                fill: white;
-            }
-        }
-    </style>
+    <link href="css/main.css" rel="stylesheet" >
 
 </head>
 

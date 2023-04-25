@@ -1,13 +1,20 @@
 <?php
 
 $config = array(
-    'host' => '10.67.22.216',
-    'dbname' => 's222_matheus35',
-    'user' => 's222_bda',
-    'pass' => 's22022',
+    'host' => '10.0.0.101',
+    'dbname' => 'loja_de_carros',
+    'user' => 'root',
+    'pass' => 'some_pass',
 );
 
-function conectar($config) {
+function exitSession($loc)
+{
+    session_start();
+    session_destroy();
+    header($loc);
+}
+function conectar($config)
+{
     try {
         $dsn = 'mysql:host=' . $config['host'] . ';dbname=' . $config['dbname'] . ';charset=utf8';
         $pdo = new PDO($dsn, $config['user'], $config['pass']);
