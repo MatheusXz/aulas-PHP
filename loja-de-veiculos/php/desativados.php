@@ -85,7 +85,6 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                             <th scope="col">Modelo</th>
                             <th scope="col">Ano</th>
                             <th scope="col">Preço</th>
-                            <th scope="col">Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -107,7 +106,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                     $cor = 'red';
                                 }
                                 echo "
-                                <tr>
+                                <tr style='color:".$cor."'>
                                     <th scope='row'>" . $i . "</th>
                                     <td>" . $row['car_nome'] . "</td>
                                     <td>" . $row['car_fabricante'] . "</td>
@@ -115,11 +114,11 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                     <td>" . $row['car_modelo'] . "</td>
                                     <td>" . $row['car_ano'] . "</td>
                                     <td>" . $row['car_preco'] . "</td>
-                                    <td style='color: " . $cor . "' >" . $row['car_status'] . "</td>
                                     <td>
                                         <form action='' method='POST'>
                                             <input type='hidden' name='id' value='" . $row['id'] . "'>
-                                            <button type='submit' name='ativar'>Ativar</button>
+                                            <button type='submit' name='ativar' class='noselect ativar'><span class='text'>Ativar</span><span class='icon'><img src='../img/verificado.svg' alt=''></span></button>
+
                                         </form>
                                     </td>
 

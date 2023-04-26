@@ -16,6 +16,15 @@ if (isset($_GET['alter'])) {
     $stmth->bindValue(":id_session", $id);
     $stmth->execute();
     $countUp = $stmth->rowCount();
+} 
+
+if (isset($_POST['alterar'])){
+
+    $queryUpdate = "UPDATE * FROM carros_car WHERE id = :id_session";
+    $stmth = $connect->prepare($queryUpdate);
+    $stmth->bindValue(":id_session", $id);
+    $stmth->execute();
+    $countUp = $stmth->rowCount();
 }
 session_start();
 
@@ -52,7 +61,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
         
                 
         <div class="form">
-            <form action="" method="post">
+            <form action="" method="POST">
                 <h2 class="text-center">Cadastro de veiculos</h2>
                 <div class="form-group">
                     <!-- NOME -->
@@ -92,7 +101,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                     <div class="my-5 d-flex justify-content-between">
                     
                         <a href="../index.php" class="btn">Voltar</a>
-                        <button class="btn btn-primary " name="cadastrar">Cadastrar</button>
+                        <button class="btn btn-primary " name="alterar">Cadastrar</button>
                     </div>
                 </div>
             </form>
