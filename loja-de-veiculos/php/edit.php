@@ -6,6 +6,14 @@ if (isset($_POST['sair'])) {
     $loca = 'location: login.php';
     exitSession($loca);
 }
+
+session_start();
+
+// Verifica se o usuário está logado, se não, redireciona para a página de login
+if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
+    header('Location: login.php');
+    exit();
+}
 if (isset($_GET['alter'])) {
 
     $id = $_GET['id'];
@@ -20,19 +28,49 @@ if (isset($_GET['alter'])) {
 
 if (isset($_POST['alterar'])){
 
-    $queryUpdate = "UPDATE * FROM carros_car WHERE id = :id_session";
-    $stmth = $connect->prepare($queryUpdate);
-    $stmth->bindValue(":id_session", $id);
-    $stmth->execute();
-    $countUp = $stmth->rowCount();
-}
-session_start();
+    // $id                 = $_POST['id'];
+    $nome_car           = $_POST['nome'];
+    $fabricante_car     = $_POST['fabricante'];
+    $cor_car            = $_POST['cor'];
+    $modelo_car         = $_POST['modelo'];
+    $ano_car            = $_POST['ano'];
+    $preco_car          = $_POST['preco'];
 
-// Verifica se o usuário está logado, se não, redireciona para a página de login
-if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
-    header('Location: login.php');
-    exit();
+    if (!isset($nome_car, $fabricante_car, $cor_car, $modelo_car, $ano_car, $preco_car)) {
+        // Alguma variável não foi definida
+        $div_message = "<div id='demo_0'></div>";
+    } elseif (empty($nome_car) || empty($fabricante_car) || empty($cor_car) || empty($modelo_car) || empty($ano_car) || empty($preco_car)) {
+        // Alguma variável está vazia
+        $div_message = "<div id='demo_3'></div>";
+    } else {
+        // VERIFICAR SE EMAIL JÁ EXISTE
+        $query_cadastrar = 'UPDATE `carros_car` SET 
+        car_nome         = :nome_car,
+        car_fabricante   = :fabricante_car,
+        car_cor          = :cor_car,
+        car_modelo       = :modelo_car,
+        car_ano          = :ano_car,
+        car_preco        = :preco_car
+        WHERE id = :id_post AND user_id = :id_session';
+        $stmt = $connect->prepare($query_cadastrar);
+        $stmt->bindValue(":id_post", $id);
+        $stmt->bindValue(":id_session", $_SESSION['id_user']);
+        $stmt->bindValue(":nome_car", $nome_car);
+        $stmt->bindValue(":fabricante_car", $fabricante_car);
+        $stmt->bindValue(":cor_car", $cor_car);
+        $stmt->bindValue(":modelo_car", $modelo_car);
+        $stmt->bindValue(":ano_car", $ano_car);
+        $stmt->bindValue(":preco_car", $preco_car);
+
+        // VERIFICA SE EXECUTOU TUDO CERTO
+        if ($stmt->execute()) {
+            $div_message = "<div id='demo_1'></div>";
+        } else {
+            $div_message = "<div id='demo_2'></div>";
+        }
+    }
 }
+
 
 ?>
 

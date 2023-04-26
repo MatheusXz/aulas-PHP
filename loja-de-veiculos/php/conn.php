@@ -1,10 +1,17 @@
 <?php
 
+// $config = array(
+//     'host' => '10.67.22.216',
+//     'dbname' => 's222_matheus35',
+//     'user' => 's222_bda',
+//     'pass' => 's22022',
+// );
+
 $config = array(
-    'host' => '10.67.22.216',
-    'dbname' => 's222_matheus35',
-    'user' => 's222_bda',
-    'pass' => 's22022',
+    'host' => '10.0.0.101',
+    'dbname' => 'loja_de_carros',
+    'user' => 'root',
+    'pass' => 'some_pass',
 );
 
 function exitSession($loc)
