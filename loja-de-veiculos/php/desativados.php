@@ -85,6 +85,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                             <th scope="col">Modelo</th>
                             <th scope="col">Ano</th>
                             <th scope="col">Preço</th>
+                            <th scope="col">Ativar</th>
                         </tr>
                     </thead>
                     <tbody>

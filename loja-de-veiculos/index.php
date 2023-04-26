@@ -38,7 +38,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="css/main.css" rel="stylesheet">
     <style>
-        
+
     </style>
 </head>
 
@@ -53,8 +53,22 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
             <a class="navbar-brand" href="index.php">Lista</a>
             <a class="navbar-brand" href="php/cadVeiculo.php">Novo</a>
             <a class="navbar-brand" href="php/desativados.php">Veiculos desativados</a>
-            
 
+            <form action="" method="GET">
+                <div>
+                    <label for="fabricante">Fabricante:</label>
+                    <input type="text" id="fabricante" name="fabricante">
+                </div>
+                <div>
+                    <label for="modelo">Modelo:</label>
+                    <input type="text" id="modelo" name="modelo">
+                </div>
+                <div>
+                    <label for="ano">Ano:</label>
+                    <input type="text" id="ano" name="ano">
+                </div>
+                <button type="submit">Buscar</button>
+            </form>
 
             <div class="ml-0">
                 <form action="" method="POST">
@@ -72,41 +86,68 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
     </nav>
 
     <main class="my-5">
-        <div class="container">
-            <div class="row text-center">
-                <h1> Lista de veiculos cadastrados </h1>
+        <div class="row">
+            <div class="col-lg-4 col-md-4">
+
+                <div class="row">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Pesquisar</button>
+                </div>
+                <div class="flex-shrink-0 p-3">
+
+
+                    <label class="text-center form-check-label">
+                        Filtrar por:
+                    </label>
+                    <form action="">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                            <label class="form-check-label" for="inlineRadio1">1</label>
+                        </div>
+                    </form>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptionsa" id="inlineRadio2" value="option2">
+                            <label class="form-check-label" for="inlineRadio2">2</label>
+                        </div>
+                </div>
             </div>
-            <div class="row">
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th scope="col">Cod.</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Fabricante</th>
-                            <th scope="col">Cor</th>
-                            <th scope="col">Modelo</th>
-                            <th scope="col">Ano</th>
-                            <th scope="col">Preço</th>
-                            <th scope="col">EDITAR</th>
-                            <th scope="col">EXCLUIR</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php
+            <div class="col-md-8">
+                <div class="flex-shrink-0 p-3">
 
-                        $querySqlStatusOn = "SELECT * FROM carros_car WHERE user_id = :id AND car_status = 'on'";
-                        $stmth = $connect->prepare($querySqlStatusOn);
-                        $stmth->bindValue(':id', $_SESSION['id_user']);
-                        $stmth->execute();
-                        $countStatusOn = $stmth->rowCount();
+                    <div class="row text-center">
+                        <h1> Lista de veiculos cadastrados </h1>
+                    </div>
+                    <div class="row">
+                        <table class="table">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th scope="col">Cod.</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Fabricante</th>
+                                    <th scope="col">Cor</th>
+                                    <th scope="col">Modelo</th>
+                                    <th scope="col">Ano</th>
+                                    <th scope="col">Preço</th>
+                                    <th scope="col">EDITAR</th>
+                                    <th scope="col">EXCLUIR</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php
+
+                                $querySqlStatusOn = "SELECT * FROM carros_car WHERE user_id = :id AND car_status = 'on'";
+                                $stmth = $connect->prepare($querySqlStatusOn);
+                                $stmth->bindValue(':id', $_SESSION['id_user']);
+                                $stmth->execute();
+                                $countStatusOn = $stmth->rowCount();
 
 
 
-                        if ($countStatusOn > 0) {
-                            $result = $stmth->fetchAll();
-                            $i = 1;
-                            foreach ($result as $row) {
-                                echo "
+                                if ($countStatusOn > 0) {
+                                    $result = $stmth->fetchAll();
+                                    $i = 1;
+                                    foreach ($result as $row) {
+                                        echo "
                                     <tr>
                                         <th scope='row'>" . $i . "</th>
                                         <td>" . $row['car_nome'] . "</td>
@@ -114,7 +155,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                         <td>" . $row['car_cor'] . "</td>
                                         <td>" . $row['car_modelo'] . "</td>
                                         <td>" . $row['car_ano'] . "</td>
-                                        <td>R$ " . number_format($row['car_preco'], 2, ',', '.'). "</td>
+                                        <td>R$ " . number_format($row['car_preco'], 2, ',', '.') . "</td>
                                         <td>
                                             <form action='php/edit.php' method='GET'>
                                                 <input type='hidden' name='id' value='" . $row['id'] . "'>
@@ -129,14 +170,17 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                         </td>
                                     </tr>
                                     ";
-                                $i++;
-                            }
-                        }
-                        ?>
-                    </tbody>
-                </table>
+                                        $i++;
+                                    }
+                                }
+                                ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
+
 
     </main>
 

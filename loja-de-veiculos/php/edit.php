@@ -6,7 +6,7 @@ if (isset($_POST['sair'])) {
     $loca = 'location: login.php';
     exitSession($loca);
 }
-
+$div_message = '';
 session_start();
 
 // Verifica se o usuário está logado, se não, redireciona para a página de login
@@ -29,12 +29,12 @@ if (isset($_GET['alter'])) {
 if (isset($_POST['alterar'])){
 
     // $id                 = $_POST['id'];
-    $nome_car           = $_POST['nome'];
-    $fabricante_car     = $_POST['fabricante'];
-    $cor_car            = $_POST['cor'];
-    $modelo_car         = $_POST['modelo'];
-    $ano_car            = $_POST['ano'];
-    $preco_car          = $_POST['preco'];
+    $nome_car           =  trim($_POST['nome']);
+    $fabricante_car     =  trim($_POST['fabricante']);
+    $cor_car            =  trim($_POST['cor']);
+    $modelo_car         =  trim($_POST['modelo']);
+    $ano_car            =  trim($_POST['ano']);
+    $preco_car          =  trim($_POST['preco']);
 
     if (!isset($nome_car, $fabricante_car, $cor_car, $modelo_car, $ano_car, $preco_car)) {
         // Alguma variável não foi definida
@@ -64,7 +64,9 @@ if (isset($_POST['alterar'])){
 
         // VERIFICA SE EXECUTOU TUDO CERTO
         if ($stmt->execute()) {
+            $stmth->execute();
             $div_message = "<div id='demo_1'></div>";
+            // sleep(1000);
         } else {
             $div_message = "<div id='demo_2'></div>";
         }
@@ -97,7 +99,7 @@ if (isset($_POST['alterar'])){
             echo '
     <div class="forms row container_login">
         
-                
+                '.$div_message.'
         <div class="form">
             <form action="" method="POST">
                 <h2 class="text-center">Cadastro de veiculos</h2>
@@ -139,7 +141,7 @@ if (isset($_POST['alterar'])){
                     <div class="my-5 d-flex justify-content-between">
                     
                         <a href="../index.php" class="btn">Voltar</a>
-                        <button class="btn btn-primary " name="alterar">Cadastrar</button>
+                        <button class="btn btn-primary " name="alterar">Atualizar</button>
                     </div>
                 </div>
             </form>
@@ -148,8 +150,12 @@ if (isset($_POST['alterar'])){
     </div>
 
     ';
-        }
-    } ?>
+
+    // $local = 'location: edit.php';
+    // HeaderLocal($local);
+}
+    }
+     ?>
 
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
@@ -168,7 +174,7 @@ if (isset($_POST['alterar'])){
         } else if (y) {
             swal({
                 icon: 'success',
-                title: 'Veiculo cadastrado com sucesso! ✔',
+                title: 'Veiculo atualizado com sucesso! ✔',
                 text: '😃'
             });
         } else if (a) {

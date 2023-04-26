@@ -20,6 +20,11 @@ function exitSession($loc)
     session_destroy();
     header($loc);
 }
+
+function HeaderLocal($loc)
+{
+    header($loc);
+}
 function conectar($config)
 {
     try {
