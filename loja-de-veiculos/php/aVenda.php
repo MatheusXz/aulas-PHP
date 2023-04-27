@@ -1,27 +1,14 @@
 <?php
 
-require_once('./php/conn.php');
+require_once('conn.php');
 
 session_start();
 $div_message = '';
 
 if (isset($_POST['sair'])) {
-    $loca = 'location: php/login.php';
+    $loca = 'location: login.php';
     exitSession($loca);
 }
-
-if (isset($_POST['excluir'])) {
-
-    $id = $_POST['id'];
-    //Conexão com o banco de dados
-
-    $queryUpdateOFF = "UPDATE carros_car SET car_status = 'off' WHERE id = :id_session";
-    $stmth = $connect->prepare($queryUpdateOFF);
-    $stmth->bindValue(":id_session", $id);
-    $stmth->execute();
-    $countStatusOFF = $stmth->rowCount();
-}
-
 
 if (isset($_POST['pesquisa'])) {
     $pesquisar = $_POST['pesquisa_feita'];
@@ -36,7 +23,7 @@ if (isset($_POST['pesquisa'])) {
         $div_message = "<div id='demo_1'></div>";
     } else {
 
-        $querySearch = "SELECT * FROM carros_car WHERE car_status = 'on' AND user_id = :id";
+        $querySearch = "SELECT * FROM carros_car WHERE car_status = 'on'";
 
         if (isset($_POST['s_fab'])) {
             $querySearch .= " AND car_fabricante LIKE '%{$pesquisar}%'";
@@ -54,7 +41,7 @@ if (isset($_POST['pesquisa'])) {
         $countSearch = $stmth->rowCount();
     }
 } else {
-    $querySqlStatusOn = "SELECT * FROM carros_car WHERE user_id = :id AND car_status = 'on'";
+    $querySqlStatusOn = "SELECT * FROM carros_car WHERE car_status = 'on'";
     $stmth = $connect->prepare($querySqlStatusOn);
     $stmth->bindValue(':id', $_SESSION['id_user']);
     $stmth->execute();
@@ -65,7 +52,7 @@ if (isset($_POST['pesquisa'])) {
 
 // Verifica se o usuário está logado, se não, redireciona para a página de login
 if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
-    header('Location: ./php/login.php');
+    header('Location: login.php');
     exit();
 }
 
@@ -80,7 +67,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Loja de Carros </title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link href="css/main.css" rel="stylesheet">
+    <link href="../css/main.css" rel="stylesheet">
 
 </head>
 
@@ -88,22 +75,22 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
     <nav style="background-color: #001e50;" class="navbar navbar-dark py-3">
         <div class="container">
             <a class="navbar-brand" href="index.php">
-                <img src="./img/volkswagen-logo-9.png" width="30" height="30" class="d-inline-block align-top" alt="Logo">
+                <img src="../img/volkswagen-logo-9.png" width="30" height="30" class="d-inline-block align-top" alt="Logo">
                 Volkswagen
             </a>
 
-            <a class="navbar-brand" href="index.php">Lista Sua</a>
-            <a class="navbar-brand" href="php/aVenda.php">Lista de Carros a venda</a>
-            <a class="navbar-brand" href="php/cadVeiculo.php">Novo</a>
-            <a class="navbar-brand" href="php/desativados.php">Veiculos desativados</a>
+            <a class="navbar-brand" href="../index.php">Lista Sua</a>
+            <a class="navbar-brand" href="aVenda.php">Lista de Carros a venda</a>
+            <a class="navbar-brand" href="cadVeiculo.php">Novo</a>
+            <a class="navbar-brand" href="desativados.php">Veiculos desativados</a>
 
             <div class="ml-0">
                 <form action="" method="POST">
                     <button class="cta" name="sair">
                         <span class="span">Sair</span>
                         <span class="second">
-                            <a href="./php/logout.php">
-                                <img src="./img/bot.svg" alt="Sair">
+                            <a href="#">
+                                <img src="../img/bot.svg" alt="Sair">
                             </a>
                         </span>
                     </button>
@@ -121,7 +108,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                             <div class="input-group ">
                                 <input type="text" class="form-control" placeholder="O que você procura..." name="pesquisa_feita" aria-label="Text" aria-describedby="basic-addon2">
                                 <div class="input-group-append">
-                                    <button class="btn btn-outline-primary" type="submit" name="pesquisa"> <img src="img/pesquisar.svg"></button>
+                                    <button class="btn btn-outline-primary" type="submit" name="pesquisa"> <img src="../img/pesquisar.svg"></button>
                                 </div>
                             </div>
                             <div class="my-3">
@@ -166,8 +153,6 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                     <th scope="col">Modelo</th>
                                     <th scope="col">Ano</th>
                                     <th scope="col">Preço</th>
-                                    <th scope="col">EDITAR</th>
-                                    <th scope="col">EXCLUIR</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -188,18 +173,6 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                         <td>" . $row['car_modelo'] . "</td>
                                         <td>" . $row['car_ano'] . "</td>
                                         <td>R$ " . number_format($row['car_preco'], 2, ',', '.') . "</td>
-                                        <td>
-                                            <form action='php/edit.php' method='GET'>
-                                                <input type='hidden' name='id' value='" . $row['id'] . "'>
-                                                <button type='submit' name='alter' class='noselect alterar'><span class='text'>Alterar</span><span class='icon'><img src='./img/sincronizar.svg' alt=''></span></button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <form action='' method='POST'>
-                                                <input type='hidden' name='id' value='" . $row['id'] . "'>
-                                                <button type='submit' name='excluir' class='noselect delete'><span class='text'>Delete</span><span class='icon'><img src='./img/delete.svg' alt=''></span></button>
-                                            </form>
-                                        </td>
                                     </tr>
                                     ";
                                         $i++;
@@ -218,21 +191,9 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                         <td>" . $row['car_modelo'] . "</td>
                                         <td>" . $row['car_ano'] . "</td>
                                         <td>R$ " . number_format($row['car_preco'], 2, ',', '.') . "</td>
-                                        <td>
-                                            <form action='php/edit.php' method='GET'>
-                                                <input type='hidden' name='id' value='" . $row['id'] . "'>
-                                                <button type='submit' name='alter' class='noselect alterar'><span class='text'>Alterar</span><span class='icon'><img src='./img/sincronizar.svg' alt=''></span></button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <form action='' method='POST'>
-                                                <input type='hidden' name='id' value='" . $row['id'] . "'>
-                                                <button type='submit' name='excluir' class='noselect delete'><span class='text'>Delete</span><span class='icon'><img src='./img/delete.svg' alt=''></span></button>
-                                            </form>
-                                        </td>
                                     </tr>
                                     ";
-                                        // $i++;
+                                        $i++;
                                     }
                                 }
                                 ?>
