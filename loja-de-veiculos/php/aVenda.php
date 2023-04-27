@@ -10,6 +10,7 @@ if (isset($_POST['sair'])) {
     exitSession($loca);
 }
 
+$countSearch = 0;
 if (isset($_POST['pesquisa'])) {
     $pesquisar = $_POST['pesquisa_feita'];
     $id = $_SESSION['id_user'];
@@ -48,6 +49,17 @@ if (isset($_POST['pesquisa'])) {
     $countStatusOn = $stmth->rowCount();
 }
 
+if (isset($_POST['compra'])) {
+    $idVeiculo = $_POST['id'];
+    $id_comprador = $_SESSION['id_user'];
+
+    $query_compra = 'UPDATE `carros_car` SET user_id = :id_comprador WHERE id = :id_post AND user_id = :id_session';
+    $stmth = $connect->prepare($query_compra);
+    $stmth->bindValue(":id_comprador", $id_comprador);
+    $stmth->bindValue(":id_post", $idVeiculo);
+    $stmth->bindValue(":id_session", $_SESSION['id_user']);
+    $stmth->execute();
+}
 
 
 // Verifica se o usuário está logado, se não, redireciona para a página de login
@@ -142,6 +154,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
 
                         <div class="row text-center">
                             <h1> Lista de veiculos cadastrados </h1>
+                            <h6 class='text-danger'>O veiculos que são seus estão com (*) e com cor diferente</h6>
                         </div>
                         <table class="table">
                             <thead class="thead-dark">
@@ -153,6 +166,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                     <th scope="col">Modelo</th>
                                     <th scope="col">Ano</th>
                                     <th scope="col">Preço</th>
+                                    <th scope="col">Comprar</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -173,6 +187,15 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                         <td>" . $row['car_modelo'] . "</td>
                                         <td>" . $row['car_ano'] . "</td>
                                         <td>R$ " . number_format($row['car_preco'], 2, ',', '.') . "</td>
+                                        <td>
+
+                                            <form action='' method='POST'>
+                                                <input type='hidden' name='id' value='" . $row['id'] . "'>
+                                                <button type='submit' name='compra' class='noselect compra'><span class='text'>Comprar</span><span class='icon'><img src='../img/compra.svg' alt=''>
+
+                                                </span></button>
+                                            </form>
+                                        </td>
                                     </tr>
                                     ";
                                         $i++;
@@ -191,8 +214,23 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                         <td>" . $row['car_modelo'] . "</td>
                                         <td>" . $row['car_ano'] . "</td>
                                         <td>R$ " . number_format($row['car_preco'], 2, ',', '.') . "</td>
+                                        ";
+                                        if ($row['user_id'] == $_SESSION['id_user']) {
+                                            echo "
+                                        <td class='text-centercompra'><span class='text'>Meu veiculo (*)</span></td>
+                                    </tr>";
+                                        } else {
+                                            echo "
+                                        <td>
+                                        <form action='' method='POST'>
+                                            <input type='hidden' name='id' value='" . $row['id'] . "'>
+                                            <button type='submit' name='compra' class='noselect compra'><span class='text'>Comprar</span><span class='icon'><img src='../img/compra.svg' alt=''>
+                                            </span></button>
+                                        </form>
+                                        </td>
                                     </tr>
                                     ";
+                                        }
                                         $i++;
                                     }
                                 }
