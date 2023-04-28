@@ -21,20 +21,19 @@ if (isset($_POST['excluir'])) {
     $stmth->execute();
     $countStatusOFF = $stmth->rowCount();
 }
-$countSearch = 0;
+
+$countStatusOn = 0;
+$countSearch   = 0;
 if (isset($_POST['pesquisa'])) {
 
 
-    if (empty($pesquisar)) {
+    if (empty($_POST['pesquisa_feita'])) {
         $div_message = "<div id='demo_0'></div>";
-    } elseif (empty($fab) && empty($mod) && empty($ano)) {
+    } elseif (empty($_POST['s_fab']) && empty($_POST['s_mod']) && empty($_POST['s_ano'])) {
         $div_message = "<div id='demo_1'></div>";
     } else {
         $pesquisar = $_POST['pesquisa_feita'];
         $id = $_SESSION['id_user'];
-        $fab = trim($_POST['s_fab']);
-        $mod = trim($_POST['s_mod']);
-        $ano = trim($_POST['s_ano']);
 
         $querySearch = "SELECT * FROM carros_car WHERE car_status = 'on' AND user_id = :id";
 
@@ -235,7 +234,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                     }
                                 }
                                 ?>
-                                
+
                             </tbody>
                         </table>
                     </div>

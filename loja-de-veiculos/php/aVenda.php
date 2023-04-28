@@ -10,18 +10,17 @@ if (isset($_POST['sair'])) {
     exitSession($loca);
 }
 
-$countSearch = 0;
+$countSearch  = 0;
+$countStatusOn = 0;
 if (isset($_POST['pesquisa'])) {
     $div_message = '';
     $pesquisar = $_POST['pesquisa_feita'];
     $id = $_SESSION['id_user'];
-    $fab = trim($_POST['s_fab']);
-    $mod = trim($_POST['s_mod']);
-    $ano = trim($_POST['s_ano']);
+    
 
-    if (empty($pesquisar)) {
+    if (empty($_POST['pesquisa_feita'])) {
         $div_message = "<div id='demo_0'></div>";
-    } elseif (empty($fab) && empty($mod) && empty($ano)) {
+    } elseif (empty($_POST['s_fab']) && empty($_POST['s_mod']) && empty($_POST['s_ano'])) {
         $div_message = "<div id='demo_1'></div>";
     } else {
 
@@ -99,7 +98,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
 <body>
     <nav style="background-color: #001e50;" class="navbar navbar-dark py-3">
         <div class="container">
-            <a class="navbar-brand" href="index.php">
+            <a class="navbar-brand" href="../index.php">
                 <img src="../img/volkswagen-logo-9.png" width="30" height="30" class="d-inline-block align-top" alt="Logo">
                 Volkswagen
             </a>
