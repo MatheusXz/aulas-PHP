@@ -3,7 +3,7 @@
 require_once('conn.php');
 
 session_start();
-$div_message = '';
+
 
 if (isset($_POST['sair'])) {
     $loca = 'location: login.php';
@@ -12,6 +12,7 @@ if (isset($_POST['sair'])) {
 
 $countSearch = 0;
 if (isset($_POST['pesquisa'])) {
+    $div_message = '';
     $pesquisar = $_POST['pesquisa_feita'];
     $id = $_SESSION['id_user'];
     $fab = trim($_POST['s_fab']);
@@ -42,6 +43,7 @@ if (isset($_POST['pesquisa'])) {
         $countSearch = $stmth->rowCount();
     }
 } else {
+    $div_message = '';
     $querySqlStatusOn = "SELECT * FROM carros_car WHERE car_status = 'on'";
     $stmth = $connect->prepare($querySqlStatusOn);
     $stmth->bindValue(':id', $_SESSION['id_user']);
@@ -50,15 +52,26 @@ if (isset($_POST['pesquisa'])) {
 }
 
 if (isset($_POST['compra'])) {
+    $div_message = '';
     $idVeiculo = $_POST['id'];
     $id_comprador = $_SESSION['id_user'];
 
-    $query_compra = 'UPDATE `carros_car` SET user_id = :id_comprador WHERE id = :id_post AND user_id = :id_session';
+    $query_compra = 'UPDATE `carros_car` SET
+    user_id  = :id_comprador WHERE id = :id_veiculo';
     $stmth = $connect->prepare($query_compra);
     $stmth->bindValue(":id_comprador", $id_comprador);
-    $stmth->bindValue(":id_post", $idVeiculo);
-    $stmth->bindValue(":id_session", $_SESSION['id_user']);
+    $stmth->bindValue(":id_veiculo", $idVeiculo);
     $stmth->execute();
+
+    $countCompra = $stmth->rowCount();
+    
+    if ($countCompra > 0) {
+        $div_message = "<div id='demo_2'></div>";
+        header("location: aVenda.php");
+    } else {
+        $div_message = "<div id='demo_3'></div>";
+        
+    }
 }
 
 
@@ -173,7 +186,6 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                 <?php
                                 echo $div_message;
 
-
                                 if ($countSearch > 0) {
                                     $resultado = $stmth->fetchAll();
                                     $i = 1;
@@ -186,18 +198,23 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                         <td>" . $row['car_cor'] . "</td>
                                         <td>" . $row['car_modelo'] . "</td>
                                         <td>" . $row['car_ano'] . "</td>
-                                        <td>R$ " . number_format($row['car_preco'], 2, ',', '.') . "</td>
+                                        <td>R$ " . number_format($row['car_preco'], 2, ',', '.') . "</td>";
+                                        if ($row['user_id'] == $_SESSION['id_user']) {
+                                            echo "
+                                        <td class='text-centercompra'><span class='text'>Meu veiculo (*)</span></td>
+                                    </tr>";
+                                        } else {
+                                            echo "
                                         <td>
-
-                                            <form action='' method='POST'>
-                                                <input type='hidden' name='id' value='" . $row['id'] . "'>
-                                                <button type='submit' name='compra' class='noselect compra'><span class='text'>Comprar</span><span class='icon'><img src='../img/compra.svg' alt=''>
-
-                                                </span></button>
-                                            </form>
+                                        <form action='' method='POST'>
+                                            <input type='hidden' name='id' value='" . $row['id'] . "'>
+                                            <button type='submit' name='compra' class='noselect compra'><span class='text'>Comprar</span><span class='icon'><img src='../img/compra.svg' alt=''>
+                                            </span></button>
+                                        </form>
                                         </td>
                                     </tr>
                                     ";
+                                        }
                                         $i++;
                                     }
                                 }
@@ -253,7 +270,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
             if (x) {
                 swal({
                     icon: 'error',
-                    title: 'Ooops! Algum campo esta vazio!',
+                    title: 'Ooops! Este veículo não esta disponivel!',
                     text: 'Tente novamente.'
                 });
             } else if (y) {
@@ -270,9 +287,9 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                 });
             } else if (z) {
                 swal({
-                    icon: 'error',
-                    title: 'Erro #007',
-                    text: 'Tente novamente mais tarde!'
+                    icon: 'success',
+                    title: 'MEUS PAREBÉNS! 😁',
+                    text: 'Veículo comprado com sucesso!'
                 });
             } else if (b) {
                 swal({

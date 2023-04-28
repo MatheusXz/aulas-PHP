@@ -231,10 +231,11 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                         </td>
                                     </tr>
                                     ";
-                                        // $i++;
+                                        $i++;
                                     }
                                 }
                                 ?>
+                                
                             </tbody>
                         </table>
                     </div>
