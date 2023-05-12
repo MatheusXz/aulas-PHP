@@ -78,6 +78,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title> Loja de Carros </title>
+    <script src="https://kit.fontawesome.com/9fd4de5623.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="css/main.css" rel="stylesheet">
 
@@ -91,10 +92,10 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                 Volkswagen
             </a>
 
-            <a class="navbar-brand" href="index.php">Lista Sua</a>
-            <a class="navbar-brand" href="php/aVenda.php">Lista de Carros a venda</a>
-            <a class="navbar-brand" href="php/cadVeiculo.php">Novo</a>
-            <a class="navbar-brand" href="php/desativados.php">Veiculos desativados</a>
+            <a class="navbar-brand" href="index.php">Meus veiculos <i class="fa-solid fa-car" style="color: #ffffff;"></i></a>
+            <a class="navbar-brand" href="php/aVenda.php">Carros a venda <i class="fa-solid fa-cart-shopping" style="color: #ffffff;"></i></a>
+            <a class="navbar-brand" href="php/cadVeiculo.php">Cadastrar <i class="fa-solid fa-plus" style="color: #ffffff;"></i></a>
+            <a class="navbar-brand" href="php/desativados.php">Veiculos desativados <i class="fa-solid fa-skull-crossbones" style="color: #ffffff;"></i></a>
 
             <div class="ml-0">
                 <form action="" method="POST">
