@@ -24,6 +24,10 @@ if (isset($_POST['excluir'])) {
 
 $countStatusOn = 0;
 $countSearch   = 0;
+
+$idCompradorLogado = $_SESSION['id_user'];
+$saldoComprador = getCompradorSaldo($connect, $idCompradorLogado);
+
 if (isset($_POST['pesquisa'])) {
 
 
@@ -241,6 +245,15 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                     </div>
                 </div>
             </div>
+            <footer class="fixed-bottom bg-warning py-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h1>SALDO <?php echo "R$ " . number_format($saldoComprador, 2, ',', '.') ?></h1>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
 
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>

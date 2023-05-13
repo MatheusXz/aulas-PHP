@@ -1,18 +1,18 @@
 <?php
 
-$config = array(
-    'host' => '10.67.22.216',
-    'dbname' => 's222_matheus35',
-    'user' => 's222_bda',
-    'pass' => 's22022',
-);
-
 // $config = array(
-//     'host' => '10.0.0.101',
-//     'dbname' => 'loja_de_carros',
-//     'user' => 'root',
-//     'pass' => 'some_pass',
+//     'host' => '10.67.22.216',
+//     'dbname' => 's222_matheus35',
+//     'user' => 's222_bda',
+//     'pass' => 's22022',
 // );
+
+$config = array(
+    'host' => '10.0.0.101',
+    'dbname' => 'loja_de_carros',
+    'user' => 'root',
+    'pass' => 'some_pass',
+);
 
 function exitSession($loc)
 {
@@ -35,6 +35,16 @@ function conectar($config)
     } catch (PDOException $e) {
         die('Erro ao conectar ao banco de dados: ' . $e->getMessage());
     }
+}
+function getCompradorSaldo($connect, $idCompradorLogado)
+{
+    $querySaldoComprador = 'SELECT user_saldo FROM usuarios_car WHERE id = :idCompradorLogado';
+    $stmthSaldoComprador = $connect->prepare($querySaldoComprador);
+    $stmthSaldoComprador->bindValue(":idCompradorLogado", $idCompradorLogado);
+    $stmthSaldoComprador->execute();
+    $resultSaldoComprador = $stmthSaldoComprador->fetch(PDO::FETCH_ASSOC);
+    $saldoComprador = $resultSaldoComprador['user_saldo'];
+    return $saldoComprador;
 }
 
 $connect = conectar($config);

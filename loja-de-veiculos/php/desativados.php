@@ -1,32 +1,22 @@
 <?php
-
 require_once('conn.php');
-
-if (isset($_POST['sair'])) {
-    $loca = 'location: login.php';
-    exitSession($loca);
-}
-
-if (isset($_POST['ativar'])) {
-
-    $id = $_POST['id'];
-    //Conexão com o banco de dados
-
-    $queryUpdateON = "UPDATE carros_car SET car_status = 'on' WHERE id = :id_session";
-    $stmth = $connect->prepare($queryUpdateON);
-    $stmth->bindValue(":id_session", $id);
-    $stmth->execute();
-    $countStatusOFF = $stmth->rowCount();
-}
-
 session_start();
 
-// Verifica se o usuário está logado, se não, redireciona para a página de login
-if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
-    header('Location: login.php');
-    exit();
-}
-?>
+if (isset($_POST['sair']) || !isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
+    $loca = 'location: login.php';
+    exitSession($loca);
+} else {
+    $idCompradorLogado = $_SESSION['id_user'];
+    $saldoComprador = getCompradorSaldo($connect, $idCompradorLogado);
+    if (isset($_POST['ativar'])) {
+        $id = $_POST['id'];
+        $queryUpdateON = "UPDATE carros_car SET car_status = 'on' WHERE id = :id_session";
+        $stmth = $connect->prepare($queryUpdateON);
+        $stmth->bindValue(":id_session", $id);
+        $stmth->execute();
+        $countStatusOFF = $stmth->rowCount();
+    }
+}?>
 
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -35,11 +25,10 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title> Loja de Carros </title>
+    <title>Loja de Carros</title>
     <script src="https://kit.fontawesome.com/9fd4de5623.js" crossorigin="anonymous"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="../css/main.css" rel="stylesheet">
-
 </head>
 
 <body>
@@ -134,6 +123,15 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                     </tbody>
                 </table>
             </div>
+            <footer class="fixed-bottom bg-warning py-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h1>SALDO <?php echo "R$ " . number_format($saldoComprador, 2, ',', '.') ?></h1>
+                        </div>
+                    </div>
+                </div>
+            </footer>
         </div>
 </body>
 

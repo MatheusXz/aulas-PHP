@@ -50,25 +50,72 @@ if (isset($_POST['pesquisa'])) {
     $countStatusOn = $stmth->rowCount();
 }
 
+$idCompradorLogado = $_SESSION['id_user'];
+
+$querySaldoComprador = 'SELECT user_saldo FROM usuarios_car WHERE id = :idCompradorLogado';
+$stmthSaldoComprador = $connect->prepare($querySaldoComprador);
+$stmthSaldoComprador->bindValue(":idCompradorLogado", $idCompradorLogado);
+$stmthSaldoComprador->execute();
+$resultSaldoComprador = $stmthSaldoComprador->fetch(PDO::FETCH_ASSOC);
+$saldoComprador = $resultSaldoComprador['user_saldo'];
+
 if (isset($_POST['compra'])) {
     $div_message = '';
     $idVeiculo = $_POST['id'];
-    $id_comprador = $_SESSION['id_user'];
+    $user_id = $_POST['user_id'];
+    $precoVeiculo = $_POST['precoVeiculo'];
+    $idCompradorLogado = $_SESSION['id_user'];
 
-    $query_compra = 'UPDATE `carros_car` SET
-    user_id  = :id_comprador WHERE id = :id_veiculo';
-    $stmth = $connect->prepare($query_compra);
-    $stmth->bindValue(":id_comprador", $id_comprador);
-    $stmth->bindValue(":id_veiculo", $idVeiculo);
-    $stmth->execute();
+    $querySaldoComprador = 'SELECT user_saldo FROM usuarios_car WHERE id = :idCompradorLogado';
+    $stmthSaldoComprador = $connect->prepare($querySaldoComprador);
+    $stmthSaldoComprador->bindValue(":idCompradorLogado", $idCompradorLogado);
+    $stmthSaldoComprador->execute();
+    $resultSaldoComprador = $stmthSaldoComprador->fetch(PDO::FETCH_ASSOC);
+    $saldoComprador = $resultSaldoComprador['user_saldo'];
 
-    $countCompra = $stmth->rowCount();
-
-    if ($countCompra > 0) {
-        $div_message = "<div id='demo_2'></div>";
-        header("location: aVenda.php");
+    if ($saldoComprador < $precoVeiculo) {
+        $div_message = '<div id="demo_4"></div>';
     } else {
-        $div_message = "<div id='demo_3'></div>";
+        $query_compra = 'UPDATE `carros_car` SET
+        user_id  = :idCompradorLogado WHERE id = :idVeiculo';
+        $stmth = $connect->prepare($query_compra);
+        $stmth->bindValue(":idCompradorLogado", $idCompradorLogado);
+        $stmth->bindValue(":idVeiculo", $idVeiculo);
+        $stmth->execute();
+        $countCompra = $stmth->rowCount();
+        if ($countCompra > 0) {
+            // Atualiza o saldo do comprador
+            $novoSaldoComprador = $saldoComprador - $precoVeiculo;
+            $queryAtualizarSaldoComprador = 'UPDATE usuarios_car SET user_saldo = :novoSaldoComprador WHERE id = :idCompradorLogado';
+            $stmthAtualizarSaldoComprador = $connect->prepare($queryAtualizarSaldoComprador);
+            $stmthAtualizarSaldoComprador->bindValue(":novoSaldoComprador", $novoSaldoComprador);
+            $stmthAtualizarSaldoComprador->bindValue(":idCompradorLogado", $idCompradorLogado);
+            $stmthAtualizarSaldoComprador->execute();
+
+            // Atualiza o saldo do vendedor
+            $querySaldoVendedor = 'SELECT user_saldo FROM usuarios_car WHERE id = :idVendedor';
+            $stmthSaldoVendedor = $connect->prepare($querySaldoVendedor);
+            $stmthSaldoVendedor->bindValue(":idVendedor", $user_id);
+            $stmthSaldoVendedor->execute();
+            $resultSaldoVendedor = $stmthSaldoVendedor->fetch(PDO::FETCH_ASSOC);
+            $saldoVendedor = $resultSaldoVendedor['user_saldo'];
+            $novoSaldoVendedor = $saldoVendedor + $precoVeiculo;
+            $queryAtualizarSaldoVendedor = 'UPDATE usuarios_car SET user_saldo = :novoSaldoVendedor WHERE id = :idVendedor';
+            $stmthAtualizarSaldoVendedor = $connect->prepare($queryAtualizarSaldoVendedor);
+            $stmthAtualizarSaldoVendedor->bindValue(":novoSaldoVendedor", $novoSaldoVendedor);
+            $stmthAtualizarSaldoVendedor->bindValue(":idVendedor", $user_id);
+            $stmthAtualizarSaldoVendedor->execute();
+
+            $div_message = "<div id='demo_2'></div>";
+            echo "
+            <script>
+                setTimeout(function(){
+                    window.location.href = 'aVenda.php';
+                }, 2000);
+            </script>";
+        } else {
+            $div_message = "<div id='demo_3'></div>";
+        }
     }
 }
 
@@ -209,6 +256,8 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                         <td>
                                         <form action='' method='POST'>
                                             <input type='hidden' name='id' value='" . $row['id'] . "'>
+                                            <input type='hidden' name='user_id' value='" . $row['user_id'] . "'>
+                                            <input type='hidden' name='precoVeiculo' value='" . $row['car_preco'] . "'>
                                             <button type='submit' name='compra' class='noselect compra'><span class='text'>Comprar</span><span class='icon'><img src='../img/compra.svg' alt=''>
                                             </span></button>
                                         </form>
@@ -242,6 +291,8 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                         <td>
                                         <form action='' method='POST'>
                                             <input type='hidden' name='id' value='" . $row['id'] . "'>
+                                            <input type='hidden' name='user_id' value='" . $row['user_id'] . "'>
+                                            <input type='hidden' name='precoVeiculo' value='" . $row['car_preco'] . "'>
                                             <button type='submit' name='compra' class='noselect compra'><span class='text'>Comprar</span><span class='icon'><img src='../img/compra.svg' alt=''>
                                             </span></button>
                                         </form>
@@ -258,6 +309,16 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                     </div>
                 </div>
             </div>
+            <footer class="fixed-bottom bg-warning py-3">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-12 text-center">
+                            <h1>SALDO <?php echo "R$ " . number_format($saldoComprador, 2, ',', '.') ?></h1>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+
         </div>
 
         <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
@@ -295,12 +356,12 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
             } else if (b) {
                 swal({
                     icon: 'error',
-                    title: 'Todas VARIAVEIS estão vazias!',
-                    text: 'Tente novamente!'
+                    title: 'Saldo insuficiente!',
+                    text: 'que pena...'
                 });
             }
         </script>
-        
+
 
     </main>
 

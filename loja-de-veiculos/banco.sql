@@ -4,6 +4,7 @@ CREATE TABLE `Usuarios_car` (
     `user_sobre_nome` varchar(50) NOT NULL,
     `user_email` varchar(255) NOT NULL,
     `user_senha` varchar(128) NOT NULL,
+    `user_saldo` DECIMAL(10,0) DEFAULT 50000,
     `user_tipo` varchar(10) NOT NULL,
     PRIMARY KEY (`id`)
 );
