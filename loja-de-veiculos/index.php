@@ -20,6 +20,7 @@ if (isset($_POST['excluir'])) {
     $stmth->bindValue(":id_session", $id);
     $stmth->execute();
     $countStatusOFF = $stmth->rowCount();
+    $div_message = "<div id='demo_2'></div>";
 }
 
 $countStatusOn = 0;
@@ -174,6 +175,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                     <th scope="col">EXCLUIR</th>
                                 </tr>
                             </thead>
+                           
                             <tbody>
                                 <?php
                                 echo $div_message;
@@ -284,9 +286,9 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                 });
             } else if (z) {
                 swal({
-                    icon: 'error',
-                    title: 'Erro #007',
-                    text: 'Tente novamente mais tarde!'
+                    icon: 'success',
+                    title: 'Deletado',
+                    text: 'Veiculo deletado com sucesso!'
                 });
             } else if (b) {
                 swal({
