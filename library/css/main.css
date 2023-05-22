@@ -11,4 +11,8 @@
     border-radius: 50%;
     font-size: 8px;
     top: -10px;
-  }
+}
+
+.sticky {
+    position: fixed;
+}
