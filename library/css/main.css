@@ -16,3 +16,7 @@
 .sticky {
     position: fixed;
 }
+
+.text-white .active {
+    font-weight: bolder;
+}
