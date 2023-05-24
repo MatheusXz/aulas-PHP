@@ -96,13 +96,12 @@
                     </div>
                     <div class="col-md-2 d-flex justify-content-end">
                         <a class="btn btn-block btn-secondary" href="#!">
-                            <i class="fa-solid fa-plus" style="color: #ffffff;"></i></a>
+                            <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
                         </a>
                     </div>
                 </div>
 
-                <div id="navbarButtons"></div>
-
+                <div id="root"></div>
                 <div id="allBooksContainer"></div>
 
                 <nav class="my-nav">
@@ -118,7 +117,6 @@
                         </li>
                     </ul>
                 </nav>
-
             </div>
         </div>
     </div>
@@ -148,13 +146,14 @@
     <!-- ... HTML qualquer ... -->
 
     <!-- Adicionar o React. -->
-    <!-- Nota: ao fazer o deploy, substitua "development.js" por "production.min.js". -->
-    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
-    <!-- Adicione nosso componente React. -->
-    <script type="text/babel" src="todos.jsx">
+    <script type="text/babel">
+        // import { useState } from 'react';
+        // const [page, setPage] = useState(0);
+        // ReactDOM.React.const [page, setpage] = useState(0);
         class All extends React.Component {
             render() {
                 return (
@@ -211,9 +210,7 @@
                 );
             }
         }
-
         class NavButton extends React.Component {
-
             render() {
                 const { text, className, onClick } = this.props;
                 return (
@@ -225,14 +222,6 @@
         }
 
         class Navbar extends React.Component {
-            handleAllClick = () => {
-                ReactDOM.render(<All />, document.getElementById("allBooksContainer"));
-            };
-
-            handleCategoryClick = () => {
-                ReactDOM.render(<Category />, document.getElementById("allBooksContainer"));
-            };
-
             render() {
                 return (
                     <div className="row">
@@ -241,12 +230,12 @@
                                 <NavButton
                                     text="Todos"
                                     className="nav-link text-white fw-bolder text-decoration-underline"
-                                    onClick={this.handleAllClick}
+                                    onClick={ReactDOM.render(<All />, document.getElementById("allBooksContainer"))}
                                 />
                                 <NavButton
                                     text="Categoria"
                                     className="nav-link text-white-50 mx-2"
-                                    onClick={this.handleCategoryClick}
+                                    onClick={ReactDOM.render(<Category />, document.getElementById("allBooksContainer"))}
                                 />
                                 <NavButton
                                     text="Autor"
@@ -263,8 +252,7 @@
             }
         }
 
-        ReactDOM.render(<Navbar />, document.getElementById("navbarButtons"));
-
+        ReactDOM.render(<Navbar />, document.getElementById('root'));
     </script>
 </body>
 
