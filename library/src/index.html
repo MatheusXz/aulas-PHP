@@ -100,21 +100,10 @@
                         </a>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="d-flex align-items-center">
-                        <nav class="nav nav-pills">
-                            <a class="nav-link text-white fw-bolder text-decoration-underline" aria-current="page"
-                                href="#">Todos</a>
-                            <a class="nav-link text-white-50 mx-2" href="#">Categoria</a>
-                            <a class="nav-link text-white-50 mx-2" href="#">Autor</a>
-                            <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Language</a>
-                        </nav>
-                    </div>
-                </div>
-                <div class="row">
-                    <div id="tabs"></div>
-                </div>
-                <a href="todos.html" class="ajax-link">Carregar página 2</a>
+
+                <div id="navbarButtons"></div>
+
+                <div id="allBooksContainer"></div>
 
                 <nav class="my-nav">
                     <ul class="pagination justify-content-center">
@@ -142,29 +131,6 @@
     <p>Este LMS é gratuito e livre de custo e tem como objetivo auxiliar o gerenciamento de
         biblioteca e facilitar a vida dos alunos e professores.</p> -->
 
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
-    <script>
-        $(document).ready(function () {
-            // Captura do evento de clique em um link
-            $('a').click(function (event) {
-                event.preventDefault(); // Evita o comportamento padrão do link
-
-                var url = $(this).attr('href'); // Obtém a URL do link
-
-                // Faz a solicitação AJAX
-                $.ajax({
-                    url: url,
-                    success: function (data) {
-                        $('#conteudo').html(data); // Atualiza o conteúdo da div com o resultado
-                    },
-                    error: function () {
-                        alert('Ocorreu um erro ao carregar o conteúdo.');
-                    }
-                });
-            });
-        });
-    </script>
-
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
@@ -179,13 +145,127 @@
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
         crossorigin="anonymous"></script>
 
-   
+    <!-- ... HTML qualquer ... -->
+
+    <!-- Adicionar o React. -->
+    <!-- Nota: ao fazer o deploy, substitua "development.js" por "production.min.js". -->
     <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
     <!-- Adicione nosso componente React. -->
-    <script src="todos.js"></script>
+    <script type="text/babel" src="todos.jsx">
+        class All extends React.Component {
+            render() {
+                return (
+                    <div className="row">
+                        <div className="col-md-3 col-12 my-3 d-flex align-items-center">
+                            <div className="card">
+                                <img
+                                    src="https://fakeimg.pl/330x600?font=bebas"
+                                    className="card-img"
+                                    alt="..."
+                                />
+                                <div className="card-img-overlay">
+                                    <h5 className="card-title">Titulo</h5>
+                                    <p className="card-text">Autor</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+        }
 
+        class Category extends React.Component {
+            render() {
+                return (
+                    <div className="row">
+                        <div className="col-md-3 col-12 my-3 d-flex align-items-center">
+                            <div className="card">
+                                <img
+                                    src="https://fakeimg.pl/330x600?font=bebas"
+                                    className="card-img"
+                                    alt="..."
+                                />
+                                <div className="card-img-overlay">
+                                    <h5 className="card-title">Titulo</h5>
+                                    <p className="card-text">Autor</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-3 col-12 my-3 d-flex align-items-center">
+                            <div className="card">
+                                <img
+                                    src="https://fakeimg.pl/330x600?font=bebas"
+                                    className="card-img"
+                                    alt="..."
+                                />
+                                <div className="card-img-overlay">
+                                    <h5 className="card-title">Titulo</h5>
+                                    <p className="card-text">Autor</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                );
+            }
+        }
+
+        class NavButton extends React.Component {
+
+            render() {
+                const { text, className, onClick } = this.props;
+                return (
+                    <a className={className} href="#" onClick={onClick}>
+                        {text}
+                    </a>
+                );
+            }
+        }
+
+        class Navbar extends React.Component {
+            handleAllClick = () => {
+                ReactDOM.render(<All />, document.getElementById("allBooksContainer"));
+            };
+
+            handleCategoryClick = () => {
+                ReactDOM.render(<Category />, document.getElementById("allBooksContainer"));
+            };
+
+            render() {
+                return (
+                    <div className="row">
+                        <div className="d-flex align-items-center">
+                            <nav className="nav nav-pills">
+                                <NavButton
+                                    text="Todos"
+                                    className="nav-link text-white fw-bolder text-decoration-underline"
+                                    onClick={this.handleAllClick}
+                                />
+                                <NavButton
+                                    text="Categoria"
+                                    className="nav-link text-white-50 mx-2"
+                                    onClick={this.handleCategoryClick}
+                                />
+                                <NavButton
+                                    text="Autor"
+                                    className="nav-link text-white-50 mx-2"
+                                />
+                                <NavButton
+                                    text="Language"
+                                    className="nav-link disabled"
+                                />
+                            </nav>
+                        </div>
+                    </div>
+                );
+            }
+        }
+
+        ReactDOM.render(<Navbar />, document.getElementById("navbarButtons"));
+
+    </script>
 </body>
 
 </html>
