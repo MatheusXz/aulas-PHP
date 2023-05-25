@@ -9,16 +9,17 @@ class Navbar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            teste: ''
+            teste: '',
+            activeButton: 'Todos',
         };
     }
 
     handleNavButtonClick = (value) => {
-        this.teste = value; // Atualiza a variável global
+        this.setState({ activeButton: value });
         this.setState({ teste: value });
-        console.log('Valor armazenado:', value);
 
-
+        this.teste = value; // Atualiza a variável global
+        
         if (this.teste === "Todos") {
             ReactDOM.render(<All />, document.getElementById('allBooksContainer'));
         } else if (this.teste === "Categoria") {
@@ -26,34 +27,34 @@ class Navbar extends React.Component {
         } else if (this.teste === "Autor") {
             ReactDOM.render(<Autor />, document.getElementById('allBooksContainer'));
         }
-
+        
     }
-
+    
     render() {
+        const { activeButton } = this.state;
         return (
             <div className="row">
                 <div className="d-flex">
                     <nav className="nav">
                         <NavButton
                             text="Todos"
-                            className="nav-link text-white text-decoration-underline"
+                            className="nav-link mx-2"
+                            isActive={activeButton === 'Todos'}
                             onClick={() => this.handleNavButtonClick('Todos')}
                         />
                         <NavButton
                             text="Categoria"
-                            className="nav-link text-white-50 mx-2"
+                            className="nav-link mx-2"
+                             isActive={activeButton === 'Categoria'}
                             onClick={() => this.handleNavButtonClick('Categoria')}
                         />
                         <NavButton
                             text="Autor"
-                            className="nav-link text-white-50 mx-2"
+                            className="nav-link mx-2"
+                             isActive={activeButton === 'Autor'}
                             onClick={() => this.handleNavButtonClick('Autor')}
                         />
-                        <NavButton
-                            text="Language"
-                            className="nav-link disabled"
-                            onClick={() => this.handleNavButtonClick('Language')}
-                        />
+                        
                     </nav>
                 </div>
             </div>
