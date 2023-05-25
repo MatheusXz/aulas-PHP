@@ -15,6 +15,7 @@
 
 .sticky {
     position: fixed;
+    max-width: 250px;
 }
 
 .text-white .active {
