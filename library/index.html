@@ -20,7 +20,7 @@
 
 </head>
 
-<body class="text-white" style="background-color: #0C0C0D;">
+<body class="text-white" style="background-color: #000000;">
 
 
 
@@ -97,7 +97,17 @@
                             <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
                         </a>
                     </div>
-                    <div id="root"></div>
+                    <div class="row">
+                        <div class="d-flex">
+                            <nav class="nav">
+                                <a class="nav-link mx-2" href="#" onclick="handleNavButtonClick('Todos')">Todos</a>
+                                <a class="nav-link mx-2" href="#"
+                                    onclick="handleNavButtonClick('Categoria')">Categoria</a>
+                                <a class="nav-link mx-2" href="#" onclick="handleNavButtonClick('Autor')">Autor</a>
+                            </nav>
+                        </div>
+                    </div>
+
                     <div id="allBooksContainer"></div>
 
                 </div>
@@ -128,6 +138,7 @@
         biblioteca e facilitar a vida dos alunos e professores.</p> -->
 
 
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
         crossorigin="anonymous"></script>
@@ -145,8 +156,106 @@
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js" crossorigin></script>
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
-    <script type="text/babel" src="../src/index.js"></script>
-    <script src="../dist/bundle.js"></script>
+    <script>
+        function handleNavButtonClick(value) {
+            const allBooksContainer = document.getElementById('allBooksContainer');
+            if (value == 'Todos') {
+                allBooksContainer.innerHTML = `
+                <div class="row">
+                    <div class="col-md-3 col-12 my-3 d-flex align-items-center">
+                        <div class="card">
+                            <img src="https://fakeimg.pl/330x600?font=bebas" class="card-img" alt="...">
+                            <div class="card-img-overlay">
+                                <h5 class="card-title">Titulo</h5>
+                                <p class="card-text">Autor</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-12 my-3 d-flex align-items-center">
+                        <div class="card">
+                            <img src="https://fakeimg.pl/330x600?font=bebas" class="card-img" alt="...">
+                            <div class="card-img-overlay">
+                                <h5 class="card-title">Titulo</h5>
+                                <p class="card-text">Autor</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3 col-12 my-3 d-flex align-items-center">
+                        <div class="card">
+                            <img src="https://fakeimg.pl/330x600?font=bebas" class="card-img" alt="...">
+                            <div class="card-img-overlay">
+                                <h5 class="card-title">Titulo</h5>
+                                <p class="card-text">Autor</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+            } else if (value == 'Categoria') {
+                allBooksContainer.innerHTML = `
+                <div class="row my-5">
+                    <div class="col-lg-2 col-md-2 col-12 d-flex align-items-center justify-content-center">
+                        <img src="https://fakeimg.pl/100x80/" style="border-radius: 10px;" class="" alt="...">
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-10">
+                        <div class="text">
+                            <h5 class="text-white">Titulo</h5>
+                            <p class="text-white-50">Autor</p>
+                            <p class="text-white-50 text-truncate">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-2 d-flex justify-content-end align-self-center">
+                        <a class="btn btn-block btn-secondary" href="#!">
+                            <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+                        </a>
+                    </div>
+                </div>
+                <hr>
+                
+                `;
+            } else if (value == 'Autor') {
+                allBooksContainer.innerHTML = `
+                <div class="row my-5">
+                    <div class="col-lg-2 col-md-2 col-2 d-flex align-items-center justify-content-center">
+                        <img src="https://fakeimg.pl/80x80/" style="border-radius: 50px;" class="" alt="...">
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-10">
+                        <div class="text">
+                            <h5 class="text-white m-0">Nome Autor</h5>
+                            <p class="text-white-50 m-2">idade</p>
+                            <p class="text-white-50 text-truncate m-0">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-0">
+                <div class="row my-5">
+                    <div class="col-lg-2 col-md-2 col-2 d-flex align-items-center justify-content-center">
+                        <img src="https://fakeimg.pl/80x80/" style="border-radius: 50px;" class="" alt="...">
+                    </div>
+                    <div class="col-lg-10 col-md-10 col-10">
+                        <div class="text">
+                            <h5 class="text-white m-0">Nome Autor</h5>
+                            <p class="text-white-50 m-2">idade</p>
+                            <p class="text-white-50 text-truncate m-0">
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mt-0">
+                `
+                    ;
+            }
+        }
+        // Executar a função handleNavButtonClick com o valor 'Todos' ao carregar a página
+        document.addEventListener('DOMContentLoaded', function () {
+            handleNavButtonClick('Todos');
+        });
+    </script>
+
 </body>
 
 </html>
