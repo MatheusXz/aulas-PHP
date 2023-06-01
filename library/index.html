@@ -21,9 +21,6 @@
 </head>
 
 <body class="text-white" style="background-color: #000000;">
-
-
-
     <div class="container">
         <div class="row my-5">
             <div class="col-md-3 col-12">
@@ -100,10 +97,12 @@
                     <div class="row">
                         <div class="d-flex">
                             <nav class="nav">
-                                <a class="nav-link mx-2" href="#" onclick="handleNavButtonClick('Todos')">Todos</a>
-                                <a class="nav-link mx-2" href="#"
+                                <a class="nav-link mx-2" id="navLinks0" href="#"
+                                    onclick="handleNavButtonClick('Todos')">Todos</a>
+                                <a class="nav-link mx-2" id="navLinks1" href="#"
                                     onclick="handleNavButtonClick('Categoria')">Categoria</a>
-                                <a class="nav-link mx-2" href="#" onclick="handleNavButtonClick('Autor')">Autor</a>
+                                <a class="nav-link mx-2" id="navLinks2" href="#"
+                                    onclick="handleNavButtonClick('Autor')">Autor</a>
                             </nav>
                         </div>
                     </div>
@@ -159,7 +158,24 @@
     <script>
         function handleNavButtonClick(value) {
             const allBooksContainer = document.getElementById('allBooksContainer');
+
+            // Remove a classe 'text-white-50' e adiciona a classe 'text-white fw-bolder'
+            const navLinks0 = document.querySelector('#navLinks0');
+            const navLinks1 = document.querySelector('#navLinks1');
+            const navLinks2 = document.querySelector('#navLinks2');
+
+            navLinks0.classList.remove('fw-bolder');
+            navLinks1.classList.remove('fw-bolder');
+            navLinks2.classList.remove('fw-bolder');
+
+            navLinks0.classList.add('text-white-50');
+            navLinks1.classList.add('text-white-50');
+            navLinks2.classList.add('text-white-50');
+
+            
             if (value == 'Todos') {
+                navLinks0.classList.remove('text-white-50');
+                navLinks0.classList.add('text-white', 'fw-bolder');
                 allBooksContainer.innerHTML = `
                 <div class="row">
                     <div class="col-md-3 col-12 my-3 d-flex align-items-center">
@@ -191,6 +207,9 @@
                     </div>
                 </div>`;
             } else if (value == 'Categoria') {
+                navLinks1.classList.remove('text-white-50');
+                navLinks1.classList.add('text-white', 'fw-bolder');
+
                 allBooksContainer.innerHTML = `
                 <div class="row my-5">
                     <div class="col-lg-2 col-md-2 col-12 d-flex align-items-center justify-content-center">
@@ -215,6 +234,8 @@
                 
                 `;
             } else if (value == 'Autor') {
+                navLinks2.classList.remove('text-white-50');
+                navLinks2.classList.add('text-white', 'fw-bolder');
                 allBooksContainer.innerHTML = `
                 <div class="row my-5">
                     <div class="col-lg-2 col-md-2 col-2 d-flex align-items-center justify-content-center">
