@@ -2,7 +2,7 @@
 CREATE TABLE usuarios (
   id INT AUTO_INCREMENT PRIMARY KEY,
   user_nome VARCHAR(100) NOT NULL,
-  user_cpf VARCHAR(14) NOT NULL,
+  user_cpf VARCHAR(14) UNIQUE NOT NULL,
   user_logradouro VARCHAR(200) NOT NULL,
   user_numero VARCHAR(5) NOT NULL DEFAULT 'SN',
   user_bairro VARCHAR(200) NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE usuarios (
   user_cep VARCHAR(30) NOT NULL,
   user_telefone VARCHAR(20) NOT NULL,
   user_data_nascimento DATE NOT NULL,
-  user_email VARCHAR(100) NOT NULL,
+  user_email VARCHAR(100) UNIQUE NOT NULL,
   user_senha VARCHAR(100) NOT NULL,
   user_data_cadastro DATETIME NOT NULL,
   user_tipo ENUM('usuario', 'funcionario', 'off') NOT NULL
@@ -55,3 +55,5 @@ CREATE TABLE emprestimos (
 DROP TABLE emprestimos;
 DROP TABLE livros;
 DROP TABLE usuarios;
+
+MUDAR CPF E EMAIL PARA UNIQUE
