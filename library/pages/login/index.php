@@ -86,14 +86,12 @@ if (isset($_POST['cadastrar'])) {
     <!--  -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <link href='https://unpkg.com/boxicons@2.1.2/css/boxicons.min.css' rel='stylesheet'>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link href="../../css/main.css" rel="stylesheet">
+
     <style>
         body {
-            /* height: 100vh; */
             background-image: url('https://cdn.wallpapersafari.com/91/90/Bmhy8U.jpg');
-            /* background-size: cover; */
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
@@ -101,19 +99,15 @@ if (isset($_POST['cadastrar'])) {
             -webkit-background-size: auto;
             -moz-background-size: auto;
             -o-background-size: auto;
-            /* Centraliza verticalmente */
         }
+        
+        
 
-        .container {
-            height: 50vh;
-            /* Define a altura do contêiner como 100% da altura da janela */
-            display: flex;
-            /* Ativa o layout flexbox */
-            justify-content: center;
-            /* Centraliza horizontalmente o conteúdo */
-            align-items: center;
-            /* Centraliza verticalmente o conteúdo */
-        }
+        /*  */
+
+        
+
+       
     </style>
 </head>
 
@@ -121,16 +115,52 @@ if (isset($_POST['cadastrar'])) {
     <?php echo $div_message; ?>
 
 
-    <!-- insertion section -->
-    <div class="container">
-        <div class="forms row d-flex justify-content-center">
-            <div class=" form sign-up " style="background: rgba(0, 0, 0, 0.75);">
+<!-- <div class="forms row container_login">
+        <div class="form sign-up">
+            <form action="" method="post">
+                <h2 class="text-center">Cadastro</h2>
+                <div class="form-group">
+                    <label for="nome">Nome:</label>
+                    <input type="text" class="form-control" id="nome" name="nome" placeholder="Ex: Carlos" required pattern=".{3,}">
+                    <label for="sobrenome">Sobrenome:</label>
+                    <input type="text" class="form-control" id="sobrenome" name="sobrenome" placeholder="Ex: Silva Soares" required pattern=".{3,}">
+                    <label for="email">E-mail:</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="name@exemplo.com" required pattern=".{7,}">
+                    <label for="SENHA">Senha:</label>
+                    <input type="password" class="form-control" id="senha" name="senha" placeholder="*********" required pattern=".{8,}">
+                    <div class="my-5 d-flex justify-content-between">
+                        <button class="btn text-muted btn-outline-light link ">Já tenho uma conta</button>
+                        <button class="btn btn-primary criar_user" name="cadastrar">Cadastrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="form sign-in">
+            <form action="" method="post">
+                <h2 class="text-center">Login</h2>
+                <div class="form-group">
+                    <label for="email">E-mail:</label>
+                    <input type="email" class="form-control" id="myTextField" name="email" placeholder="name@exemplo.com" required pattern=".{7,}">
+                    <label for="SENHA">Senha:</label>
+                    <input type="password" class="form-control" id="senha" name="senha" placeholder="*********" required pattern=".{8,}">
+                    <div class="my-5 d-flex justify-content-between">
+                        <button class="btn text-muted btn-outline-light link">Criar uma nova conta</button>
+                        <button class="btn btn-primary login_user" name="login_user">Entrar</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div> -->
+
+
+        <div class="forms row container_login">
+            <div class=" form sign-up " style="background: rgba(0, 0, 0, 0.75); color: white;">
                 <form action="" method="post">
                     <div class="row">
                         <h1 class="text-center" style="color: #BF9363;">Library System</h1>
                     </div>
                     <h5 class="text-center mt-5">Cadastro</h5>
-                    user_cpf
+                    <!-- user_cpf
                     user_logradouro
                     user_numero
                     user_bairro
@@ -142,7 +172,7 @@ if (isset($_POST['cadastrar'])) {
                     user_email
                     user_senha
                     user_data_cadastro
-                    user_tipo
+                    user_tipo -->
                     <div class="form-group">
                         <div class="row mb-3">
                             <div class="col-md-6 col-12">
@@ -177,7 +207,7 @@ if (isset($_POST['cadastrar'])) {
                     </div>
                 </form>
             </div>
-            <div class="form sign-in">
+            <div class="form sign-in" style="background: rgba(0, 0, 0, 0.75); color: white;">
                 <form action="" method="post">
                     <div class="row">
                         <h1 class="text-center" style="color: #BF9363;">Library System</h1>
@@ -198,7 +228,6 @@ if (isset($_POST['cadastrar'])) {
                 </form>
             </div>
         </div>
-    </div>
 
 
     <script>
@@ -215,7 +244,7 @@ if (isset($_POST['cadastrar'])) {
             const inputCPF = document.querySelector("#cpf");
             let inputLength = inputCPF.value.length;
 
-            if (inputLength === 3 || inputLength === 7) {
+            if (inputLength == 3 || inputLength == 7) {
                 inputCPF.value += ".";
             }
         }
@@ -269,15 +298,12 @@ if (isset($_POST['cadastrar'])) {
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
-        </script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
-        integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
-        </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
-        integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
-        </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
