@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        // var num1 = prompt('Digite um valor: ')
+        // var num2 = prompt('Digite outro valor: ')
+
+        // soma = parseInt(num1) + parseInt(num2);
+
+        // console.log(soma);
+
+        // soma  = "+";
+        // div   = "/";
+        // mult  = "*";
+        // sub   = "-";
+        // resto = "%";
+
+        // Faça uma soma, um divisão, um multiplicação e mostre na tela os 3 valores,
+        // sendo que os valores que serão passados para fazer isso será perguntado ao 
+        // usuario.
+
+        // var n1 = parseInt(prompt("Digite o primeiro número: "))
+        // var n2 = parseInt(prompt("Digite o segundo número: "))
+
+        // soma = n1 + n2
+        // div  = n1 / n2
+        // mult = n1 * n2
+
+        // console.log("Resultado da soma: "+soma)
+        // console.log("Resultado da divisão: "+div)
+        // console.log("Resultado da multiplição: "+mult)
+
+        // var count = 0;
+
+        // while(count <= 10){
+        //     console.log(count);
+        //     count++;
+        //     // count = count + 2;
+        // }
+
+        // var count2 = 10;
+        // while(count2 > 0){
+        //     console.log(count2);
+        //     count2--;
+        // }
+
+        // Pergunte ao usuario um valor qualquer, e deixei somente um numero exato para sair do loop!
+
+        // var nu = 1
+        // while (nu != 0) {
+        //     var nu = prompt("Dígite um número aleatório: ")
+        //     console.log(nu);
+        // }
+
+
+
+
+        // Desenvolva um sistema onde, mostre na tela 3 cores (Vermelho, Verde e Azul),
+        // coloque para o usuario escolher uma das cores e mostre na tela a que foi escolhida
+
+
+
+        // var escolha = prompt(`
+        // 1 - Vermelho
+        // 2 - Verde
+        // 3 - Azul
+        // Escolha uma das cores acima: `)
+
+        // if (escolha == 1) {
+        //     console.log("Vermelho foi sua escolha!")
+        // } else if (escolha == 2) {
+        //     console.log("Verde foi sua escolha!")
+        // } else if (escolha == 3) {
+        //     console.log("Azul foi sua escolha!")
+        // } else {
+        //     console.log("Opção inválida!")
+        // }
+
+        function tratarErroELancar(erro) {
+    // throw new Error('...')
+    // throw 10
+    // throw true
+    // throw 'mensagem'
+    throw {
+        nome: erro.name,
+        msg: erro.message,
+        date: new Date
+    }
+}
+
+function imprimirNomeGritado(obj) {
+    try {
+        console.log(obj.name.toUpperCase() + '!!!')
+    } catch (e) {
+        tratarErroELancar(e)
+    } finally {
+        console.log('final')
+    }
+}
+
+const obj = { nome: 'Roberto' }
+imprimirNomeGritado(obj)
+
+
+    </script>
+</body>
+
+</html>

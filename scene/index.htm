@@ -52,6 +52,7 @@
 
         .sphere {
             position: relative;
+
             width: 70%;
             height: 70%;
             margin: 0 auto;
@@ -99,9 +100,13 @@
 
         for (i = 0; i < 180; i += 9) {
             rows.push(`<div class="line" style="transform: rotateY(${i}deg);"></div>`)
+            console.log('Hello World');
         }
 
         sphere.innerHTML = rows.join("");
+
+
+        
 
     </script>
 </body>
