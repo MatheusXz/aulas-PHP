@@ -15,6 +15,7 @@ CREATE TABLE usuarios (
   user_senha VARCHAR(100) NOT NULL,
   user_data_cadastro DATETIME NOT NULL,
   user_tipo ENUM('usuario', 'funcionario', 'off') NOT NULL
+  user_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Criação da tabela `autores`
@@ -25,6 +26,7 @@ CREATE TABLE autores (
   aut_nacionalidade VARCHAR(100) NOT NULL,
   aut_biografia TEXT,
   aut_foto VARCHAR(200)
+  aut_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Criação da tabela `livros`
@@ -38,6 +40,7 @@ CREATE TABLE livros (
   lib_ano_publicacao INT NOT NULL,
   lib_numero_paginas INT NOT NULL,
   lib_quantidade INT NOT NULL,
+  lib_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
   FOREIGN KEY (autor_id) REFERENCES autores(id)
 );
 
@@ -48,6 +51,7 @@ CREATE TABLE emprestimos (
   id_livro INT NOT NULL,
   emp_data_emprestimo DATETIME NOT NULL,
   emp_data_devolucao DATETIME NOT NULL,
+  emp_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
   FOREIGN KEY (id_usuario) REFERENCES usuarios(id),
   FOREIGN KEY (id_livro) REFERENCES livros(id)
 );
