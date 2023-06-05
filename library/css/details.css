@@ -32,3 +32,22 @@
     margin: auto;
     object-fit: contain;
 }
+
+.bg-fundo-img {
+    
+    background-image: url('../src/img/bg-teste.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    z-index: -1;
+}
+
+.overlay-fundo {
+
+    background: linear-gradient(rgba(72, 37, 0, 0.6), rgba(0, 0, 0, 0.89));
+    /* position: fixed; */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}

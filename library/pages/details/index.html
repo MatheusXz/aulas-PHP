@@ -17,99 +17,97 @@
         rel="stylesheet">
     <link rel="stylesheet" href="../../css/details.css">
     <script src="https://kit.fontawesome.com/9fd4de5623.js" crossorigin="anonymous"></script>
-
-
+    <script src="../../src/js/main.js"></script>
 </head>
 
-<body class="text-white" style="background-color: #482500;">
-    <div class="container">
-        <div class="row my-5">
-            <div class="col-md-6 col-12">
-                <div class="row">
-                    <a href="../" class="nav-link"><i class="fa-solid fa-arrow-left mx-3"></i>Voltar a lista</a>
-                </div>
-
-                <div class="box-img ">
-                    <div class="row card-book" style="position: relative; height: 80vh;">
-                        <div class="col-12 mx-auto d-flex justify-content-center align-items-center">
-                            <div class="image-mask">
-                                <img class="" style="border-radius: 20px;" src="../../src/img/book-1.jpg" alt="">
+<body class="text-white bg-fundo-img">
+    <div class="overlay-fundo" style="height: 100vh;">
+        <div class="container">
+            <div class="row pt-5">
+                <div class="col-md-6 col-12">
+                    <div class="row">
+                        <a onclick="goBack()" href="#" class="nav-link"><i class="fa-solid fa-arrow-left mx-3"></i>Voltar a lista</a>
+                    </div>
+                    <div class="box-img">
+                        <div class="row card-book" style="position: relative; height: 80vh;">
+                            <div class="col-12 mx-auto d-flex justify-content-center align-items-center">
+                                <div class="image-mask">
+                                    <img class="" style="border-radius: 20px;" src="../../src/img/book-1.jpg" alt="">
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-6 col-12 flex-column">
-                <div class="row col-12 d-sm-block justify-content-center mx-auto">
-                    <small class=" text-center bg-danger btn-danger btn-sm col-12"
-                        style="border-radius: 20px; font-size: .8rem;">Novo</small>
-
-                </div>
-                <div class="row col-12">
-                    <h6 class="text-left display-6 fw-bold mt-3">Um Romance Fora de Época (Amores Imprevisiveis Livro 1)
-                    </h6>
-                </div>
-                <div class="row">
-                    <p class="text-left fw-bold">por <span class="fw-normal text-decoration-underline"><a
-                                class="link-info" href="#">Gabriela Goulart</a></span> (Autor)
-                </div>
-                <div class="row">
-                    <p class="text-left text-white-50 fw-bolder mt-2">Descrição</p>
-                </div>
-                <div class="row">
-                    <p class="text-left text-white">Clarice, portuguesa, realista, jornalista e caça mistérios.
-                        Co-criadora de um renomado blog de contos e lendas, Clarice viaja o mundo à procura de mistérios
-                        e as verdades que eles escondem.
-
-                        Uma lenda, a ponto de completar seus 200 anos, é renascida na Escócia. E Clarice será obrigada a
-                        viajar para descobrir a sua verdade obscura e publicar esta história.
-
-                        O que Clarice não poderia imaginar era que esse mistério escondia uma história real, ao
-                        encontrar um antigo diário, que aparenta registrar a verdade em meio aos segredos, Clarice faz
-                        um pedido e acorda em 1833, no meio de uma rede de Intrigas e perigos.
-
-                        Sua única chance de voltar para casa?
-
-                        Desvendar esse mistério, e para isso terá que viver o seu próprio romance de época. O gênero
-                        mais superestimado da literatura moderna.
-
-                        Será que ela vai conseguir?</p>
-                </div>
-                <div class="row">
-                    <p class="text-left text-white">A obra tem sido publicada em <span
-                            class="aqui-vou por o ano">2018</span>.
-                    <div class="col-6">
-                        <p>Editora <span class="" style="color: #BF9363;">Universo dos Livros</span></p>
+                <div class="col-md-6 col-12 flex-column">
+                    <div class="row col-12 d-sm-block justify-content-center mx-auto">
+                        <small class=" text-center bg-danger btn-danger btn-sm col-12"
+                            style="border-radius: 20px; font-size: .8rem;">Novo</small>
                     </div>
-                    <div class="col-3">
-                        <p>2ª Edição</p>
+                    <div class="row col-12">
+                        <h6 class="text-left display-6 fw-bold mt-3">Um Romance Fora de Época (Amores Imprevisiveis
+                            Livro 1)
+                        </h6>
                     </div>
-                    <div class="col-3">
-                        <p>Páginas 247</p>
+                    <div class="row">
+                        <p class="text-left fw-bold">por <span class="fw-normal text-decoration-underline"><a
+                                    class="link-info" href="../autor/">Gabriela Goulart</a></span> (Autor)
                     </div>
+                    <div class="row">
+                        <p class="text-left text-white-50 fw-bolder mt-2">Descrição</p>
+                    </div>
+                    <div class="row">
+                        <p class="text-left text-white">Clarice, portuguesa, realista, jornalista e caça mistérios.
+                            Co-criadora de um renomado blog de contos e lendas, Clarice viaja o mundo à procura de
+                            mistérios
+                            e as verdades que eles escondem.
 
-                </div>
-                <div class="row">
-                    <p>ASIN | B09J43RHCG</p>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <p class="btn w-100 text-white-50">Disponível (14 unidades)</p>
+                            Uma lenda, a ponto de completar seus 200 anos, é renascida na Escócia. E Clarice será
+                            obrigada a
+                            viajar para descobrir a sua verdade obscura e publicar esta história.
+
+                            O que Clarice não poderia imaginar era que esse mistério escondia uma história real, ao
+                            encontrar um antigo diário, que aparenta registrar a verdade em meio aos segredos, Clarice
+                            faz
+                            um pedido e acorda em 1833, no meio de uma rede de Intrigas e perigos.
+
+                            Sua única chance de voltar para casa?
+
+                            Desvendar esse mistério, e para isso terá que viver o seu próprio romance de época. O gênero
+                            mais superestimado da literatura moderna.
+
+                            Será que ela vai conseguir?</p>
                     </div>
-                    <div class="col-6">
-                        <a class="btn btn-success w-100"
-                            href="https://www.google.com/search?q=Clarice+Goulart+Livro+de+Amor+e+Misterias+de+Clarice+Goulart+Liv"
-                            target="_blank">Retirar na Biblioteca!</a>
-                        <!-- DEIXAR RETIRAR SOMENTE UM LIVRO - SE TENTAR TIRAR OUTRO FALAR QUE PRECISA DEVOLVER ESTE QUE AINDA SE ENCONTRA COM ELE SE JPA FEZ A RETIRADA - NO SISTAMA
+                    <div class="row">
+                        <p class="text-left text-white">A obra tem sido publicada em <span
+                                class="aqui-vou por o ano">2018</span>.
+                        <div class="col-6">
+                            <p>Editora <span class="" style="color: #BF9363;">Universo dos Livros</span></p>
+                        </div>
+                        <div class="col-3">
+                            <p>2ª Edição</p>
+                        </div>
+                        <div class="col-3">
+                            <p>Páginas 247</p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p>ASIN | B09J43RHCG</p>
+                    </div>
+                    <div class="row my-5">
+                        <div class="col-6">
+                            <p class="btn w-100 text-white-50">Disponível (14 unidades)</p>
+                        </div>
+                        <div class="col-6">
+                            <a class="btn btn-success w-100"
+                                href="https://www.google.com/search?q=Clarice+Goulart+Livro+de+Amor+e+Misterias+de+Clarice+Goulart+Liv"
+                                target="_blank">Retirar na Biblioteca!</a>
+                            <!-- DEIXAR RETIRAR SOMENTE UM LIVRO - SE TENTAR TIRAR OUTRO FALAR QUE PRECISA DEVOLVER ESTE QUE AINDA SE ENCONTRA COM ELE SE JPA FEZ A RETIRADA - NO SISTAMA
                             DO FUNCIONARIO VAI TER UM BOTÃO CONSTANDO SE O ALUNO TAL JÁ RETIROU O LIVRO SOLICITADO, E A DATA DA SOLICITAÇÃO DO MESMO -->
+                        </div>
                     </div>
                 </div>
             </div>
-
-
         </div>
-    </div>
-
     </div>
 
 

@@ -21,11 +21,11 @@ CREATE TABLE usuarios (
 -- Criação da tabela `autores`
 CREATE TABLE autores (
   id INT AUTO_INCREMENT PRIMARY KEY,
-  aut_nome_completo VARCHAR(100) NOT NULL,
-  aut_data_nascimento DATE NOT NULL,
-  aut_nacionalidade VARCHAR(100) NOT NULL,
+  aut_nome_completo VARCHAR(100) NOT NULL, -- feito
+  aut_data_nascimento DATE NOT NULL,       -- feito
+  aut_nacionalidade VARCHAR(100) NOT NULL, -- feito
   aut_biografia TEXT,
-  aut_foto VARCHAR(200)
+  aut_foto VARCHAR(200) -- feito
   aut_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -33,7 +33,7 @@ CREATE TABLE autores (
 CREATE TABLE livros (
   id INT AUTO_INCREMENT PRIMARY KEY,
   lib_codigo_isbn VARCHAR(20) NOT NULL,
-  lib_nome_obra VARCHAR(100) NOT NULL,
+  lib_nome_obra VARCHAR(150) NOT NULL,
   autor_id INT NOT NULL,
   lib_edicao VARCHAR(20) NOT NULL,
   lib_editora VARCHAR(100) NOT NULL,
