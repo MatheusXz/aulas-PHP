@@ -31,8 +31,8 @@ if ($stmt->execute() == true) {
     if ($stmt->rowCount() > 0) {
         $result = $stmt->fetchAll();
         foreach ($result as $row) {
-        //             unlink($diretorio . $row['user_caminho_imagem']); // DELETA DA PASTA A IMAGEM REFERENTE AO NOME (se quiser)
-        
+            //             unlink($diretorio . $row['user_caminho_imagem']); // DELETA DA PASTA A IMAGEM REFERENTE AO NOME (se quiser)
+
         }
         // COMANDO DE EXCLUIR DEPOIS
     } else {
@@ -72,6 +72,10 @@ if ($stmt->execute() == true) {
             object-position: center;
             width: 100%;
             height: 100%;
+        }
+
+        .hidden {
+            display: none;
         }
     </style>
 
@@ -155,32 +159,83 @@ if ($stmt->execute() == true) {
                     <div class="row">
                         <div class="d-flex">
                             <nav class="nav">
-                                <a class="nav-link mx-2" id="navLinks0" href="#" onclick="handleNavButtonClick('Todos')">Todos</a>
-                                <a class="nav-link mx-2" id="navLinks1" href="#" onclick="handleNavButtonClick('Categoria')">Categoria</a>
-                                <a class="nav-link mx-2" id="navLinks2" href="#" onclick="handleNavButtonClick('Autor')">Autor</a>
+                                <a class="nav-link mx-2" id="navLinks0" href="#" onclick="mostrarDiv('div1')">Todos</a>
+                                <a class="nav-link mx-2" id="navLinks1" href="#" onclick="mostrarDiv('div2')">Categoria</a>
+                                <a class="nav-link mx-2" id="navLinks2" href="#" onclick="mostrarDiv('div3')">Autor</a>
                             </nav>
                         </div>
                     </div>
 
-                    <div id="allBooksContainer"></div>
+                    <!-- <div id="allBooksContainer"></div> -->
 
+                    <div class="row hidden" id="div1">
+                        <div class="col-md-3 col-12 my-3 d-flex align-items-center">
+                            <a class="" href="pages/details/">
+                                <div class="card">
+                                    <img src="https://fakeimg.pl/330x600?font=bebas" class="card-img" alt="...">
+                                    <div class="card-img-overlay">
+                                        <h5 class="card-title">Titulo</h5>
+                                        <p class="card-text">Autor</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="row my-5 hidden" id="div2">
+                        <div class="col-lg-2 col-md-2 col-12 d-flex align-items-center justify-content-center">
+                            <img src="https://fakeimg.pl/100x80/" style="border-radius: 10px;" class="" alt="...">
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-10">
+                            <div class="text">
+                                <h5 class="text-white">Titulo</h5>
+                                <p class="text-white-50">Autor</p>
+                                <p class="text-white-50 text-truncate">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-lg-2 col-md-2 col-2 d-flex justify-content-end align-self-center">
+                            <a class="btn btn-block btn-secondary" href="#!">
+                                <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
+                            </a>
+                        </div>
+                        <hr>
+                    </div>
+
+                    <div class="row my-5 hidden" id="div3">
+                        <div class="col-lg-2 col-md-2 col-2 d-flex align-items-center justify-content-center">
+                            <img src="https://fakeimg.pl/80x80/" style="border-radius: 50px;" class="" alt="...">
+                        </div>
+                        <div class="col-lg-10 col-md-10 col-10">
+                            <div class="text">
+                                <h5 class="text-white m-0">Nome Autor</h5>
+                                <p class="text-white-50 m-2">idade</p>
+                                <p class="text-white-50 text-truncate m-0">
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
+                                </p>
+                            </div>
+                        </div>
+                        <hr class="mt-0">
+
+                    </div>
                 </div>
-
-                <nav class="my-nav">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item disabled">
-                            <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
-                        </li>
-                        <li class="page-item text-white"><a class="page-link" href="#">1</a></li>
-                        <li class="page-item"><a class="page-link" href="#">2</a></li>
-                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                        <li class="page-item">
-                            <a class="page-link" href="#">Próximo</a>
-                        </li>
-                    </ul>
-                </nav>
             </div>
         </div>
+
+        <nav class="my-nav">
+            <ul class="pagination justify-content-center">
+                <li class="page-item disabled">
+                    <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
+                </li>
+                <li class="page-item text-white"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item">
+                    <a class="page-link" href="#">Próximo</a>
+                </li>
+            </ul>
+        </nav>
     </div>
 
 
@@ -203,127 +258,91 @@ if ($stmt->execute() == true) {
     <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
 
     <script>
-        function handleNavButtonClick(value) {
-            const allBooksContainer = document.getElementById('allBooksContainer');
+        var div1 = document.getElementById('div1');
+        div1.classList.remove("hidden");
 
-            // Remove a classe 'text-white-50' e adiciona a classe 'text-white fw-bolder'
-            const navLinks0 = document.querySelector('#navLinks0');
-            const navLinks1 = document.querySelector('#navLinks1');
-            const navLinks2 = document.querySelector('#navLinks2');
+        const navLinks0 = document.querySelector('#navLinks0');
+        const navLinks1 = document.querySelector('#navLinks1');
+        const navLinks2 = document.querySelector('#navLinks2');
 
-            navLinks0.classList.remove('fw-bolder');
-            navLinks1.classList.remove('fw-bolder');
-            navLinks2.classList.remove('fw-bolder');
+        navLinks0.classList.remove('fw-bolder');
+        navLinks1.classList.remove('fw-bolder');
+        navLinks2.classList.remove('fw-bolder');
 
-            navLinks0.classList.add('text-white-50');
-            navLinks1.classList.add('text-white-50');
-            navLinks2.classList.add('text-white-50');
+        navLinks0.classList.add('text-white-50');
+        navLinks1.classList.add('text-white-50');
+        navLinks2.classList.add('text-white-50');
+
+        function mostrarDiv(divId) {
+            var div = document.getElementById(divId);
+            var div2 = document.getElementById('div2');
+            var div3 = document.getElementById('div3');
+
+            // div1.classList.remove("hidden");
 
 
-            if (value == 'Todos') {
+            if (divId === 'div1') {
+                div1.classList.remove("hidden");
+                div2.classList.add("hidden");
+                div3.classList.add("hidden");
+
                 navLinks0.classList.remove('text-white-50');
                 navLinks0.classList.add('text-white', 'fw-bolder');
-                allBooksContainer.innerHTML = `
-                <div class="row">
-                    <div class="col-md-3 col-12 my-3 d-flex align-items-center">
-                        <a class="" href="pages/details/">
-                            <div class="card">
-                                <img src="https://fakeimg.pl/330x600?font=bebas" class="card-img" alt="...">
-                                <div class="card-img-overlay">
-                                    <h5 class="card-title">Titulo</h5>
-                                    <p class="card-text">Autor</p>
-                                </div>
-                            </div>
-                        </a>
-                    </div>
-                    <div class="col-md-3 col-12 my-3 d-flex align-items-center">
-                        <div class="card">
-                            <img src="https://fakeimg.pl/330x600?font=bebas" class="card-img" alt="...">
-                            <div class="card-img-overlay">
-                                <h5 class="card-title">Titulo</h5>
-                                <p class="card-text">Autor</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-3 col-12 my-3 d-flex align-items-center">
-                        <div class="card">
-                            <img src="https://fakeimg.pl/330x600?font=bebas" class="card-img" alt="...">
-                            <div class="card-img-overlay">
-                                <h5 class="card-title">Titulo</h5>
-                                <p class="card-text">Autor</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>`;
-            } else if (value == 'Categoria') {
+
+            } else if (divId === 'div2') {
+                div2.classList.remove("hidden");
+                div1.classList.add("hidden");
+                div3.classList.add("hidden");
+
+                navLinks0.classList.remove('text-white', 'fw-bolder');
+                navLinks2.classList.remove('text-white', 'fw-bolder');
                 navLinks1.classList.remove('text-white-50');
                 navLinks1.classList.add('text-white', 'fw-bolder');
 
-                allBooksContainer.innerHTML = `
-                <div class="row my-5">
-                    <div class="col-lg-2 col-md-2 col-12 d-flex align-items-center justify-content-center">
-                        <img src="https://fakeimg.pl/100x80/" style="border-radius: 10px;" class="" alt="...">
-                    </div>
-                    <div class="col-lg-8 col-md-8 col-10">
-                        <div class="text">
-                            <h5 class="text-white">Titulo</h5>
-                            <p class="text-white-50">Autor</p>
-                            <p class="text-white-50 text-truncate">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
-                            </p>
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-2 col-2 d-flex justify-content-end align-self-center">
-                        <a class="btn btn-block btn-secondary" href="#!">
-                            <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
-                        </a>
-                    </div>
-                </div>
-                <hr>
-                
-                `;
-            } else if (value == 'Autor') {
+            } else if (divId === 'div3') {
+                div3.classList.remove("hidden");
+                div2.classList.add("hidden");
+                div1.classList.add("hidden");
+
                 navLinks2.classList.remove('text-white-50');
                 navLinks2.classList.add('text-white', 'fw-bolder');
-                allBooksContainer.innerHTML = `
-                <div class="row my-5">
-                    <div class="col-lg-2 col-md-2 col-2 d-flex align-items-center justify-content-center">
-                        <img src="https://fakeimg.pl/80x80/" style="border-radius: 50px;" class="" alt="...">
-                    </div>
-                    <div class="col-lg-10 col-md-10 col-10">
-                        <div class="text">
-                            <h5 class="text-white m-0">Nome Autor</h5>
-                            <p class="text-white-50 m-2">idade</p>
-                            <p class="text-white-50 text-truncate m-0">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <hr class="mt-0">
-                <div class="row my-5">
-                    <div class="col-lg-2 col-md-2 col-2 d-flex align-items-center justify-content-center">
-                        <img src="https://fakeimg.pl/80x80/" style="border-radius: 50px;" class="" alt="...">
-                    </div>
-                    <div class="col-lg-10 col-md-10 col-10">
-                        <div class="text">
-                            <h5 class="text-white m-0">Nome Autor</h5>
-                            <p class="text-white-50 m-2">idade</p>
-                            <p class="text-white-50 text-truncate m-0">
-                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <hr class="mt-0">
-                `;
             }
+
+            console.log(divId);
+
         }
-        // Executar a função handleNavButtonClick com o valor 'Todos' ao carregar a página
-        document.addEventListener('DOMContentLoaded', function() {
-            handleNavButtonClick('Todos');
-        });
+
+
+        // function handleNavButtonClick(value) {
+        // const allBooksContainer = document.getElementById('allBooksContainer');
+
+        // Remove a classe 'text-white-50' e adiciona a classe 'text-white fw-bolder'
+
+
+
+
+        // } else if (value == 'Categoria') {
+
+
+        // allBooksContainer.innerHTML = `
+
+
+        // `;
+        // } else if (value == 'Autor') {
+        // navLinks2.classList.remove('text-white-50');
+        // navLinks2.classList.add('text-white', 'fw-bolder');
+        // allBooksContainer.innerHTML = `
+
+        // `;
+        // }
+        // }
+        // // Executar a função handleNavButtonClick com o valor 'Todos' ao carregar a página
+        // document.addEventListener('DOMContentLoaded', function() {
+        // handleNavButtonClick('Todos');
+        // });
     </script>
+
+
 
 </body>
 
