@@ -14,7 +14,7 @@ CREATE TABLE usuarios (
   user_data_nascimento DATE NOT NULL, -- feito
   user_email VARCHAR(100) UNIQUE NOT NULL, -- feito
   user_senha VARCHAR(100) NOT NULL, -- feito
-  user_caminho_imagem VARCHAR(255)NOT NULL -- feito
+  user_caminho_imagem VARCHAR(255) NOT NULL, -- feito
   user_tipo ENUM('usuario', 'funcionario', 'off', 'adm') NOT NULL, -- feito
   user_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP -- feito
 );

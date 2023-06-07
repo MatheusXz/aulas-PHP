@@ -32,6 +32,7 @@ if (isset($_POST['cadastrar'])) {
     $statement_cpf = $connect->prepare($query_verfi_cpf);
     $check_cpf = array(':cpf' => $cpf);
     $div_message = "";
+    $div_message = "<div class='bg-danger'>Erroooooooooooooo</div>";
 
     try {
         // Executar a query para cadastrar o usuário
@@ -51,6 +52,8 @@ if (isset($_POST['cadastrar'])) {
                 )';
 
 
+
+
                 // ARAZENO EM UMA VAR
                 if (isset($foto)) {
                     if (!preg_match('/^image\/(gif|bmp|png|jpg|jpeg)+$/', $foto["type"])) { // VERIFICO SE ESTA DE ACORDO COMO UMA IMAGEM A EXTENÇÃO
@@ -58,23 +61,13 @@ if (isset($_POST['cadastrar'])) {
                     } else {
                         $extensao = '.jpg'; //pega a extensao do foto
                         $novo_nome = md5(time()) . $extensao; //define o nome do foto, criptografando a data do envio atual como o nome da imagem
-                        $diretorio = "../../upload/"; //define o diretorio para onde enviaremos o foto
+                        $diretorio = "../imgs/"; //define o diretorio para onde enviaremos o foto
 
                         move_uploaded_file($_FILES['foto']['tmp_name'], $diretorio . $novo_nome); //efetua o upload
 
-                        // $stmt = $connect->prepare("INSERT INTO usuarios (id, foto_perfil_m, data_de_up) VALUES(DEFAULT, '$novo_nome', NOW())");
-                        // if ($stmt->execute() == true) {
-                        //     $msg = "Arquivo enviado com sucesso!";
-                        //     header('location:upload.php');
-                        // } else {
-                        //     $msg = "Falha ao enviar arquivo.";
-                        // }
                     }
                 }
-
-                $stmt = $connect->prepare('SELECT * FROM usuarios');
-                $stmt->execute();
-
+                
                 $statement_cadastrar = $connect->prepare($query_cadastrar);
                 $statement_cadastrar->bindParam(':nome', $nome);
                 $statement_cadastrar->bindParam(':cpf', $cpf);

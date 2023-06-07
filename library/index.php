@@ -9,7 +9,6 @@ if (isset($_GET['sair']) || !isset($_SESSION['nome']) || !isset($_SESSION['id'])
     exitSession($loca);
 }
 
-echo $_SESSION['nivel_acesso'];
 try {
     if ($_SESSION['nivel_acesso'] == 'funcionario') {
         header('Location: pages/employee/index.html');
@@ -19,10 +18,27 @@ try {
     echo 'Erro: ' . $e->getMessage();
 }
 
+// para apagar aqui em baixo
 
+$diretorio = "pages/imgs/"; //define o diretorio para onde enviaremos o arquivo
 
+$id = $_SESSION['id']; // ARMAZENHO O ID QUE VEIO DO VALUE
 
+$stmt = $connect->prepare('SELECT * FROM usuarios WHERE id = :id');
+$stmt->bindValue(':id', $id);
 
+if ($stmt->execute() == true) {
+    if ($stmt->rowCount() > 0) {
+        $result = $stmt->fetchAll();
+        foreach ($result as $row) {
+        //             unlink($diretorio . $row['user_caminho_imagem']); // DELETA DA PASTA A IMAGEM REFERENTE AO NOME (se quiser)
+        
+        }
+        // COMANDO DE EXCLUIR DEPOIS
+    } else {
+        echo 'erro 003';
+    }
+}
 
 ?>
 
@@ -42,7 +58,22 @@ try {
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <script src="https://kit.fontawesome.com/9fd4de5623.js" crossorigin="anonymous"></script>
+    <style>
+        .image-mask {
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            border-radius: 30px;
+        }
 
+        .image-mask img {
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
 
 </head>
 
@@ -50,13 +81,13 @@ try {
     <div class="container">
         <div class="row my-5">
             <div class="col-md-3 col-12">
-                <!-- <div class="row">
+                <div class="row">
                     <div class="col-md-3 col-12">
-                        <img class="" style="border-radius: 50%; border: 3px solid #fff;"
-                            src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2290%22%20height%3D%2290%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2090%2090%22%20preserveAspectRatio%3D%22none%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3Cstyle%20type%3D%22text%2Fcss%22%3E%0A%20%20%20%20%20%20%20%20%20%20%23holder%20text%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20fill%3A%20%23000000%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-family%3A%20sans-serif%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2010px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-weight%3A%20100%3B%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%3C%2Fstyle%3E%0A%20%20%20%20%20%20%3C%2Fdefs%3E%0A%20%20%20%20%20%20%3Cg%20id%3D%22holder%22%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffd3bf%22%3E%3C%2Frect%3E%0A%20%20%20%20%20%20%20%20%3Cg%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ctext%20text-anchor%3D%22middle%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20dy%3D%22.3em%22%3E90%20x%2090%3C%2Ftext%3E%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0A%20%20%20%20%20%20%3C%2Fg%3E%0A%20%20%20%20%3C%2Fsvg%3E"
-                            alt="photoProfile">
+                        <div class="image-mask">
+                            <img class="img-thumbnail" src="<?php echo "pages/imgs/" . $row['user_caminho_imagem'] . ""; ?>" alt="photoProfile">
+                        </div>
                     </div>
-                </div> -->
+                </div>
 
                 <div class="col-md-12 col-12 d-flex flex-column my-3">
                     <h5>Olá, <strong><?php echo mostrarPrimeiroNome($_SESSION['nome']); ?></strong></h5>
