@@ -1,22 +1,27 @@
 -- Criação da tabela `usuarios`
+use s222_matheus35;
 CREATE TABLE usuarios (
-  id INT AUTO_INCREMENT PRIMARY KEY,
-  user_nome VARCHAR(100) NOT NULL,
-  user_cpf VARCHAR(14) UNIQUE NOT NULL,
-  user_logradouro VARCHAR(200) NOT NULL,
-  user_numero VARCHAR(5) NOT NULL DEFAULT 'SN',
-  user_bairro VARCHAR(200) NOT NULL,
-  user_cidade VARCHAR(200) NOT NULL,
-  user_estado VARCHAR(30) NOT NULL,
-  user_cep VARCHAR(30) NOT NULL,
-  user_telefone VARCHAR(20) NOT NULL,
-  user_data_nascimento DATE NOT NULL,
-  user_email VARCHAR(100) UNIQUE NOT NULL,
-  user_senha VARCHAR(100) NOT NULL,
-  user_data_cadastro DATETIME NOT NULL,
-  user_tipo ENUM('usuario', 'funcionario', 'off') NOT NULL
-  user_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
+  user_nome VARCHAR(100) NOT NULL, -- feito
+  user_cpf VARCHAR(11) UNIQUE NOT NULL, -- feito
+  user_logradouro VARCHAR(200) NOT NULL, -- feito
+  user_numero VARCHAR(10) NOT NULL DEFAULT 'SN', -- feito
+  user_bairro VARCHAR(100) NOT NULL, -- feito
+  user_cidade VARCHAR(100) NOT NULL, -- feito
+  user_estado CHAR(2) NOT NULL, -- feito
+  user_cep VARCHAR(10) NOT NULL, -- feito
+  user_telefone VARCHAR(20) NOT NULL, -- feito
+  user_data_nascimento DATE NOT NULL, -- feito
+  user_email VARCHAR(100) UNIQUE NOT NULL, -- feito
+  user_senha VARCHAR(100) NOT NULL, -- feito
+  user_caminho_imagem VARCHAR(255)NOT NULL -- feito
+  user_tipo ENUM('usuario', 'funcionario', 'off', 'adm') NOT NULL, -- feito
+  user_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP -- feito
 );
+
+
+
+-- criada a usuarios
 
 -- Criação da tabela `autores`
 CREATE TABLE autores (
@@ -40,9 +45,11 @@ CREATE TABLE livros (
   lib_ano_publicacao INT NOT NULL,
   lib_numero_paginas INT NOT NULL,
   lib_quantidade INT NOT NULL,
-  lib_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+  lib_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  lib_caminho_imagem VARCHAR(255) -- Coluna para armazenar o caminho da imagem
   FOREIGN KEY (autor_id) REFERENCES autores(id)
 );
+
 
 -- Criação da tabela `emprestimos`
 CREATE TABLE emprestimos (

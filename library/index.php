@@ -1,3 +1,31 @@
+<?php
+
+require_once('pages/conn/index.php');
+
+session_start();
+
+if (isset($_GET['sair']) || !isset($_SESSION['nome']) || !isset($_SESSION['id'])) {
+    $loca = 'location: pages/login/index.php';
+    exitSession($loca);
+}
+
+echo $_SESSION['nivel_acesso'];
+try {
+    if ($_SESSION['nivel_acesso'] == 'funcionario') {
+        header('Location: pages/employee/index.html');
+    }
+} catch (PDOException $e) {
+    // Aqui, você pode adicionar um tratamento adicional, como registrar o erro em um arquivo de log
+    echo 'Erro: ' . $e->getMessage();
+}
+
+
+
+
+
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -7,14 +35,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Library by Matheus - Home</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/main.css">
     <script src="https://kit.fontawesome.com/9fd4de5623.js" crossorigin="anonymous"></script>
 
@@ -25,16 +50,16 @@
     <div class="container">
         <div class="row my-5">
             <div class="col-md-3 col-12">
-                <div class="row">
+                <!-- <div class="row">
                     <div class="col-md-3 col-12">
                         <img class="" style="border-radius: 50%; border: 3px solid #fff;"
                             src="data:image/svg+xml;charset=UTF-8,%3Csvg%20width%3D%2290%22%20height%3D%2290%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2090%2090%22%20preserveAspectRatio%3D%22none%22%3E%0A%20%20%20%20%20%20%3Cdefs%3E%0A%20%20%20%20%20%20%20%20%3Cstyle%20type%3D%22text%2Fcss%22%3E%0A%20%20%20%20%20%20%20%20%20%20%23holder%20text%20%7B%0A%20%20%20%20%20%20%20%20%20%20%20%20fill%3A%20%23000000%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-family%3A%20sans-serif%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-size%3A%2010px%3B%0A%20%20%20%20%20%20%20%20%20%20%20%20font-weight%3A%20100%3B%0A%20%20%20%20%20%20%20%20%20%20%7D%0A%20%20%20%20%20%20%20%20%3C%2Fstyle%3E%0A%20%20%20%20%20%20%3C%2Fdefs%3E%0A%20%20%20%20%20%20%3Cg%20id%3D%22holder%22%3E%0A%20%20%20%20%20%20%20%20%3Crect%20width%3D%22100%25%22%20height%3D%22100%25%22%20fill%3D%22%23ffd3bf%22%3E%3C%2Frect%3E%0A%20%20%20%20%20%20%20%20%3Cg%3E%0A%20%20%20%20%20%20%20%20%20%20%3Ctext%20text-anchor%3D%22middle%22%20x%3D%2250%25%22%20y%3D%2250%25%22%20dy%3D%22.3em%22%3E90%20x%2090%3C%2Ftext%3E%0A%20%20%20%20%20%20%20%20%3C%2Fg%3E%0A%20%20%20%20%20%20%3C%2Fg%3E%0A%20%20%20%20%3C%2Fsvg%3E"
                             alt="photoProfile">
                     </div>
-                </div>
+                </div> -->
 
                 <div class="col-md-12 col-12 d-flex flex-column my-3">
-                    <h5>Olá, <strong>Matheus!</strong></h5>
+                    <h5>Olá, <strong><?php echo mostrarPrimeiroNome($_SESSION['nome']); ?></strong></h5>
                     <p>Bem-vindo(a) a Library Management System (LMS).</p>
 
 
@@ -67,18 +92,19 @@
                         </li>
                         <li>
                             <div class="dropdown">
-                                <a href="#" class="nav-link my-3 text-white-50 dropdown-toggle"
-                                    data-bs-toggle="dropdown" aria-expanded="false">
+                                <a href="#" class="nav-link my-3 text-white-50 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                     <strong>Conta</strong>
                                 </a>
-                                <ul class="dropdown-menu text-small shadow">
-                                    <li><a class="dropdown-item" href="#">Configurações</a></li>
-                                    <li><a class="dropdown-item" href="#">Perfil</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="#">Sair</a></li>
-                                </ul>
+                                <form action="" method="get">
+                                    <ul class="dropdown-menu text-small shadow">
+                                        <li><a class="dropdown-item" href="#">Configurações</a></li>
+                                        <li><a class="dropdown-item" href="#">Perfil</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><button class="dropdown-item" name="sair" href="#">Sair</button></li>
+                                    </ul>
+                                </form>
                             </div>
                         </li>
                     </ul>
@@ -98,12 +124,9 @@
                     <div class="row">
                         <div class="d-flex">
                             <nav class="nav">
-                                <a class="nav-link mx-2" id="navLinks0" href="#"
-                                    onclick="handleNavButtonClick('Todos')">Todos</a>
-                                <a class="nav-link mx-2" id="navLinks1" href="#"
-                                    onclick="handleNavButtonClick('Categoria')">Categoria</a>
-                                <a class="nav-link mx-2" id="navLinks2" href="#"
-                                    onclick="handleNavButtonClick('Autor')">Autor</a>
+                                <a class="nav-link mx-2" id="navLinks0" href="#" onclick="handleNavButtonClick('Todos')">Todos</a>
+                                <a class="nav-link mx-2" id="navLinks1" href="#" onclick="handleNavButtonClick('Categoria')">Categoria</a>
+                                <a class="nav-link mx-2" id="navLinks2" href="#" onclick="handleNavButtonClick('Autor')">Autor</a>
                             </nav>
                         </div>
                     </div>
@@ -139,18 +162,10 @@
 
 
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
-        crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
-        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-        crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
-        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <!-- Adicionar o React. -->
     <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js" crossorigin></script>
     <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js" crossorigin></script>
@@ -270,12 +285,11 @@
                     </div>
                 </div>
                 <hr class="mt-0">
-                `
-                    ;
+                `;
             }
         }
         // Executar a função handleNavButtonClick com o valor 'Todos' ao carregar a página
-        document.addEventListener('DOMContentLoaded', function () {
+        document.addEventListener('DOMContentLoaded', function() {
             handleNavButtonClick('Todos');
         });
     </script>

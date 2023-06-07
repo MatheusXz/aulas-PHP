@@ -21,6 +21,17 @@ function exitSession($loc)
     header($loc);
 }
 
+function mostrarPrimeiroNome($nomeCompleto) {
+    // Divide o nome completo em partes separadas por espaço
+    $partesNome = explode(' ', $nomeCompleto);
+    
+    // Pega a primeira parte, que é o primeiro nome
+    $primeiroNome = $partesNome[0];
+    
+    // Exibe o primeiro nome
+    echo $primeiroNome;
+}
+
 function HeaderLocal($loc)
 {
     header($loc);
