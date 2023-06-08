@@ -38,7 +38,7 @@ CREATE TABLE autores (
 
 -- Criação da tabela `livros`
 CREATE TABLE livros (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
   lib_codigo_isbn VARCHAR(20) NOT NULL,
   lib_nome_obra VARCHAR(150) NOT NULL,
   autor_id INT NOT NULL,
@@ -48,7 +48,7 @@ CREATE TABLE livros (
   lib_numero_paginas varchar(10) NOT NULL,
   lib_quantidade VARCHAR(10) NOT NULL,
   lib_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  lib_caminho_imagem VARCHAR(255) -- Coluna para armazenar o caminho da imagem
+  lib_caminho_imagem VARCHAR(255), -- Coluna para armazenar o caminho da imagem
   FOREIGN KEY (autor_id) REFERENCES autores(id)
 );
 

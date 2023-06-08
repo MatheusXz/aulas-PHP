@@ -39,6 +39,8 @@ if ($stmt->execute() == true) {
     }
 }
 
+$query_livros = 'SELECT * FROM `livros`';
+
 ?>
 
 <!DOCTYPE html>

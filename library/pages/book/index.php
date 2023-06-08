@@ -5,22 +5,112 @@ require_once('../conn/index.php');
 session_start();
 
 if (isset($_GET['sair']) || !isset($_SESSION['nome']) || !isset($_SESSION['id'])) {
-    $loca = 'location: pages/login/index.php';
+    $loca = 'location: ../login/index.php';
     exitSession($loca);
 }
 
-// try {
-//     if ($_SESSION['nivel_acesso'] == 'funcionario') {
-//         header('Location: pages/employee/index.php');
-//     }
-// } catch (PDOException $e) {
-//     // Aqui, você pode adicionar um tratamento adicional, como registrar o erro em um arquivo de log
-//     echo 'Erro: ' . $e->getMessage();
-// }
+$div_message = "";
 
-// para apagar aqui em baixo
 
-$diretorio = "pages/imgs/"; //define o diretorio para onde enviaremos o arquivo
+if (isset($_POST['cadastrar_livro'])) {
+    // VARIAVEIS
+    $nome_obra = $_POST['nome_obra'];
+    $cod_isbn = $_POST['cod_isbn'];
+    $autor_id = $_POST['autor_id'];
+    $edicao = $_POST['edicao'];
+    $editora = $_POST['editora'];
+    $ano_publicado = $_POST['ano_publicado'];
+    $num_paginas = $_POST['num_paginas'];
+    $quantidade_livros = $_POST['quantidade_livros'];
+    $foto = $_FILES['foto'];
+
+    $query_verfi_cod_isbn = 'SELECT `lib_codigo_isbn` FROM `livros` WHERE `lib_codigo_isbn` = :cod_isbn';
+    $statement_cod_isbn = $connect->prepare($query_verfi_cod_isbn);
+    $check_cod_isbn = array(':cod_isbn' => $cod_isbn);
+    $div_message = "";
+
+    echo '<div class="bg-danger">' . $nome_obra . '</div>';
+    echo '<div class="bg-danger">' . $cod_isbn . '</div>';
+    echo '<div class="bg-danger">' . $autor_id . '</div>';
+    echo '<div class="bg-danger">' . $editora . '</div>';
+    echo '<div class="bg-danger">' . $edicao . '</div>';
+    echo '<div class="bg-danger">' . $editora . '</div>';
+    echo '<div class="bg-danger">' . $ano_publicado . '</div>';
+    echo '<div class="bg-danger">' . $num_paginas . '</div>';
+    echo '<div class="bg-danger">' . $quantidade_livros . '</div>';
+    echo '<div class="bg-danger">' . $editora . '</div>';
+    echo '<div class="bg-danger">' . $foto . '</div>';
+    try {
+        // Executar a query para cadastrar o usuário
+        if (true) {
+            $statement_cod_isbn->execute($check_cod_isbn);
+            if ($statement_cod_isbn->rowCount() > 0) {
+                $div_message = "<div id='demo_0'></div>";
+            } else {
+                $query_cadastrar = 'INSERT INTO `autores` (
+                id,
+                lib_codigo_isbn,
+                lib_nome_obra,
+                autor_id,
+                lib_edicao,
+                lib_editora,
+                lib_ano_publicacao,
+                lib_numero_paginas,
+                lib_quantidade,
+                lib_data_cadastro,
+                lib_caminho_imagem
+                ) VALUES (
+                DEFAULT,
+                :cod_isbn,
+                :nome_obra,
+                :autor_id,
+                :edicao,
+                :editora,
+                :ano_publicado,
+                :num_paginas,
+                :quantidade_livros,
+                NOW(),
+                :foto
+                )';
+
+                if (isset($foto)) {
+                    if (!preg_match('/^image\/(gif|bmp|png|jpg|jpeg)+$/', $foto["type"])) {
+                        // VERIFICO SE ESTA DE ACORDO COM UMA IMAGEM A EXTENÇÃO
+                        $div_message = "<div id='demo_6'></div>";
+                    } else {
+                        $extensao = '.jpg'; //pega a extensao do foto
+                        $novo_nome = md5(time()) . $extensao; //define o nome do foto, criptografando a data do envio atual como o nome da imagem
+                        $diretorio = "../imgs/"; //define o diretorio para onde enviaremos o foto
+
+                        move_uploaded_file($_FILES['foto']['tmp_name'], $diretorio . $novo_nome); //efetua o upload
+                    }
+                }
+
+                $statement = $connect->prepare($query_cadastrar);
+                $statement->bindParam(':cod_isbn', $cod_isbn);
+                $statement->bindParam(':nome_obra', $nome_obra);
+                $statement->bindParam(':autor_id', $autor_id);
+                $statement->bindParam(':edicao', $edicao);
+                $statement->bindParam(':editora', $editora);
+                $statement->bindParam(':ano_publicado', $ano_publicado);
+                $statement->bindParam(':num_paginas', $num_paginas);
+                $statement->bindParam(':quantidade_livros', $quantidade_livros);
+                $statement->bindParam(':foto', $novo_nome);
+
+                if ($statement->execute()) {
+                    $div_message = "<div id='demo_1'></div>";
+                } else {
+                    $div_message = "<div id='demo_2'></div>";
+                }
+            }
+        }
+    } catch (PDOException $e) {
+        // Tratar a exceção gerada
+        $error_message = $e->getMessage();
+        $div_message = "<div class='bg-danger''>$error_message</div>";
+    }
+} 
+$diretorio = "../imgs/"; //define o diretorio para onde enviaremos o arquivo
 
 $id = $_SESSION['id']; // ARMAZENHO O ID QUE VEIO DO VALUE
 
@@ -94,7 +184,8 @@ if ($stmt->execute() == true) {
 
                 <div class="col-md-12 col-12 d-flex flex-column my-3">
                     <h5>Olá, <strong>
-                            <?php echo mostrarPrimeiroNome($_SESSION['nome']); ?>
+                            <?php echo mostrarPrimeiroNome($_SESSION['nome']);
+                            echo $div_message; ?>
                         </strong></h5>
                     <p>Bem-vindo(a) a Library Management System (LMS).</p>
 
@@ -161,7 +252,7 @@ if ($stmt->execute() == true) {
                             <div class="row">
                                 <div class="col-md-6 col-12">
                                     <label for="nome_obra">Nome da obra</label>
-                                    <input type="text" class="form-control" id="nome_obra" name="nome_obra" maxlength="130" onkeypress="return soTexto(event)" placeholder="Ex: Carlos Almeida" required pattern=".{3,}">
+                                    <input type="text" class="form-control" id="nome_obra" name="nome_obra" maxlength="130" placeholder="Ex: Carlos Almeida" required pattern=".{3,}">
                                 </div>
                                 <div class="col-md-6 col-12">
                                     <label for="cod_isbn">COD ISBN:</label>
@@ -174,7 +265,17 @@ if ($stmt->execute() == true) {
                                     <select class="form-control text-uppercase" name="autor_id" required>
                                         <option value="0">Selecione o autor</option>
                                         <?php
-
+                                        $query_autores = 'SELECT `id`,`aut_nome_completo` FROM `autores`';
+                                        $stm = $connect->prepare($query_autores);
+                                        if ($stm->execute()) {
+                                            if ($stm->rowCount() > 0) {
+                                                $result = $stm->fetchAll();
+                                                foreach ($result as $row) {
+                                                    $selected = ($row['id'] == $autor_id) ? 'selected' : ''; // Verifica se é o autor selecionado
+                                                    echo "<option value='{$row['id']}' $selected>{$row['aut_nome_completo']}</option>";
+                                                }
+                                            }
+                                        }
                                         ?>
                                     </select>
                                 </div>
@@ -201,7 +302,7 @@ if ($stmt->execute() == true) {
                             <div class="row">
                                 <div class="col-md-4 col-12">
                                     <label for="quantidade_livros">Quantidade de livros:</label>
-                                    <input type="text" class="form-control text-uppercase" id="quantidade_livros" name="quantidade_livros" maxlength="10" onkeypress="return soTexto(event)" placeholder="Ex: 8" required pattern=".{1,}">
+                                    <input type="text" class="form-control text-uppercase" id="quantidade_livros" name="quantidade_livros" maxlength="10" onkeypress="return soNumeros(event)" placeholder="Ex: 8" required pattern=".{1,}">
                                 </div>
 
                                 <div class="col-md-8 col-12">
@@ -225,12 +326,95 @@ if ($stmt->execute() == true) {
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- Adicionar o React. -->
-    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
     <script>
+        let x = document.getElementById('demo_0');
+        let y = document.getElementById('demo_1');
+        let z = document.getElementById('demo_2');
+        let a = document.getElementById('demo_3');
+        let b = document.getElementById('demo_4');
+        let d = document.getElementById('demo_5');
+        let f = document.getElementById('demo_6');
+        if (x) {
+            swal({
+                icon: 'error',
+                title: 'COD ISBN já existente',
+                text: 'Tente novamente!'
+            });
+        } else if (y) {
+            swal({
+                icon: 'success',
+                title: 'Conta criada com sucesso! ✔',
+                text: 'Seja bem-vindo 😃'
+            });
+        } else if (a) {
+            swal({
+                icon: 'error',
+                title: 'Credenciais inválidas ☠',
+                text: 'Tente novamente'
+            });
+        } else if (z) {
+            swal({
+                icon: 'error',
+                title: 'Erro na criação',
+                text: 'Tente novamente mais tarde!.'
+            });
+        } else if (b) {
+            swal({
+                icon: 'error',
+                title: 'Autor não informado!',
+                text: 'Tente novamente!'
+            });
+        } else if (d) {
+            swal({
+                icon: 'error',
+                title: 'Ooops! CPF já existente',
+                text: 'Tente novamente ou acesse sua conta!'
+            });
+        } else if (f) {
+            swal({
+                icon: 'error',
+                title: 'Formato de imagem invalido',
+                text: 'Tente novamente!'
+            });
+        }
+    </script>
+
+    <script>
+        const forms = document.querySelector(".forms"),
+            links = document.querySelectorAll(".link");
+        links.forEach(link => {
+            link.addEventListener("click", e => {
+                e.preventDefault();
+                forms.classList.toggle("show-signup");
+            })
+        })
+
+        soNumeros = event => {
+            const codigoTecla = event.which || event.keyCode;
+
+            // Verifica se o código da tecla digitada está dentro do intervalo dos números ASCII (48-57)
+            if (codigoTecla >= 48 && codigoTecla <= 57) {
+                return true; // Permite a entrada
+            } else {
+                return false; // Bloqueia a entrada
+            }
+        }
+
+        soTexto = event => {
+            const codigoTecla = event.which || event.keyCode;
+
+            // Verifica se o código da tecla digitada está dentro do intervalo dos números ASCII (48-57)
+            if (codigoTecla >= 65 && codigoTecla <= 90 || codigoTecla >= 97 && codigoTecla <= 122 || codigoTecla == 94 || codigoTecla == 32) {
+                return true; // Permite a entrada
+            } else {
+                return false; // Bloqueia a entrada
+            }
+        }
         var div1 = document.getElementById('div1');
         div1.classList.remove("hidden");
 
@@ -297,97 +481,6 @@ if ($stmt->execute() == true) {
 
         }
     </script>
-
-    <script>
-        const forms = document.querySelector(".forms"),
-            links = document.querySelectorAll(".link");
-        links.forEach(link => {
-            link.addEventListener("click", e => {
-                e.preventDefault();
-                forms.classList.toggle("show-signup");
-            })
-        })
-
-        soNumeros = event => {
-            const codigoTecla = event.which || event.keyCode;
-
-            // Verifica se o código da tecla digitada está dentro do intervalo dos números ASCII (48-57)
-            if (codigoTecla >= 48 && codigoTecla <= 57) {
-                return true; // Permite a entrada
-            } else {
-                return false; // Bloqueia a entrada
-            }
-        }
-
-        soTexto = event => {
-            const codigoTecla = event.which || event.keyCode;
-
-            // Verifica se o código da tecla digitada está dentro do intervalo dos números ASCII (48-57)
-            if (codigoTecla >= 65 && codigoTecla <= 90 || codigoTecla >= 97 && codigoTecla <= 122 || codigoTecla == 94 || codigoTecla == 32) {
-                return true; // Permite a entrada
-            } else {
-                return false; // Bloqueia a entrada
-            }
-        }
-    </script>
-
-
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-
-    <script>
-        let x = document.getElementById('demo_0');
-        let y = document.getElementById('demo_1');
-        let z = document.getElementById('demo_2');
-        let a = document.getElementById('demo_3');
-        let b = document.getElementById('demo_4');
-        let d = document.getElementById('demo_5');
-        let f = document.getElementById('demo_6');
-        if (x) {
-            swal({
-                icon: 'error',
-                title: 'Ooops! Email já existente',
-                text: 'Tente novamente com outro email'
-            });
-        } else if (y) {
-            swal({
-                icon: 'success',
-                title: 'Conta criada com sucesso! ✔',
-                text: 'Seja bem-vindo 😃'
-            });
-        } else if (a) {
-            swal({
-                icon: 'error',
-                title: 'Credenciais inválidas ☠',
-                text: 'Tente novamente'
-            });
-        } else if (z) {
-            swal({
-                icon: 'error',
-                title: 'Erro na criação',
-                text: 'Tente novamente mais tarde!.'
-            });
-        } else if (b) {
-            swal({
-                icon: 'error',
-                title: 'Conta não encontrada!',
-                text: 'Caso não tenha um cadastro faça um agora mesmo!'
-            });
-        } else if (d) {
-            swal({
-                icon: 'error',
-                title: 'Ooops! CPF já existente',
-                text: 'Tente novamente ou acesse sua conta!'
-            });
-        } else if (f) {
-            swal({
-                icon: 'error',
-                title: 'Formato de imagem invalido',
-                text: 'Tente novamente!'
-            });
-        }
-    </script>
-
 
 
 </body>

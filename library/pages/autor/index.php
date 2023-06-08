@@ -56,12 +56,6 @@ if (isset($_POST['cadastrar_autor'])) {
                     NOW()
                     )';
 
-                echo '<div class="bg-danger">' . $nome_autor . '</div>';
-                echo '<div class="bg-danger">' . $nacionalidade . '</div>';
-                echo '<div class="bg-danger">' . $biografia . '</div>';
-                echo '<div class="bg-danger">' . $data_nascimento . '</div>';
-                echo '<div class="bg-danger">' . $foto . '</div>';
-
                 if (isset($foto)) {
                     if (!preg_match('/^image\/(gif|bmp|png|jpg|jpeg)+$/', $foto["type"])) { // VERIFICO SE ESTA DE ACORDO COMO UMA IMAGEM A EXTENÇÃO
                         $div_message = "<div id='demo_6'></div>";
@@ -74,31 +68,21 @@ if (isset($_POST['cadastrar_autor'])) {
                     }
                 }
 
-                $statement = $connect->prepare($query_cadastrar);
-                if ($statement->execute(array(
-                    ':nome_autor' => $nome_autor,
-                    ':data_nascimento' => $data_nascimento,
-                    ':nacionalidade' => $nacionalidade,
-                    ':biografia' => $biografia,
-                    ':foto' => $novo_nome
-                ))) {
+
+                // ARAZENO EM UMA VAR
+
+                $statement_cadastrar = $connect->prepare($query_cadastrar);
+                $statement_cadastrar->bindParam(':nome_autor', $nome_autor);
+                $statement_cadastrar->bindParam(':data_nascimento', $data_nascimento);
+                $statement_cadastrar->bindParam(':nacionalidade', $nacionalidade);
+                $statement_cadastrar->bindParam(':biografia', $biografia);
+                $statement_cadastrar->bindParam(':foto', $novo_nome);
+
+                if ($statement_cadastrar->execute()) {
                     $div_message = "<div id='demo_1'></div>";
                 } else {
                     $div_message = "<div id='demo_2'></div>";
                 }
-
-                // ARAZENO EM UMA VAR
-
-                // $statement_cadastrar = $connect->prepare($query_cadastrar);
-                // $statement_cadastrar->bindParam(':nome_autor', $nome_autor);
-                // $statement_cadastrar->bindParam(':data_nascimento', $data_nascimento);
-                // $statement_cadastrar->bindParam(':nacionalidade', $nacionalidade);
-                // $statement_cadastrar->bindParam(':biografia', $biografia);
-                // $statement_cadastrar->bindParam(':foto', $novo_nome);
-                echo '<div class="bg-danger">' . $novo_nome . '</div>';
-
-                // $statement_cadastrar->execute()) {
-                // } 
             }
         }
     } catch (PDOException $e) {
@@ -182,7 +166,7 @@ if ($stmt->execute() == true) {
 
                 <div class="col-md-12 col-12 d-flex flex-column my-3">
                     <h5>Olá, <strong>
-                            <?php echo mostrarPrimeiroNome($_SESSION['nome']); ?>
+                            <?php echo mostrarPrimeiroNome($_SESSION['nome']); echo $div_message; ?>
                         </strong></h5>
                     <p>Bem-vindo(a) a Library Management System (LMS).</p>
 
@@ -289,10 +273,62 @@ if ($stmt->execute() == true) {
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- Adicionar o React. -->
-    <script src="https://cdn.jsdelivr.net/npm/react@18/umd/react.development.js" crossorigin></script>
-    <script src="https://cdn.jsdelivr.net/npm/react-dom@18/umd/react-dom.development.js" crossorigin></script>
-    <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+    <script>
+        let x = document.getElementById('demo_0');
+        let y = document.getElementById('demo_1');
+        let z = document.getElementById('demo_2');
+        let a = document.getElementById('demo_3');
+        let b = document.getElementById('demo_4');
+        let d = document.getElementById('demo_5');
+        let f = document.getElementById('demo_6');
+        if (x) {
+            swal({
+                icon: 'error',
+                title: 'Autor já existente',
+                text: 'Tente novamente!'
+            });
+        } else if (y) {
+            swal({
+                icon: 'success',
+                title: 'Autor cadastrado com sucesso! ✔',
+                text: 'Parabéns 😃🥳'
+            });
+        } else if (a) {
+            swal({
+                icon: 'error',
+                title: 'Credenciais inválidas ☠',
+                text: 'Tente novamente'
+            });
+        } else if (z) {
+            swal({
+                icon: 'error',
+                title: 'Erro no cadastro do Autor',
+                text: 'Error: 002.'
+            });
+        } else if (b) {
+            swal({
+                icon: 'error',
+                title: 'Conta não encontrada!',
+                text: 'Caso não tenha um cadastro faça um agora mesmo!'
+            });
+        } else if (d) {
+            swal({
+                icon: 'error',
+                title: 'Ooops! CPF já existente',
+                text: 'Tente novamente ou acesse sua conta!'
+            });
+        } else if (f) {
+            swal({
+                icon: 'error',
+                title: 'Formato de imagem inválido',
+                text: 'Tente novamente!'
+            });
+        }
+    </script>
+
 
     <script>
         var div1 = document.getElementById('div1');
@@ -360,9 +396,7 @@ if ($stmt->execute() == true) {
             }
 
         }
-    </script>
 
-    <script>
         const forms = document.querySelector(".forms"),
             links = document.querySelectorAll(".link");
         links.forEach(link => {
@@ -395,62 +429,6 @@ if ($stmt->execute() == true) {
         }
     </script>
 
-
-    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-
-
-    <script>
-        let x = document.getElementById('demo_0');
-        let y = document.getElementById('demo_1');
-        let z = document.getElementById('demo_2');
-        let a = document.getElementById('demo_3');
-        let b = document.getElementById('demo_4');
-        let d = document.getElementById('demo_5');
-        let f = document.getElementById('demo_6');
-        if (x) {
-            swal({
-                icon: 'error',
-                title: 'Autor já existente',
-                text: 'Tente novamente!'
-            });
-        } else if (y) {
-            swal({
-                icon: 'success',
-                title: 'Autor cadastrado com sucesso! ✔',
-                text: 'Parabéns 😃🥳'
-            });
-        } else if (a) {
-            swal({
-                icon: 'error',
-                title: 'Credenciais inválidas ☠',
-                text: 'Tente novamente'
-            });
-        } else if (z) {
-            swal({
-                icon: 'error',
-                title: 'Erro no cadastro do Autor',
-                text: 'Error: 002.'
-            });
-        } else if (b) {
-            swal({
-                icon: 'error',
-                title: 'Conta não encontrada!',
-                text: 'Caso não tenha um cadastro faça um agora mesmo!'
-            });
-        } else if (d) {
-            swal({
-                icon: 'error',
-                title: 'Ooops! CPF já existente',
-                text: 'Tente novamente ou acesse sua conta!'
-            });
-        } else if (f) {
-            swal({
-                icon: 'error',
-                title: 'Formato de imagem inválido',
-                text: 'Tente novamente!'
-            });
-        }
-    </script>
 
 
 
