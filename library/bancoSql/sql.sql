@@ -25,14 +25,16 @@ CREATE TABLE usuarios (
 
 -- Criação da tabela `autores`
 CREATE TABLE autores (
-  id INT AUTO_INCREMENT PRIMARY KEY,
+  id INT(11) AUTO_INCREMENT PRIMARY KEY,
   aut_nome_completo VARCHAR(100) NOT NULL, -- feito
   aut_data_nascimento DATE NOT NULL,       -- feito
   aut_nacionalidade VARCHAR(100) NOT NULL, -- feito
-  aut_biografia TEXT,
-  aut_foto VARCHAR(200) -- feito
+  aut_biografia varchar(500),
+  aut_caminho_imagem VARCHAR(255), -- feito
   aut_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
+
+-- criada a autores
 
 -- Criação da tabela `livros`
 CREATE TABLE livros (
@@ -42,9 +44,9 @@ CREATE TABLE livros (
   autor_id INT NOT NULL,
   lib_edicao VARCHAR(20) NOT NULL,
   lib_editora VARCHAR(100) NOT NULL,
-  lib_ano_publicacao INT NOT NULL,
-  lib_numero_paginas INT NOT NULL,
-  lib_quantidade INT NOT NULL,
+  lib_ano_publicacao char(4) NOT NULL,
+  lib_numero_paginas varchar(10) NOT NULL,
+  lib_quantidade VARCHAR(10) NOT NULL,
   lib_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   lib_caminho_imagem VARCHAR(255) -- Coluna para armazenar o caminho da imagem
   FOREIGN KEY (autor_id) REFERENCES autores(id)

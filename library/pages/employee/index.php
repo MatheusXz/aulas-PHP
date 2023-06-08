@@ -1,26 +1,26 @@
 <?php
 
-require_once('pages/conn/index.php');
+require_once('../conn/index.php');
 
 session_start();
 
 if (isset($_GET['sair']) || !isset($_SESSION['nome']) || !isset($_SESSION['id'])) {
-    $loca = 'location: pages/login/index.php';
+    $loca = 'location: ../login/index.php';
     exitSession($loca);
 }
 
-try {
-    if ($_SESSION['nivel_acesso'] == 'funcionario') {
-        header('Location: pages/employee/index.php');
-    }
-} catch (PDOException $e) {
-    // Aqui, você pode adicionar um tratamento adicional, como registrar o erro em um arquivo de log
-    echo 'Erro: ' . $e->getMessage();
-}
+// try {
+//     if ($_SESSION['nivel_acesso'] == 'funcionario') {
+//         header('Location: ../employee/index.php');
+//     }
+// } catch (PDOException $e) {
+//     // Aqui, você pode adicionar um tratamento adicional, como registrar o erro em um arquivo de log
+//     echo 'Erro: ' . $e->getMessage();
+// }
 
 // para apagar aqui em baixo
 
-$diretorio = "pages/imgs/"; //define o diretorio para onde enviaremos o arquivo
+$diretorio = "../imgs/"; //define o diretorio para onde enviaremos o arquivo
 
 $id = $_SESSION['id']; // ARMAZENHO O ID QUE VEIO DO VALUE
 
@@ -87,13 +87,15 @@ if ($stmt->execute() == true) {
                 <div class="row">
                     <div class="col-md-3 col-12">
                         <div class="image-mask">
-                            <img class="img-thumbnail" src="<?php echo "pages/imgs/" . $row['user_caminho_imagem'] . ""; ?>" alt="photoProfile">
+                            <img class="img-thumbnail" src="<?php echo " ../imgs/" . $row['user_caminho_imagem'] . ""; ?>" alt="photoProfile">
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-12 col-12 d-flex flex-column my-3">
-                    <h5>Olá, <strong><?php echo mostrarPrimeiroNome($_SESSION['nome']); ?></strong></h5>
+                    <h5>Olá, <strong>
+                            <?php echo mostrarPrimeiroNome($_SESSION['nome']); ?>
+                        </strong></h5>
                     <p>Bem-vindo(a) a Library Management System (LMS).</p>
 
 
@@ -104,23 +106,28 @@ if ($stmt->execute() == true) {
                             </a>
                         </li>
                         <li>
-                            <a href="./pages/book/index.php" class="nav-link my-3 text-white-50">
+                            <a href="../book/index.php" class="nav-link my-3 text-white-50">
                                 Cadastrar Livro
                             </a>
                         </li>
                         <li>
-                            <a href="./pages/autor/index.php" class="nav-link my-3 text-white-50">
+                            <a href="../autor/index.php" class="nav-link my-3 text-white-50">
                                 Cadastrar Autor
                             </a>
                         </li>
                         <li>
                             <a href="#" class="nav-link my-3 text-white-50 ">
-                                Lendo
+                                Cadastrar Funcionarios
                             </a>
                         </li>
                         <li>
                             <a href="#" class="nav-link my-3 text-white-50">
-                                Lidos
+                                Lista de Usuarios
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link my-3 text-white-50">
+                                Lista de Funcionarios
                             </a>
                         </li>
                         <li>
@@ -147,7 +154,7 @@ if ($stmt->execute() == true) {
             <div class="col-md-9 col-12 my-5">
                 <div class="row">
                     <div class="col-md-10">
-                        <h6 class="">Explore e embarque em uma jornada literária 🥳</h6>
+                        <h6 class="">Altere aqui os livros cadastrados</h6>
                     </div>
                     <div class="col-md-2 d-flex justify-content-end">
                         <a class="btn btn-block btn-secondary" href="#!">
@@ -189,7 +196,9 @@ if ($stmt->execute() == true) {
                                 <h5 class="text-white">Titulo</h5>
                                 <p class="text-white-50">Autor</p>
                                 <p class="text-white-50 text-truncate">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores
+                                    architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque
+                                    repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
                                 </p>
                             </div>
                         </div>
@@ -210,7 +219,9 @@ if ($stmt->execute() == true) {
                                 <h5 class="text-white m-0">Nome Autor</h5>
                                 <p class="text-white-50 m-2">idade</p>
                                 <p class="text-white-50 text-truncate m-0">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores
+                                    architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque
+                                    repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
                                 </p>
                             </div>
                         </div>
@@ -235,8 +246,6 @@ if ($stmt->execute() == true) {
 
     <script>
         var div1 = document.getElementById('div1');
-        div1.classList.remove("hidden");
-
         const navLinks0 = document.querySelector('#navLinks0');
         const navLinks1 = document.querySelector('#navLinks1');
         const navLinks2 = document.querySelector('#navLinks2');
@@ -248,6 +257,11 @@ if ($stmt->execute() == true) {
         navLinks0.classList.add('text-white-50');
         navLinks1.classList.add('text-white-50');
         navLinks2.classList.add('text-white-50');
+
+        // inicialização
+        div1.classList.remove("hidden");
+        navLinks0.classList.remove('text-white-50');
+        navLinks0.classList.add('text-white', 'fw-bolder');
 
         function mostrarDiv(divId) {
             var div = document.getElementById(divId);
@@ -297,6 +311,7 @@ if ($stmt->execute() == true) {
                 navLinks0.classList.add('text-white-50');
                 navLinks1.classList.add('text-white-50');
             }
+
 
         }
 

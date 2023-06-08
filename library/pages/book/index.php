@@ -1,6 +1,6 @@
 <?php
 
-require_once('pages/conn/index.php');
+require_once('../conn/index.php');
 
 session_start();
 
@@ -9,14 +9,14 @@ if (isset($_GET['sair']) || !isset($_SESSION['nome']) || !isset($_SESSION['id'])
     exitSession($loca);
 }
 
-try {
-    if ($_SESSION['nivel_acesso'] == 'funcionario') {
-        header('Location: pages/employee/index.php');
-    }
-} catch (PDOException $e) {
-    // Aqui, você pode adicionar um tratamento adicional, como registrar o erro em um arquivo de log
-    echo 'Erro: ' . $e->getMessage();
-}
+// try {
+//     if ($_SESSION['nivel_acesso'] == 'funcionario') {
+//         header('Location: pages/employee/index.php');
+//     }
+// } catch (PDOException $e) {
+//     // Aqui, você pode adicionar um tratamento adicional, como registrar o erro em um arquivo de log
+//     echo 'Erro: ' . $e->getMessage();
+// }
 
 // para apagar aqui em baixo
 
@@ -87,40 +87,47 @@ if ($stmt->execute() == true) {
                 <div class="row">
                     <div class="col-md-3 col-12">
                         <div class="image-mask">
-                            <img class="img-thumbnail" src="<?php echo "pages/imgs/" . $row['user_caminho_imagem'] . ""; ?>" alt="photoProfile">
+                            <img class="img-thumbnail" src="<?php echo " ../imgs/" . $row['user_caminho_imagem'] . ""; ?>" alt="photoProfile">
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-12 col-12 d-flex flex-column my-3">
-                    <h5>Olá, <strong><?php echo mostrarPrimeiroNome($_SESSION['nome']); ?></strong></h5>
+                    <h5>Olá, <strong>
+                            <?php echo mostrarPrimeiroNome($_SESSION['nome']); ?>
+                        </strong></h5>
                     <p>Bem-vindo(a) a Library Management System (LMS).</p>
 
 
                     <ul class="navbar-nav flex-column mb-5">
                         <li class="nav-item">
-                            <a href="#" class="nav-link my-3 text-white active">
+                            <a href="../employee/index.php" class="nav-link my-3 text-white-50 active">
                                 Início
                             </a>
                         </li>
                         <li>
-                            <a href="./pages/book/index.php" class="nav-link my-3 text-white-50">
+                            <a href="#" class="nav-link my-3 text-white active">
                                 Cadastrar Livro
                             </a>
                         </li>
                         <li>
-                            <a href="./pages/autor/index.php" class="nav-link my-3 text-white-50">
+                            <a href="../autor/index.php" class="nav-link my-3 text-white-50">
                                 Cadastrar Autor
                             </a>
                         </li>
                         <li>
                             <a href="#" class="nav-link my-3 text-white-50 ">
-                                Lendo
+                                Cadastrar Funcionarios
                             </a>
                         </li>
                         <li>
                             <a href="#" class="nav-link my-3 text-white-50">
-                                Lidos
+                                Lista de Usuarios
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link my-3 text-white-50">
+                                Lista de Funcionarios
                             </a>
                         </li>
                         <li>
@@ -146,77 +153,67 @@ if ($stmt->execute() == true) {
 
             <div class="col-md-9 col-12 my-5">
                 <div class="row">
-                    <div class="col-md-10">
-                        <h6 class="">Explore e embarque em uma jornada literária 🥳</h6>
-                    </div>
-                    <div class="col-md-2 d-flex justify-content-end">
-                        <a class="btn btn-block btn-secondary" href="#!">
-                            <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
-                        </a>
-                    </div>
-                    <div class="row">
-                        <div class="d-flex">
-                            <nav class="nav">
-                                <a class="nav-link mx-2" id="navLinks0" href="#" onclick="mostrarDiv('div1')">Todos</a>
-                                <a class="nav-link mx-2" id="navLinks1" href="#" onclick="mostrarDiv('div2')">Categoria</a>
-                                <a class="nav-link mx-2" id="navLinks2" href="#" onclick="mostrarDiv('div3')">Autor</a>
-                            </nav>
+                    <form action="" method="post" enctype="multipart/form-data">
+                        <div class="row">
+                            <h1 class="text-center" style="color: #BF9363;">Informações do Livro</h1>
                         </div>
-                    </div>
-
-                    <!-- <div id="allBooksContainer"></div> -->
-
-                    <div class="row hidden" id="div1">
-                        <div class="col-md-3 col-12 my-3 d-flex align-items-center">
-                            <a class="" href="pages/details/">
-                                <div class="card">
-                                    <img src="https://fakeimg.pl/330x600?font=bebas" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h5 class="card-title">Titulo</h5>
-                                        <p class="card-text">Autor</p>
-                                    </div>
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <label for="nome_obra">Nome da obra</label>
+                                    <input type="text" class="form-control" id="nome_obra" name="nome_obra" maxlength="130" onkeypress="return soTexto(event)" placeholder="Ex: Carlos Almeida" required pattern=".{3,}">
                                 </div>
-                            </a>
-                        </div>
-                    </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="cod_isbn">COD ISBN:</label>
+                                    <input type="text" class="form-control" id="cod_isbn" name="cod_isbn" maxlength="20" placeholder="Ex: 0000185188679 " onkeypress="return soNumeros(event)" required pattern=".{3,}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 col-12">
+                                    <label for="autor_id">Autor da obra</label>
+                                    <select class="form-control text-uppercase" name="autor_id" required>
+                                        <option value="0">Selecione o autor</option>
+                                        <?php
 
-                    <div class="row my-5 hidden" id="div2">
-                        <div class="col-lg-2 col-md-2 col-12 d-flex align-items-center justify-content-center">
-                            <img src="https://fakeimg.pl/100x80/" style="border-radius: 10px;" class="" alt="...">
-                        </div>
-                        <div class="col-lg-8 col-md-8 col-10">
-                            <div class="text">
-                                <h5 class="text-white">Titulo</h5>
-                                <p class="text-white-50">Autor</p>
-                                <p class="text-white-50 text-truncate">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
-                                </p>
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-md-6 col-12">
+                                    <label for="editora">Editora:</label>
+                                    <input type="text" class="form-control" id="editora" name="editora" maxlength="100" placeholder="Ex: Livros Brasil" onkeypress="return soTexto(event)" required pattern=".{3,}">
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-12">
+                                    <label for="edicao">Edição da obra:</label>
+                                    <input type="text" class="form-control" id="edicao" name="edicao" placeholder="Ex: 1, 2, 3.." maxlength="20" onkeypress="return soNumeros(event)" required pattern=".{1,}">
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <label for="ano_publicado">Ano publicado:</label>
+                                    <input type="text" class="form-control" id="ano_publicado" name="ano_publicado" maxlength="4" placeholder="Ex: 2010" onkeypress="return soNumeros(event)" required pattern=".{4,}">
+                                </div>
+                                <div class="col-md-4 col-12">
+                                    <label for="num_paginas">Numero de páginas:</label>
+                                    <input type="text" class="form-control" id="num_paginas" name="num_paginas" placeholder="Ex: 150" maxlength="10" onkeypress="return soNumeros(event)" required pattern=".{1,}">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4 col-12">
+                                    <label for="quantidade_livros">Quantidade de livros:</label>
+                                    <input type="text" class="form-control text-uppercase" id="quantidade_livros" name="quantidade_livros" maxlength="10" onkeypress="return soTexto(event)" placeholder="Ex: 8" required pattern=".{1,}">
+                                </div>
+
+                                <div class="col-md-8 col-12">
+                                    <label for="foto">Foto do livro:</label>
+                                    <input type="file" class="form-control my-2" required name="foto">
+                                </div>
+                            </div>
+                            <div class="mt-2 d-flex justify-content-center">
+                                <button class="btn btn-primary cadastrar_livro" name="cadastrar">Cadastrar</button>
                             </div>
                         </div>
-                        <div class="col-lg-2 col-md-2 col-2 d-flex justify-content-end align-self-center">
-                            <a class="btn btn-block btn-secondary" href="#!">
-                                <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
-                            </a>
-                        </div>
-                        <hr>
-                    </div>
-
-                    <div class="row my-5 hidden" id="div3">
-                        <div class="col-lg-2 col-md-2 col-2 d-flex align-items-center justify-content-center">
-                            <img src="https://fakeimg.pl/80x80/" style="border-radius: 50px;" class="" alt="...">
-                        </div>
-                        <div class="col-lg-10 col-md-10 col-10">
-                            <div class="text">
-                                <h5 class="text-white m-0">Nome Autor</h5>
-                                <p class="text-white-50 m-2">idade</p>
-                                <p class="text-white-50 text-truncate m-0">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
-                                </p>
-                            </div>
-                        </div>
-                        <hr class="mt-0">
-
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -299,35 +296,96 @@ if ($stmt->execute() == true) {
             }
 
         }
+    </script>
+
+    <script>
+        const forms = document.querySelector(".forms"),
+            links = document.querySelectorAll(".link");
+        links.forEach(link => {
+            link.addEventListener("click", e => {
+                e.preventDefault();
+                forms.classList.toggle("show-signup");
+            })
+        })
+
+        soNumeros = event => {
+            const codigoTecla = event.which || event.keyCode;
+
+            // Verifica se o código da tecla digitada está dentro do intervalo dos números ASCII (48-57)
+            if (codigoTecla >= 48 && codigoTecla <= 57) {
+                return true; // Permite a entrada
+            } else {
+                return false; // Bloqueia a entrada
+            }
+        }
+
+        soTexto = event => {
+            const codigoTecla = event.which || event.keyCode;
+
+            // Verifica se o código da tecla digitada está dentro do intervalo dos números ASCII (48-57)
+            if (codigoTecla >= 65 && codigoTecla <= 90 || codigoTecla >= 97 && codigoTecla <= 122 || codigoTecla == 94 || codigoTecla == 32) {
+                return true; // Permite a entrada
+            } else {
+                return false; // Bloqueia a entrada
+            }
+        }
+    </script>
 
 
-        // function handleNavButtonClick(value) {
-        // const allBooksContainer = document.getElementById('allBooksContainer');
-
-        // Remove a classe 'text-white-50' e adiciona a classe 'text-white fw-bolder'
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 
-
-
-        // } else if (value == 'Categoria') {
-
-
-        // allBooksContainer.innerHTML = `
-
-
-        // `;
-        // } else if (value == 'Autor') {
-        // navLinks2.classList.remove('text-white-50');
-        // navLinks2.classList.add('text-white', 'fw-bolder');
-        // allBooksContainer.innerHTML = `
-
-        // `;
-        // }
-        // }
-        // // Executar a função handleNavButtonClick com o valor 'Todos' ao carregar a página
-        // document.addEventListener('DOMContentLoaded', function() {
-        // handleNavButtonClick('Todos');
-        // });
+    <script>
+        let x = document.getElementById('demo_0');
+        let y = document.getElementById('demo_1');
+        let z = document.getElementById('demo_2');
+        let a = document.getElementById('demo_3');
+        let b = document.getElementById('demo_4');
+        let d = document.getElementById('demo_5');
+        let f = document.getElementById('demo_6');
+        if (x) {
+            swal({
+                icon: 'error',
+                title: 'Ooops! Email já existente',
+                text: 'Tente novamente com outro email'
+            });
+        } else if (y) {
+            swal({
+                icon: 'success',
+                title: 'Conta criada com sucesso! ✔',
+                text: 'Seja bem-vindo 😃'
+            });
+        } else if (a) {
+            swal({
+                icon: 'error',
+                title: 'Credenciais inválidas ☠',
+                text: 'Tente novamente'
+            });
+        } else if (z) {
+            swal({
+                icon: 'error',
+                title: 'Erro na criação',
+                text: 'Tente novamente mais tarde!.'
+            });
+        } else if (b) {
+            swal({
+                icon: 'error',
+                title: 'Conta não encontrada!',
+                text: 'Caso não tenha um cadastro faça um agora mesmo!'
+            });
+        } else if (d) {
+            swal({
+                icon: 'error',
+                title: 'Ooops! CPF já existente',
+                text: 'Tente novamente ou acesse sua conta!'
+            });
+        } else if (f) {
+            swal({
+                icon: 'error',
+                title: 'Formato de imagem invalido',
+                text: 'Tente novamente!'
+            });
+        }
     </script>
 
 
