@@ -67,7 +67,7 @@ if (isset($_POST['cadastrar'])) {
 
                     }
                 }
-                
+
                 $statement_cadastrar = $connect->prepare($query_cadastrar);
                 $statement_cadastrar->bindParam(':nome', $nome);
                 $statement_cadastrar->bindParam(':cpf', $cpf);
@@ -156,6 +156,20 @@ if (isset($_POST['login_user'])) {
             -o-background-size: auto;
         }
 
+        .image-mask {
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            border-radius: 30px;
+        }
+
+        .image-mask img {
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: center;
+            width: 100%;
+            height: 100%;
+        }
 
 
         /*  */
@@ -241,9 +255,12 @@ if (isset($_POST['login_user'])) {
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-md-12">
+                        <div class="col-md-4 d-flex  justify-content-center">
+                            <img id="img" class="image-mask" src="../../src/img/Gallery-PNG.png">
+                        </div>
+                        <div class="col-md-8 ">
                             <label for="foto">Foto para perfil:</label>
-                            <input type="file" class="form-control my-2" required name="foto">
+                            <input type="file" class="form-control d-flex align-content-end my-2 " id="inputImg" required name="foto">
                         </div>
                     </div>
                     <div class="mt-2 d-flex justify-content-between">
@@ -274,7 +291,7 @@ if (isset($_POST['login_user'])) {
     </div>
 
     <script>
-        const forms = document.querySelector(".forms"),
+        let forms = document.querySelector(".forms"),
             links = document.querySelectorAll(".link");
         links.forEach(link => {
             link.addEventListener("click", e => {
@@ -302,6 +319,14 @@ if (isset($_POST['login_user'])) {
                 return true; // Permite a entrada
             } else {
                 return false; // Bloqueia a entrada
+            }
+        }
+        let img = document.getElementById('img');
+        let inputImg = document.getElementById('inputImg');
+
+        inputImg.onchange = (e) => {
+            if (inputImg.files[0]) {
+                img.src = URL.createObjectURL(inputImg.files[0]);
             }
         }
     </script>
