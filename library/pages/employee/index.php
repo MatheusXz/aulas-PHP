@@ -76,6 +76,11 @@ if ($stmt->execute() == true) {
         .hidden {
             display: none;
         }
+
+        .card-content {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+            padding: 10px;
+        }
     </style>
 
 </head>
@@ -173,18 +178,35 @@ if ($stmt->execute() == true) {
 
                     <!-- <div id="allBooksContainer"></div> -->
 
+
                     <div class="row hidden" id="div1">
-                        <div class="col-md-3 col-12 my-3 d-flex align-items-center">
-                            <a class="" href="pages/details/">
-                                <div class="card">
-                                    <img src="https://fakeimg.pl/330x600?font=bebas" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h5 class="card-title">Titulo</h5>
-                                        <p class="card-text">Autor</p>
+                        <?php
+                        $query_livros = 'SELECT livros.*, autores.aut_nome_completo FROM livros INNER JOIN autores ON livros.autor_id = autores.id';
+                        $stm = $connect->prepare($query_livros);
+                        if ($stm->execute()) {
+                            if ($stm->rowCount() > 0) {
+                                $result = $stm->fetchAll();
+                                foreach ($result as $row) {
+                        ?>
+                                    <div class="col-md-3 col-12 my-3 d-flex">
+                                        <a href="../details/book/index.php?id=<?php echo $row['id'] ?>">
+                                            <div class="card">
+                                                <img src="../imgs/<?php echo $row['lib_caminho_imagem'] ?>" class="card-img" alt="...">
+                                                <div class="card-img-overlay">
+                                                        <div class="card-content">
+                                                        <h5 class="card-title text-white" style=""><?php echo $row['lib_nome_obra'] ?></h5>
+                                                        <p class="card-text text-truncate text-white"><?php echo $row['aut_nome_completo'] ?></p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </a>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
+                        <?php
+                                }
+                            }
+                        }
+                        ?>
                     </div>
 
                     <div class="row my-5 hidden" id="div2">

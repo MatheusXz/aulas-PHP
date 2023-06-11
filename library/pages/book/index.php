@@ -29,17 +29,17 @@ if (isset($_POST['cadastrar_livro'])) {
     $check_cod_isbn = array(':cod_isbn' => $cod_isbn);
     $div_message = "";
 
-    echo '<div class="bg-danger">' . $nome_obra . '</div>';
-    echo '<div class="bg-danger">' . $cod_isbn . '</div>';
-    echo '<div class="bg-danger">' . $autor_id . '</div>';
-    echo '<div class="bg-danger">' . $editora . '</div>';
-    echo '<div class="bg-danger">' . $edicao . '</div>';
-    echo '<div class="bg-danger">' . $editora . '</div>';
-    echo '<div class="bg-danger">' . $ano_publicado . '</div>';
-    echo '<div class="bg-danger">' . $num_paginas . '</div>';
-    echo '<div class="bg-danger">' . $quantidade_livros . '</div>';
-    echo '<div class="bg-danger">' . $editora . '</div>';
-    echo '<div class="bg-danger">' . $foto . '</div>';
+    // echo '<div class="bg-danger">' . $nome_obra . '</div>';
+    // echo '<div class="bg-danger">' . $cod_isbn . '</div>';
+    // echo '<div class="bg-danger">' . $autor_id . '</div>';
+    // echo '<div class="bg-danger">' . $editora . '</div>';
+    // echo '<div class="bg-danger">' . $edicao . '</div>';
+    // echo '<div class="bg-danger">' . $editora . '</div>';
+    // echo '<div class="bg-danger">' . $ano_publicado . '</div>';
+    // echo '<div class="bg-danger">' . $num_paginas . '</div>';
+    // echo '<div class="bg-danger">' . $quantidade_livros . '</div>';
+    // echo '<div class="bg-danger">' . $editora . '</div>';
+    // echo '<div class="bg-danger">' . $foto . '</div>';
     try {
         // Executar a query para cadastrar o usuário
         if (true) {
@@ -47,7 +47,7 @@ if (isset($_POST['cadastrar_livro'])) {
             if ($statement_cod_isbn->rowCount() > 0) {
                 $div_message = "<div id='demo_0'></div>";
             } else {
-                $query_cadastrar = 'INSERT INTO `autores` (
+                $query_cadastrar = 'INSERT INTO `livros` (
                 id,
                 lib_codigo_isbn,
                 lib_nome_obra,
@@ -83,25 +83,25 @@ if (isset($_POST['cadastrar_livro'])) {
                         $diretorio = "../imgs/"; //define o diretorio para onde enviaremos o foto
 
                         move_uploaded_file($_FILES['foto']['tmp_name'], $diretorio . $novo_nome); //efetua o upload
+                        $statement = $connect->prepare($query_cadastrar);
+                        $statement->bindParam(':cod_isbn', $cod_isbn);
+                        $statement->bindParam(':nome_obra', $nome_obra);
+                        $statement->bindParam(':autor_id', $autor_id);
+                        $statement->bindParam(':edicao', $edicao);
+                        $statement->bindParam(':editora', $editora);
+                        $statement->bindParam(':ano_publicado', $ano_publicado);
+                        $statement->bindParam(':num_paginas', $num_paginas);
+                        $statement->bindParam(':quantidade_livros', $quantidade_livros);
+                        $statement->bindParam(':foto', $novo_nome);
+                        if ($statement->execute()) {
+                            $div_message = "<div id='demo_1'></div>";
+                        } else {
+                            $div_message = "<div id='demo_2'></div>";
+                        }
                     }
                 }
 
-                $statement = $connect->prepare($query_cadastrar);
-                $statement->bindParam(':cod_isbn', $cod_isbn);
-                $statement->bindParam(':nome_obra', $nome_obra);
-                $statement->bindParam(':autor_id', $autor_id);
-                $statement->bindParam(':edicao', $edicao);
-                $statement->bindParam(':editora', $editora);
-                $statement->bindParam(':ano_publicado', $ano_publicado);
-                $statement->bindParam(':num_paginas', $num_paginas);
-                $statement->bindParam(':quantidade_livros', $quantidade_livros);
-                $statement->bindParam(':foto', $novo_nome);
 
-                if ($statement->execute()) {
-                    $div_message = "<div id='demo_1'></div>";
-                } else {
-                    $div_message = "<div id='demo_2'></div>";
-                }
             }
         }
     } catch (PDOException $e) {
@@ -311,7 +311,7 @@ if ($stmt->execute() == true) {
                                 </div>
                             </div>
                             <div class="mt-2 d-flex justify-content-center">
-                                <button class="btn btn-primary cadastrar_livro" name="cadastrar">Cadastrar</button>
+                                <button class="btn btn-primary cadastrar_livro" name="cadastrar_livro">Cadastrar</button>
                             </div>
                         </div>
                     </form>
@@ -348,8 +348,8 @@ if ($stmt->execute() == true) {
         } else if (y) {
             swal({
                 icon: 'success',
-                title: 'Conta criada com sucesso! ✔',
-                text: 'Seja bem-vindo 😃'
+                title: 'Livro cadastrado com sucesso! ✔',
+                text: 'Meus parabéns 😃'
             });
         } else if (a) {
             swal({
@@ -360,7 +360,7 @@ if ($stmt->execute() == true) {
         } else if (z) {
             swal({
                 icon: 'error',
-                title: 'Erro na criação',
+                title: 'Erro: @014',
                 text: 'Tente novamente mais tarde!.'
             });
         } else if (b) {
