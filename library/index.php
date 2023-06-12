@@ -8,16 +8,9 @@ if (isset($_GET['sair']) || !isset($_SESSION['nome']) || !isset($_SESSION['id'])
     $loca = 'location: pages/login/index.php';
     exitSession($loca);
 }
-
-try {
-    if ($_SESSION['nivel_acesso'] == 'funcionario') {
-        header('Location: pages/employee/index.php');
-    }
-} catch (PDOException $e) {
-    // Aqui, você pode adicionar um tratamento adicional, como registrar o erro em um arquivo de log
-    echo 'Erro: ' . $e->getMessage();
+if ($_SESSION['nivel_acesso'] == 'funcionario') {
+    header('location: pages/employee/index.php');
 }
-
 // para apagar aqui em baixo
 
 $diretorio = "pages/imgs/"; //define o diretorio para onde enviaremos o arquivo
@@ -301,38 +294,7 @@ $query_livros = 'SELECT * FROM `livros`';
             }
 
         }
-
-
-        // function handleNavButtonClick(value) {
-        // const allBooksContainer = document.getElementById('allBooksContainer');
-
-        // Remove a classe 'text-white-50' e adiciona a classe 'text-white fw-bolder'
-
-
-
-
-        // } else if (value == 'Categoria') {
-
-
-        // allBooksContainer.innerHTML = `
-
-
-        // `;
-        // } else if (value == 'Autor') {
-        // navLinks2.classList.remove('text-white-50');
-        // navLinks2.classList.add('text-white', 'fw-bolder');
-        // allBooksContainer.innerHTML = `
-
-        // `;
-        // }
-        // }
-        // // Executar a função handleNavButtonClick com o valor 'Todos' ao carregar a página
-        // document.addEventListener('DOMContentLoaded', function() {
-        // handleNavButtonClick('Todos');
-        // });
     </script>
-
-
 
 </body>
 

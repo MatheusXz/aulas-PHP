@@ -77,8 +77,8 @@ if ($stmt->execute() == true) {
             display: none;
         }
 
-        .card-content {
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.7) 100%);
+        .card-img-overlay {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 100%);
             padding: 10px;
         }
     </style>
@@ -170,7 +170,7 @@ if ($stmt->execute() == true) {
                         <div class="d-flex">
                             <nav class="nav">
                                 <a class="nav-link mx-2" id="navLinks0" href="#" onclick="mostrarDiv('div1')">Todos</a>
-                                <a class="nav-link mx-2" id="navLinks1" href="#" onclick="mostrarDiv('div2')">Categoria</a>
+                                <!-- <a class="nav-link mx-2" id="navLinks1" href="#" onclick="mostrarDiv('div2')">Categoria</a> -->
                                 <a class="nav-link mx-2" id="navLinks2" href="#" onclick="mostrarDiv('div3')">Autor</a>
                             </nav>
                         </div>
@@ -193,7 +193,7 @@ if ($stmt->execute() == true) {
                                             <div class="card">
                                                 <img src="../imgs/<?php echo $row['lib_caminho_imagem'] ?>" class="card-img" alt="...">
                                                 <div class="card-img-overlay">
-                                                        <div class="card-content">
+                                                    <div class="card-content">
                                                         <h5 class="card-title text-white" style=""><?php echo $row['lib_nome_obra'] ?></h5>
                                                         <p class="card-text text-truncate text-white"><?php echo $row['aut_nome_completo'] ?></p>
                                                     </div>
@@ -233,22 +233,42 @@ if ($stmt->execute() == true) {
                     </div>
 
                     <div class="row my-5 hidden" id="div3">
-                        <div class="col-lg-2 col-md-2 col-2 d-flex align-items-center justify-content-center">
-                            <img src="https://fakeimg.pl/80x80/" style="border-radius: 50px;" class="" alt="...">
-                        </div>
-                        <div class="col-lg-10 col-md-10 col-10">
-                            <div class="text">
-                                <h5 class="text-white m-0">Nome Autor</h5>
-                                <p class="text-white-50 m-2">idade</p>
-                                <p class="text-white-50 text-truncate m-0">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores
-                                    architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque
-                                    repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
-                                </p>
-                            </div>
-                        </div>
-                        <hr class="mt-0">
 
+                        <?php
+                        $query_autores = 'SELECT * FROM autores';
+                        $stm = $connect->prepare($query_autores);
+                        if ($stm->execute()) {
+                            if ($stm->rowCount() > 0) {
+                                $result = $stm->fetchAll();
+                                foreach ($result as $row) {
+                        ?>
+                                    <div class="col-lg-12 col-md-12 col-12 d-flex align-items-center justify-content-center my-2">
+                                        <div class="col-lg-2 col-md-2 col-2 d-flex align-items-center justify-content-center">
+                                            <img src="../imgs/<?php echo $row['aut_caminho_imagem'] ?>" style="border-radius: 50px;" class="image-mask" alt="...">
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-9 mx-3">
+                                            <div class="text">
+                                                <h5 class="text-white m-0"><?php echo $row['aut_nome_completo'] ?></h5>
+                                                <p class="text-white-50">Data de nascimento: <?php echo $row['aut_data_nascimento'] ?></p>
+                                                <p class="text-white-50 text-truncate m-0">Biografia:
+                                                    <?php echo $row['aut_biografia'] ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-1 col-md-1 col-1">
+                                            <a href="../details/autor/index.php?id=<?php echo $row['id'] ?>">
+
+                                            Saiba +
+
+                                            </a>
+                                        </div>
+                                        <hr class="mt-0">
+                                    </div>
+                        <?php
+                                }
+                            }
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
@@ -269,15 +289,15 @@ if ($stmt->execute() == true) {
     <script>
         var div1 = document.getElementById('div1');
         const navLinks0 = document.querySelector('#navLinks0');
-        const navLinks1 = document.querySelector('#navLinks1');
+        // const navLinks1 = document.querySelector('#navLinks1');
         const navLinks2 = document.querySelector('#navLinks2');
 
         navLinks0.classList.remove('fw-bolder');
-        navLinks1.classList.remove('fw-bolder');
+        // navLinks1.classList.remove('fw-bolder');
         navLinks2.classList.remove('fw-bolder');
 
         navLinks0.classList.add('text-white-50');
-        navLinks1.classList.add('text-white-50');
+        // navLinks1.classList.add('text-white-50');
         navLinks2.classList.add('text-white-50');
 
         // inicialização
@@ -287,7 +307,7 @@ if ($stmt->execute() == true) {
 
         function mostrarDiv(divId) {
             var div = document.getElementById(divId);
-            var div2 = document.getElementById('div2');
+            // var div2 = document.getElementById('div2');
             var div3 = document.getElementById('div3');
 
             // div1.classList.remove("hidden");
@@ -296,29 +316,29 @@ if ($stmt->execute() == true) {
 
             if (divId === 'div1') {
                 div1.classList.remove("hidden");
-                div2.classList.add("hidden");
+                // div2.classList.add("hidden");
                 div3.classList.add("hidden");
 
                 navLinks0.classList.remove('text-white-50');
-                navLinks1.classList.remove('text-white-50', 'fw-bolder');
+                // navLinks1.classList.remove('text-white-50', 'fw-bolder');
                 navLinks2.classList.remove('text-white-50', 'fw-bolder');
 
                 navLinks0.classList.add('text-white', 'fw-bolder');
-                navLinks1.classList.add('text-white-50');
+                // navLinks1.classList.add('text-white-50');
                 navLinks2.classList.add('text-white-50');
 
-            } else if (divId === 'div2') {
-                div2.classList.remove("hidden");
-                div1.classList.add("hidden");
-                div3.classList.add("hidden");
+            // } else if (divId === 'div2') {
+            //     div2.classList.remove("hidden");
+            //     div1.classList.add("hidden");
+            //     div3.classList.add("hidden");
 
-                navLinks1.classList.remove('text-white-50');
-                navLinks0.classList.remove('text-white-50', 'fw-bolder');
-                navLinks2.classList.remove('text-white-50', 'fw-bolder');
+            //     navLinks1.classList.remove('text-white-50');
+            //     navLinks0.classList.remove('text-white-50', 'fw-bolder');
+            //     navLinks2.classList.remove('text-white-50', 'fw-bolder');
 
-                navLinks1.classList.add('text-white', 'fw-bolder');
-                navLinks0.classList.add('text-white-50');
-                navLinks2.classList.add('text-white-50');
+            //     navLinks1.classList.add('text-white', 'fw-bolder');
+            //     navLinks0.classList.add('text-white-50');
+            //     navLinks2.classList.add('text-white-50');
 
             } else if (divId === 'div3') {
                 div3.classList.remove("hidden");
@@ -327,11 +347,11 @@ if ($stmt->execute() == true) {
 
                 navLinks2.classList.remove('text-white-50');
                 navLinks0.classList.remove('text-white-50', 'fw-bolder');
-                navLinks1.classList.remove('text-white-50', 'fw-bolder');
+                // navLinks1.classList.remove('text-white-50', 'fw-bolder');
 
                 navLinks2.classList.add('text-white', 'fw-bolder');
                 navLinks0.classList.add('text-white-50');
-                navLinks1.classList.add('text-white-50');
+                // navLinks1.classList.add('text-white-50');
             }
 
 

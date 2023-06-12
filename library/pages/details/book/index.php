@@ -17,6 +17,7 @@ if (!is_numeric($id)) {
     echo '<div style="background-color: #FFCCCC; padding: 10px; border: 1px solid #FF0000; color: #FF0000;">ID inválido</div>';
     exit;
 }
+echo $id;
 
 // Sanitização do ID (exemplo usando a função filter_var)
 $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
@@ -85,7 +86,7 @@ if ($stmt->execute() == true) {
                         <h6 class="text-left display-6 fw-bold mt-3"><?php echo $row['lib_nome_obra']?></h6>
                     </div>
                     <div class="row">
-                        <p class="text-left fw-bold">por <span class="fw-normal text-decoration-underline"><a class="link-info" href="../autor/"><?php echo $row['aut_nome_completo']?></a></span> (Autor)
+                        <p class="text-left fw-bold">por <span class="fw-normal text-decoration-underline"><a class="link-info" href="../autor/index.php?id=<?php echo $row['autor_id']?>"><?php echo $row['aut_nome_completo']?></a></span> (Autor)
                     </div>
                     <div class="row">
                         <p class="text-left text-white-50 fw-bolder mt-2">Descrição</p>
