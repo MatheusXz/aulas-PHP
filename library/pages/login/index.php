@@ -189,11 +189,11 @@ if (isset($_POST['login_user'])) {
                     <div class="row">
                         <div class="col-md-6 col-12">
                             <label for="nome">Nome completo</label>
-                            <input type="text" class="form-control" id="nome" name="nome" maxlength="100" onkeypress="return soTexto(event)" placeholder="Ex: Carlos Almeida" required pattern=".{3,}">
+                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="nome" name="nome" maxlength="100" autocomplete="off" onkeypress="return soTexto(event)" placeholder="Ex: Carlos Almeida" required pattern=".{3,}">
                         </div>
                         <div class="col-md-6 col-12">
                             <label for="cpf">CPF:</label>
-                            <input type="text" class="form-control" id="cpf" name="cpf" maxlength="11" placeholder="1234568901" onkeypress="return soNumeros(event)" required pattern=".{11,}">
+                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="cpf" name="cpf" maxlength="11" placeholder="1234568901" autocomplete="off" onkeypress="return soNumeros(event)" autocomplete="off"  required pattern=".{11,}">
                             <small class="text-muted fw-bold">somente números</small>
                         </div>
                     </div>
@@ -205,38 +205,38 @@ if (isset($_POST['login_user'])) {
                         </div>
                         <div class="col-md-6 col-12">
                             <label for="telefone">Telefone:</label>
-                            <input type="text" class="form-control" id="telefone" name="telefone" placeholder="Ex: 11 9 9999 9999" maxlength="11" onkeypress="return soNumeros(event)" required pattern=".{11,}">
+                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="telefone" name="telefone" placeholder="Ex: 11 9 9999 9999" maxlength="11" autocomplete="off" onkeypress="return soNumeros(event)" required pattern=".{11,}">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-8 col-12">
                             <label for="logradouro">Endereço (Rua/Av):</label>
-                            <input type="text" class="form-control" id="logradouro" name="logradouro" maxlength="150" placeholder="Ex: Av. Brasil" onkeypress="return soTexto(event)" required pattern=".{3,}">
+                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="logradouro" name="logradouro" maxlength="150" placeholder="Ex: Av. Brasil" autocomplete="off" onkeypress="return soTexto(event)" required pattern=".{3,}">
                         </div>
                         <div class="col-md-4 col-12">
                             <label for="numero_casa">Número:</label>
-                            <input type="text" class="form-control" id="numero_casa" name="numero_casa" maxlength="10" placeholder="Ex: 175" onkeypress="return soNumeros(event)" required pattern=".{1,}">
+                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="numero_casa" name="numero_casa" maxlength="10" placeholder="Ex: 175" autocomplete="off" onkeypress="return soNumeros(event)" required pattern=".{1,}">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-8 col-12">
                             <label for="bairro">Bairro:</label>
-                            <input type="text" class="form-control" id="bairro" name="bairro" placeholder="Ex: Centro" maxlength="100" onkeypress="return soTexto(event)" required pattern=".{1,}">
+                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="bairro" name="bairro" placeholder="Ex: Centro" maxlength="100" autocomplete="off" onkeypress="return soTexto(event)" required pattern=".{1,}">
                         </div>
 
                         <div class="col-md-4 col-12">
                             <label for="estado">Estado:</label>
-                            <input type="text" class="form-control text-uppercase" id="estado" name="estado" maxlength="2" onkeypress="return soTexto(event)" placeholder="Ex: SP" required pattern=".{2,}">
+                            <input type="text" onpaste="return false" ondrop="return false" class="form-control text-uppercase" id="estado" name="estado" maxlength="2" autocomplete="off" onkeypress="return soTexto(event)" placeholder="Ex: SP" required pattern=".{2,}">
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-7 col-12">
                             <label for="cidade">Cicade:</label>
-                            <input type="text" class="form-control" id="cidade" name="cidade" maxlength="100" onkeypress="return soTexto(event)" placeholder="Ex: Luiziânia" required pattern=".{1,}">
+                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="cidade" name="cidade" maxlength="100" autocomplete="off" onkeypress="return soTexto(event)" placeholder="Ex: Luiziânia" required pattern=".{1,}">
                         </div>
                         <div class="col-md-5 col-12">
                             <label for="cep">CEP:</label>
-                            <input type="text" class="form-control" id="cep" name="cep" placeholder="Ex: 16340000" maxlength="8" onkeypress="return soNumeros(event)" required pattern=".{8,}">
+                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="cep" name="cep" placeholder="Ex: 16340000" maxlength="8" autocomplete="off" onkeypress="return soNumeros(event)" required pattern=".{8,}">
                         </div>
 
                     </div>

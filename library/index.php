@@ -99,12 +99,12 @@ $query_livros = 'SELECT * FROM `livros`';
                             </a>
                         </li>
                         <li>
-                            <a href="./pages/book/index.php" class="nav-link my-3 text-white-50">
+                            <a href="#" class="nav-link my-3 text-white-50">
                                 Cadastrar Livro
                             </a>
                         </li>
                         <li>
-                            <a href="./pages/autor/index.php" class="nav-link my-3 text-white-50">
+                            <a href="#" class="nav-link my-3 text-white-50">
                                 Cadastrar Autor
                             </a>
                         </li>
