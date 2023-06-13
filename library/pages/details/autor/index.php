@@ -127,12 +127,15 @@ if ($stmt->execute() == true) {
                             <div class="d-flex">
                                 <div class="row">
                                     <?php
-                                    $query_livros_id = 'SELECT livros.*, autores.* FROM livros INNER JOIN autores ON livros.autor_id = autores.id';
-                                    $stm = $connect->prepare($query_livros_id);
+                                    $query_livros_id = 'SELECT livros.*, autores.* FROM livros INNER JOIN autores ON livros.autor_id = :id';
+                                    $stmt = $connect->prepare($query_livros_id);
+                                    $stmt->bindValue(':id', $id);
+
+
                                     if ($stmt->execute()) {
                                         if ($stmt->rowCount() > 0) {
                                             $result = $stmt->fetchAll();
-                                            foreach ($result as $row) {
+                                            foreach ($result as $rows) {
 
 
                                     // $query_livros = 'SELECT livros.*, autores.* FROM livros INNER JOIN autores ON livros.autor_id = autores.id WHERE livros.autor_id = :id';
@@ -141,16 +144,16 @@ if ($stmt->execute() == true) {
                                     // if ($stmt->execute()) {
                                     //     if ($stmt->rowCount() > 0) {
                                     //         $result = $stmt->fetchAll();
-                                    //         foreach ($result as $row) {
+                                    //         foreach ($result as $rows) {
                                     ?>
                                                 <div class="col-md-3 col-12 my-3 d-flex align-items-center">
-                                                    <a href="../../details/book/index.php?id=<?php echo $row['id'] ?>">
+                                                    <a href="../../details/book/index.php?id=<?php echo $rows['id'] ?>">
                                                         <div class="card">
-                                                            <img src="../../imgs/<?php echo $row['lib_caminho_imagem'] ?>" class="card-img" alt="...">
+                                                            <img src="../../imgs/<?php echo $rows['lib_caminho_imagem'] ?>" class="card-img" alt="...">
                                                             <div class="card-img-overlay">
                                                                 <div class="card-content">
-                                                                    <h5 class="card-title"><?php echo $row['lib_nome_obra'] ?></h5>
-                                                                    <p class="card-text"><?php echo $row['aut_nome_completo'] ?></p>
+                                                                    <h5 class="card-title"><?php echo $rows['lib_nome_obra'] ?></h5>
+                                                                    <p class="card-text"><?php echo $rows['aut_nome_completo'] ?></p>
                                                                 </div>
                                                             </div>
                                                         </div>
