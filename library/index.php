@@ -99,16 +99,6 @@ $query_livros = 'SELECT * FROM `livros`';
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link my-3 text-white-50">
-                                Cadastrar Livro
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link my-3 text-white-50">
-                                Cadastrar Autor
-                            </a>
-                        </li>
-                        <li>
                             <a href="#" class="nav-link my-3 text-white-50 ">
                                 Lendo
                             </a>
@@ -153,7 +143,7 @@ $query_livros = 'SELECT * FROM `livros`';
                         <div class="d-flex">
                             <nav class="nav">
                                 <a class="nav-link mx-2" id="navLinks0" href="#" onclick="mostrarDiv('div1')">Todos</a>
-                                <a class="nav-link mx-2" id="navLinks1" href="#" onclick="mostrarDiv('div2')">Categoria</a>
+                                <!-- <a class="nav-link mx-2" id="navLinks1" href="#" onclick="mostrarDiv('div2')">Categoria</a> -->
                                 <a class="nav-link mx-2" id="navLinks2" href="#" onclick="mostrarDiv('div3')">Autor</a>
                             </nav>
                         </div>
@@ -162,17 +152,33 @@ $query_livros = 'SELECT * FROM `livros`';
                     <!-- <div id="allBooksContainer"></div> -->
 
                     <div class="row hidden" id="div1">
-                        <div class="col-md-3 col-12 my-3 d-flex align-items-center">
-                            <a class="" href="pages/details/">
-                                <div class="card">
-                                    <img src="https://fakeimg.pl/330x600?font=bebas" class="card-img" alt="...">
-                                    <div class="card-img-overlay">
-                                        <h5 class="card-title">Titulo</h5>
-                                        <p class="card-text">Autor</p>
+                        <?php
+                        $query_livros = 'SELECT livros.*, autores.aut_nome_completo FROM livros INNER JOIN autores ON livros.autor_id = autores.id';
+                        $stm = $connect->prepare($query_livros);
+                        if ($stm->execute()) {
+                            if ($stm->rowCount() > 0) {
+                                $result = $stm->fetchAll();
+                                foreach ($result as $row) {
+                        ?>
+                                    <div class="col-md-3 col-12 my-3 d-flex">
+                                        <a href="pages/details/book/index.php?id=<?php echo $row['id'] ?>">
+                                            <div class="card">
+                                                <img src="pages/imgs/<?php echo $row['lib_caminho_imagem'] ?>" class="card-img" alt="...">
+                                                <div class="card-img-overlay">
+                                                    <div class="card-content">
+                                                        <h5 class="card-title text-white" style=""><?php echo $row['lib_nome_obra'] ?></h5>
+                                                        <p class="card-text text-truncate text-white"><?php echo $row['aut_nome_completo'] ?></p>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </a>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
+                        <?php
+                                }
+                            }
+                        }
+                        ?>
                     </div>
 
                     <div class="row my-5 hidden" id="div2">
@@ -184,7 +190,9 @@ $query_livros = 'SELECT * FROM `livros`';
                                 <h5 class="text-white">Titulo</h5>
                                 <p class="text-white-50">Autor</p>
                                 <p class="text-white-50 text-truncate">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
+                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores
+                                    architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque
+                                    repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
                                 </p>
                             </div>
                         </div>
@@ -197,20 +205,42 @@ $query_livros = 'SELECT * FROM `livros`';
                     </div>
 
                     <div class="row my-5 hidden" id="div3">
-                        <div class="col-lg-2 col-md-2 col-2 d-flex align-items-center justify-content-center">
-                            <img src="https://fakeimg.pl/80x80/" style="border-radius: 50px;" class="" alt="...">
-                        </div>
-                        <div class="col-lg-10 col-md-10 col-10">
-                            <div class="text">
-                                <h5 class="text-white m-0">Nome Autor</h5>
-                                <p class="text-white-50 m-2">idade</p>
-                                <p class="text-white-50 text-truncate m-0">
-                                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Reiciendis dolores architecto tempora nisi quia amet, quam aspernatur possimus, corrupti itaque repellendus perferendis ullam asperiores nobis veniam ex earum temporibus illo?
-                                </p>
-                            </div>
-                        </div>
-                        <hr class="mt-0">
 
+                        <?php
+                        $query_autores = 'SELECT * FROM autores';
+                        $stm = $connect->prepare($query_autores);
+                        if ($stm->execute()) {
+                            if ($stm->rowCount() > 0) {
+                                $result = $stm->fetchAll();
+                                foreach ($result as $row) {
+                        ?>
+                                    <div class="col-lg-12 col-md-12 col-12 d-flex align-items-center justify-content-center my-2">
+                                        <div class="col-lg-2 col-md-2 col-2 d-flex align-items-center justify-content-center">
+                                            <img src="pages/imgs/<?php echo $row['aut_caminho_imagem'] ?>" style="border-radius: 50px;" class="image-mask" alt="...">
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 col-9 mx-3">
+                                            <div class="text">
+                                                <h5 class="text-white m-0"><?php echo $row['aut_nome_completo'] ?></h5>
+                                                <p class="text-white-50">Data de nascimento: <?php echo $row['aut_data_nascimento'] ?></p>
+                                                <p class="text-white-50 text-truncate m-0">Biografia:
+                                                    <?php echo $row['aut_biografia'] ?>
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-1 col-md-1 col-1">
+                                            <a href="pages/details/autor/index.php?id=<?php echo $row['id'] ?>">
+
+                                                Saiba +
+
+                                            </a>
+                                        </div>
+                                        <hr class="mt-0">
+                                    </div>
+                        <?php
+                                }
+                            }
+                        }
+                        ?>
                     </div>
                 </div>
             </div>
