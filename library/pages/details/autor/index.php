@@ -72,6 +72,11 @@ if ($stmt->execute() == true) {
             height: auto;
             object-fit: cover;
         }
+
+        .card-img-overlay {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 100%);
+            padding: 10px;
+        }
     </style>
 
 </head>
@@ -123,68 +128,44 @@ if ($stmt->execute() == true) {
                         <div class="col-12">
                             <h3 class="">Livros escritos por esse autor</h3>
                         </div>
+
                         <div class="row">
-                            <div class="d-flex">
-                                <div class="row">
-                                    <?php
-                                    $query_livros_id = 'SELECT livros.*, autores.* FROM livros INNER JOIN autores ON livros.autor_id = :id';
-                                    $stmt = $connect->prepare($query_livros_id);
-                                    $stmt->bindValue(':id', $id);
+                            <?php
+                            $query_livros_id = 'SELECT livros.*, autores.aut_nome_completo FROM livros INNER JOIN autores ON livros.autor_id = :id';
+                            $stmt = $connect->prepare($query_livros_id);
+                            $stmt->bindValue(':id', $id);
 
 
-                                    if ($stmt->execute()) {
-                                        if ($stmt->rowCount() > 0) {
-                                            $result = $stmt->fetchAll();
-                                            foreach ($result as $rows) {
+                            if ($stmt->execute()) {
+                                if ($stmt->rowCount() > 0) {
+                                    $result = $stmt->fetchAll();
+                                    foreach ($result as $rows) {
 
-
-                                    // $query_livros = 'SELECT livros.*, autores.* FROM livros INNER JOIN autores ON livros.autor_id = autores.id WHERE livros.autor_id = :id';
-                                    // $stmt = $connect->prepare($query_livros);
-                                    // $stmt->bindValue(':id', $id);
-                                    // if ($stmt->execute()) {
-                                    //     if ($stmt->rowCount() > 0) {
-                                    //         $result = $stmt->fetchAll();
-                                    //         foreach ($result as $rows) {
-                                    ?>
-                                                <div class="col-md-3 col-12 my-3 d-flex align-items-center">
-                                                    <a href="../../details/book/index.php?id=<?php echo $rows['id'] ?>">
-                                                        <div class="card">
-                                                            <img src="../../imgs/<?php echo $rows['lib_caminho_imagem'] ?>" class="card-img" alt="...">
-                                                            <div class="card-img-overlay">
-                                                                <div class="card-content">
-                                                                    <h5 class="card-title"><?php echo $rows['lib_nome_obra'] ?></h5>
-                                                                    <p class="card-text"><?php echo $rows['aut_nome_completo'] ?></p>
-                                                                </div>
-                                                            </div>
+                            ?>
+                                        <div class="col-md-3 col-12 my-3 d-flex align-items-center">
+                                            <a href="../../details/book/index.php?id=<?php echo $rows['id'] ?>">
+                                                <div class="card">
+                                                    <img src="../../imgs/<?php echo $rows['lib_caminho_imagem'] ?>" class="card-img" alt="...">
+                                                    <div class="card-img-overlay">
+                                                        <div class="card-content">
+                                                            <h5 class="card-title text-white"><?php echo $rows['lib_nome_obra'] ?></h5>
+                                                            <p class="card-text text-white"><?php echo $rows['aut_nome_completo'] ?></p>
                                                         </div>
-                                                    </a>
+                                                    </div>
                                                 </div>
-                                    <?php
-                                            }
-                                        } else {
-                                            echo '<div class="col-12">Nenhum livro encontrado.</div>';
-                                        }
-                                    } else {
-                                        echo '<div class="col-12">Erro ao executar a consulta.</div>';
+                                            </a>
+                                        </div>
+                            <?php
                                     }
-                                    ?>
-                                </div>
-                            </div>
+                                } else {
+                                    echo '<div class="col-12">Nenhum livro encontrado.</div>';
+                                }
+                            } else {
+                                echo '<div class="col-12">Erro ao executar a consulta.</div>';
+                            }
+                            ?>
                         </div>
                     </div>
-                    <nav class="my-nav">
-                        <ul class="pagination justify-content-center">
-                            <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Anterior</a>
-                            </li>
-                            <li class="page-item text-white"><a class="page-link" href="#">1</a></li>
-                            <li class="page-item"><a class="page-link" href="#">2</a></li>
-                            <li class="page-item"><a class="page-link" href="#">3</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="#">Próximo</a>
-                            </li>
-                        </ul>
-                    </nav>
                 </div>
             </div>
         </div>

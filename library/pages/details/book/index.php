@@ -17,7 +17,6 @@ if (!is_numeric($id)) {
     echo '<div style="background-color: #FFCCCC; padding: 10px; border: 1px solid #FF0000; color: #FF0000;">ID inválido</div>';
     exit;
 }
-echo $id;
 
 // Sanitização do ID (exemplo usando a função filter_var)
 $id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);

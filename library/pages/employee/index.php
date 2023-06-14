@@ -169,7 +169,7 @@ if ($stmt->execute() == true) {
                     <div class="row">
                         <div class="d-flex">
                             <nav class="nav">
-                                <a class="nav-link mx-2" id="navLinks0" href="#" onclick="mostrarDiv('div1')">Todos</a>
+                                <a class="nav-link mx-2" id="navLinks0" href="#" onclick="mostrarDiv('div1')">Livros</a>
                                 <!-- <a class="nav-link mx-2" id="navLinks1" href="#" onclick="mostrarDiv('div2')">Categoria</a> -->
                                 <a class="nav-link mx-2" id="navLinks2" href="#" onclick="mostrarDiv('div3')">Autor</a>
                             </nav>
