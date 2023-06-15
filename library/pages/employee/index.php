@@ -9,16 +9,9 @@ if (isset($_GET['sair']) || !isset($_SESSION['nome']) || !isset($_SESSION['id'])
     exitSession($loca);
 }
 
-// try {
-//     if ($_SESSION['nivel_acesso'] == 'funcionario') {
-//         header('Location: ../employee/index.php');
-//     }
-// } catch (PDOException $e) {
-//     // Aqui, você pode adicionar um tratamento adicional, como registrar o erro em um arquivo de log
-//     echo 'Erro: ' . $e->getMessage();
-// }
-
-// para apagar aqui em baixo
+if ($_SESSION['nivel_acesso'] != 'funcionario') {
+    header('location: ../../index.php');
+}
 
 $diretorio = "../imgs/"; //define o diretorio para onde enviaremos o arquivo
 
@@ -118,21 +111,6 @@ if ($stmt->execute() == true) {
                         <li>
                             <a href="../autor/index.php" class="nav-link my-3 text-white-50">
                                 Cadastrar Autor
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link my-3 text-white-50 ">
-                                Cadastrar Funcionarios
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link my-3 text-white-50">
-                                Lista de Usuarios
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link my-3 text-white-50">
-                                Lista de Funcionarios
                             </a>
                         </li>
                         <li>

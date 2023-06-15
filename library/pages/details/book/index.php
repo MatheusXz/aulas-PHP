@@ -30,7 +30,6 @@ if ($stmt->execute() == true) {
         $result = $stmt->fetchAll();
         foreach ($result as $row) {
         }
-        
     } else {
         echo '<div style="background-color: #FFCCCC; padding: 10px
         ; border: 1px solid #FF0000; color: #FF00
@@ -71,7 +70,7 @@ if ($stmt->execute() == true) {
                         <div class="row card-book" style="position: relative; height: 80vh;">
                             <div class="col-12 mx-auto d-flex justify-content-center align-items-center">
                                 <div class="image-mask">
-                                    <img class="" style="border-radius: 20px;" src="../../imgs/<?php echo $row['lib_caminho_imagem']?>" alt="">
+                                    <img class="" style="border-radius: 20px;" src="../../imgs/<?php echo $row['lib_caminho_imagem'] ?>" alt="">
                                 </div>
                             </div>
                         </div>
@@ -82,35 +81,35 @@ if ($stmt->execute() == true) {
                         <small class=" text-center bg-danger btn-danger btn-sm col-12" style="border-radius: 20px; font-size: .8rem;">Novo</small>
                     </div>
                     <div class="row col-12">
-                        <h6 class="text-left display-6 fw-bold mt-3"><?php echo $row['lib_nome_obra']?></h6>
+                        <h6 class="text-left display-6 fw-bold mt-3"><?php echo $row['lib_nome_obra'] ?></h6>
                     </div>
                     <div class="row">
-                        <p class="text-left fw-bold">por <span class="fw-normal text-decoration-underline"><a class="link-info" href="../autor/index.php?id=<?php echo $row['autor_id']?>"><?php echo $row['aut_nome_completo']?></a></span> (Autor)
+                        <p class="text-left fw-bold">por <span class="fw-normal text-decoration-underline"><a class="link-info" href="../autor/index.php?id=<?php echo $row['autor_id'] ?>"><?php echo $row['aut_nome_completo'] ?></a></span> (Autor)
                     </div>
                     <div class="row">
                         <p class="text-left text-white-50 fw-bolder mt-2">Descrição</p>
                     </div>
                     <div class="row">
-                        <p class="text-left text-white"><?php echo $row['lib_edicao']?></p>
+                        <p class="text-left text-white"><?php echo $row['lib_edicao'] ?></p>
                     </div>
                     <div class="row">
-                        <p class="text-left text-white">A obra tem sido publicada em <span class="aqui-vou por o ano"><?php echo $row['lib_ano_publicacao']?></span>.
+                        <p class="text-left text-white">A obra tem sido publicada em <span class="aqui-vou por o ano"><?php echo $row['lib_ano_publicacao'] ?></span>.
                         <div class="col-6">
-                            <p>Editora <span class="" style="color: #BF9363;"><?php echo $row['lib_editora']?></span></p>
+                            <p>Editora <span class="" style="color: #BF9363;"><?php echo $row['lib_editora'] ?></span></p>
                         </div>
                         <div class="col-3">
-                            <p><?php echo $row['lib_edicao']?>ª Edição</p>
+                            <p><?php echo $row['lib_edicao'] ?>ª Edição</p>
                         </div>
                         <div class="col-3">
-                            <p>Páginas <?php echo $row['lib_numero_paginas']?></p>
+                            <p>Páginas <?php echo $row['lib_numero_paginas'] ?></p>
                         </div>
                     </div>
                     <div class="row">
-                        <p>ISBN | <?php echo $row['lib_codigo_isbn']?></p>
+                        <p>ISBN | <?php echo $row['lib_codigo_isbn'] ?></p>
                     </div>
                     <div class="row my-5">
                         <div class="col-6">
-                            <p class="btn w-100 text-white-50">Disponível (<?php echo $row['lib_quantidade']?> unidades)</p>
+                            <p class="btn w-100 text-white-50">Disponível (<?php echo $row['lib_quantidade'] ?> unidades)</p>
                         </div>
                         <div class="col-6">
                             <a class="btn btn-success w-100" href="https://www.google.com/search?q=Clarice+Goulart+Livro+de+Amor+e+Misterias+de+Clarice+Goulart+Liv" target="_blank">Retirar na Biblioteca!</a>
@@ -118,22 +117,24 @@ if ($stmt->execute() == true) {
                             DO FUNCIONARIO VAI TER UM BOTÃO CONSTANDO SE O ALUNO TAL JÁ RETIROU O LIVRO SOLICITADO, E A DATA DA SOLICITAÇÃO DO MESMO -->
                         </div>
                     </div>
+                    <?php
+                    if ($_SESSION['nivel_acesso'] == 'funcionario') { ?>
+                            <form action="../../book/index.php" method="get">
+                                <div class="row">
+                                <div class="col-6">
+                                    <button type="submit" class="btn w-100 btn-light btn-lg" name="alterar" value="<?php echo $row['id'] ?>">Alterar dados</button>
+                                </div>
+
+                                <div class="col-6">
+                                    <button type="submit" class="btn w-100 btn-danger btn-lg" name="excluir" value="<?php echo $row['id'] ?>">Excluir livro</button>
+                                </div>
+                            </form>
+                        </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
     </div>
-
-
-
-    <!-- <p>Este é um Sistema de Gerenciamento de Biblioteca (LMS) que gerencia livros, autor, editora,
-        gênero, status do livro, empréstimo de livro, devolução de livro</p>
-    <p>Este LMS foi feito com o objetivo de auxiliar o gerenciamento de biblioteca e facilitar
-        a vida dos alunos e professores.</p>
-    <p>Este LMS é gratuito e livre de custo e tem como objetivo auxiliar o gerenciamento de
-        biblioteca e facilitar a vida dos alunos e professores.</p> -->
-
-
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>

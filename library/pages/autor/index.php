@@ -9,6 +9,10 @@ if (isset($_GET['sair']) || !isset($_SESSION['nome']) || !isset($_SESSION['id'])
     exitSession($loca);
 }
 
+if ($_SESSION['nivel_acesso'] != 'funcionario') {
+    header('location: ../../index.php');
+}
+
 $div_message = "";
 
 
@@ -187,21 +191,7 @@ if ($stmt->execute() == true) {
                                 Cadastrar Autor
                             </a>
                         </li>
-                        <li>
-                            <a href="#" class="nav-link my-3 text-white-50 ">
-                                Cadastrar Funcionarios
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link my-3 text-white-50">
-                                Lista de Usuarios
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link my-3 text-white-50">
-                                Lista de Funcionarios
-                            </a>
-                        </li>
+                        
                         <li>
                             <div class="dropdown">
                                 <a href="#" class="nav-link my-3 text-white-50 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

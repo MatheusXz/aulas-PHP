@@ -71,6 +71,11 @@ $query_livros = 'SELECT * FROM `livros`';
         .hidden {
             display: none;
         }
+
+        .card-img-overlay {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 100%);
+            padding: 10px;
+        }
     </style>
 
 </head>
@@ -131,14 +136,14 @@ $query_livros = 'SELECT * FROM `livros`';
 
             <div class="col-md-9 col-12 my-5">
                 <div class="row">
-                    <div class="col-md-10">
+                    <div class="col-md-8">
                         <h6 class="">Explore e embarque em uma jornada literária 🥳</h6>
                     </div>
-                    <div class="col-md-2 d-flex justify-content-end">
-                        <a class="btn btn-block btn-secondary" href="#!">
-                            <i class="fa-solid fa-plus" style="color: #ffffff;"></i>
-                        </a>
+                    <?php if ($_SESSION["nivel_acesso"] == "funcionario") { ?>
+                    <div class="col-md-4 d-flex justify-content-end">
+                        <a href="" class="btn btn-light">Área administrativa</a>
                     </div>
+                    <?php } ?>
                     <div class="row">
                         <div class="d-flex">
                             <nav class="nav">
@@ -160,7 +165,7 @@ $query_livros = 'SELECT * FROM `livros`';
                                 $result = $stm->fetchAll();
                                 foreach ($result as $row) {
                         ?>
-                                    <div class="col-md-3 col-12 my-3 d-flex">
+                                    <div class="col-md-3 col-12 my-3 d-flex justify-content-center">
                                         <a href="pages/details/book/index.php?id=<?php echo $row['id'] ?>">
                                             <div class="card">
                                                 <img src="pages/imgs/<?php echo $row['lib_caminho_imagem'] ?>" class="card-img" alt="...">
@@ -215,10 +220,10 @@ $query_livros = 'SELECT * FROM `livros`';
                                 foreach ($result as $row) {
                         ?>
                                     <div class="col-lg-12 col-md-12 col-12 d-flex align-items-center justify-content-center my-2">
-                                        <div class="col-lg-2 col-md-2 col-2 d-flex align-items-center justify-content-center">
-                                            <img src="pages/imgs/<?php echo $row['aut_caminho_imagem'] ?>" style="border-radius: 50px;" class="image-mask" alt="...">
+                                        <div class="col-lg-2 col-md-6 col-12 d-flex align-items-center justify-content-center">
+                                            <img src="pages/imgs/<?php echo $row['aut_caminho_imagem'] ?>" style="border-radius: 10%;" class="image-mask" alt="...">
                                         </div>
-                                        <div class="col-lg-9 col-md-9 col-9 mx-3">
+                                        <div class="col-lg-9 col-md-6 col-12 mx-3">
                                             <div class="text">
                                                 <h5 class="text-white m-0"><?php echo $row['aut_nome_completo'] ?></h5>
                                                 <p class="text-white-50">Data de nascimento: <?php echo $row['aut_data_nascimento'] ?></p>
@@ -227,7 +232,7 @@ $query_livros = 'SELECT * FROM `livros`';
                                                 </p>
                                             </div>
                                         </div>
-                                        <div class="col-lg-1 col-md-1 col-1">
+                                        <div class="col-lg-1 col-md-12 col-12">
                                             <a href="pages/details/autor/index.php?id=<?php echo $row['id'] ?>">
 
                                                 Saiba +
@@ -260,23 +265,26 @@ $query_livros = 'SELECT * FROM `livros`';
 
     <script>
         var div1 = document.getElementById('div1');
-        div1.classList.remove("hidden");
-
         const navLinks0 = document.querySelector('#navLinks0');
-        const navLinks1 = document.querySelector('#navLinks1');
+        // const navLinks1 = document.querySelector('#navLinks1');
         const navLinks2 = document.querySelector('#navLinks2');
 
         navLinks0.classList.remove('fw-bolder');
-        navLinks1.classList.remove('fw-bolder');
+        // navLinks1.classList.remove('fw-bolder');
         navLinks2.classList.remove('fw-bolder');
 
         navLinks0.classList.add('text-white-50');
-        navLinks1.classList.add('text-white-50');
+        // navLinks1.classList.add('text-white-50');
         navLinks2.classList.add('text-white-50');
+
+        // inicialização
+        div1.classList.remove("hidden");
+        navLinks0.classList.remove('text-white-50');
+        navLinks0.classList.add('text-white', 'fw-bolder');
 
         function mostrarDiv(divId) {
             var div = document.getElementById(divId);
-            var div2 = document.getElementById('div2');
+            // var div2 = document.getElementById('div2');
             var div3 = document.getElementById('div3');
 
             // div1.classList.remove("hidden");
@@ -285,29 +293,29 @@ $query_livros = 'SELECT * FROM `livros`';
 
             if (divId === 'div1') {
                 div1.classList.remove("hidden");
-                div2.classList.add("hidden");
+                // div2.classList.add("hidden");
                 div3.classList.add("hidden");
 
                 navLinks0.classList.remove('text-white-50');
-                navLinks1.classList.remove('text-white-50', 'fw-bolder');
+                // navLinks1.classList.remove('text-white-50', 'fw-bolder');
                 navLinks2.classList.remove('text-white-50', 'fw-bolder');
 
                 navLinks0.classList.add('text-white', 'fw-bolder');
-                navLinks1.classList.add('text-white-50');
+                // navLinks1.classList.add('text-white-50');
                 navLinks2.classList.add('text-white-50');
 
-            } else if (divId === 'div2') {
-                div2.classList.remove("hidden");
-                div1.classList.add("hidden");
-                div3.classList.add("hidden");
+                // } else if (divId === 'div2') {
+                //     div2.classList.remove("hidden");
+                //     div1.classList.add("hidden");
+                //     div3.classList.add("hidden");
 
-                navLinks1.classList.remove('text-white-50');
-                navLinks0.classList.remove('text-white-50', 'fw-bolder');
-                navLinks2.classList.remove('text-white-50', 'fw-bolder');
+                //     navLinks1.classList.remove('text-white-50');
+                //     navLinks0.classList.remove('text-white-50', 'fw-bolder');
+                //     navLinks2.classList.remove('text-white-50', 'fw-bolder');
 
-                navLinks1.classList.add('text-white', 'fw-bolder');
-                navLinks0.classList.add('text-white-50');
-                navLinks2.classList.add('text-white-50');
+                //     navLinks1.classList.add('text-white', 'fw-bolder');
+                //     navLinks0.classList.add('text-white-50');
+                //     navLinks2.classList.add('text-white-50');
 
             } else if (divId === 'div3') {
                 div3.classList.remove("hidden");
@@ -316,12 +324,13 @@ $query_livros = 'SELECT * FROM `livros`';
 
                 navLinks2.classList.remove('text-white-50');
                 navLinks0.classList.remove('text-white-50', 'fw-bolder');
-                navLinks1.classList.remove('text-white-50', 'fw-bolder');
+                // navLinks1.classList.remove('text-white-50', 'fw-bolder');
 
                 navLinks2.classList.add('text-white', 'fw-bolder');
                 navLinks0.classList.add('text-white-50');
-                navLinks1.classList.add('text-white-50');
+                // navLinks1.classList.add('text-white-50');
             }
+
 
         }
     </script>

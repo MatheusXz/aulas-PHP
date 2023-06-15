@@ -9,7 +9,15 @@ if (isset($_GET['sair']) || !isset($_SESSION['nome']) || !isset($_SESSION['id'])
     exitSession($loca);
 }
 
+if ($_SESSION['nivel_acesso'] != 'funcionario') {
+    header('location: ../../index.php');
+}
+
 $div_message = "";
+
+//verifica se o form foi enviado de 'alterar' e processa os dados caso positivo
+
+
 
 
 if (isset($_POST['cadastrar_livro'])) {
@@ -29,17 +37,6 @@ if (isset($_POST['cadastrar_livro'])) {
     $check_cod_isbn = array(':cod_isbn' => $cod_isbn);
     $div_message = "";
 
-    // echo '<div class="bg-danger">' . $nome_obra . '</div>';
-    // echo '<div class="bg-danger">' . $cod_isbn . '</div>';
-    // echo '<div class="bg-danger">' . $autor_id . '</div>';
-    // echo '<div class="bg-danger">' . $editora . '</div>';
-    // echo '<div class="bg-danger">' . $edicao . '</div>';
-    // echo '<div class="bg-danger">' . $editora . '</div>';
-    // echo '<div class="bg-danger">' . $ano_publicado . '</div>';
-    // echo '<div class="bg-danger">' . $num_paginas . '</div>';
-    // echo '<div class="bg-danger">' . $quantidade_livros . '</div>';
-    // echo '<div class="bg-danger">' . $editora . '</div>';
-    // echo '<div class="bg-danger">' . $foto . '</div>';
     try {
         // Executar a query para cadastrar o usuário
         if (true) {
@@ -100,8 +97,6 @@ if (isset($_POST['cadastrar_livro'])) {
                         }
                     }
                 }
-
-
             }
         }
     } catch (PDOException $e) {
@@ -109,7 +104,88 @@ if (isset($_POST['cadastrar_livro'])) {
         $error_message = $e->getMessage();
         $div_message = "<div class='bg-danger''>$error_message</div>";
     }
-} 
+}
+
+if (isset($_POST['alterar_livro'])) {
+
+    $id_livro = $_GET['alterar'];
+    // VARIAVEIS
+    $nome_obra = $_POST['nome_obra'];
+    $cod_isbn = $_POST['cod_isbn'];
+    $autor_id = $_POST['autor_id'];
+    $edicao = $_POST['edicao'];
+    $editora = $_POST['editora'];
+    $ano_publicado = $_POST['ano_publicado'];
+    $num_paginas = $_POST['num_paginas'];
+    $quantidade_livros = $_POST['quantidade_livros'];
+    $foto = $_FILES['foto'];
+
+    $query_verfi_cod_isbn = 'SELECT `lib_codigo_isbn` FROM `livros` WHERE `lib_codigo_isbn` = :cod_isbn';
+    $statement_cod_isbn = $connect->prepare($query_verfi_cod_isbn);
+    $check_cod_isbn = array(':cod_isbn' => $cod_isbn);
+    $div_message = "";
+
+    try {
+        // Executar a query para cadastrar o usuário
+        if (true) {
+            $statement_cod_isbn->execute($check_cod_isbn);
+            if ($statement_cod_isbn->rowCount() > 0) {
+                $div_message = "<div id='demo_0'></div>";
+            } else {
+                $query_atualizar = 'UPDATE `livros` SET
+                lib_codigo_isbn = :cod_isbn,
+                lib_nome_obra = :nome_obra,
+                autor_id = :autor_id,
+                lib_edicao = :edicao,
+                lib_editora = :editora,
+                lib_ano_publicacao = :ano_publicado,
+                lib_numero_paginas = :num_paginas,
+                lib_quantidade = :quantidade_livros,
+                lib_data_cadastro = NOW(),
+                lib_caminho_imagem = :foto
+                WHERE id = :livro_id';
+
+                if (isset($foto)) {
+                    if (!preg_match('/^image\/(gif|bmp|png|jpg|jpeg)+$/', $foto["type"])) {
+                        // VERIFICO SE ESTA DE ACORDO COM UMA IMAGEM A EXTENÇÃO
+                        $div_message = "<div id='demo_6'></div>";
+                    } else {
+                        $extensao = '.jpg'; // pega a extensao do foto
+                        $novo_nome = md5(time()) . $extensao; // define o nome do foto, criptografando a data do envio atual como o nome da imagem
+                        $diretorio = "../imgs/"; // define o diretorio para onde enviaremos o foto
+
+                        move_uploaded_file($_FILES['foto']['tmp_name'], $diretorio . $novo_nome); // efetua o upload
+
+                        $statement = $connect->prepare($query_atualizar);
+                        $statement->bindParam(':cod_isbn', $cod_isbn);
+                        $statement->bindParam(':nome_obra', $nome_obra);
+                        $statement->bindParam(':autor_id', $autor_id);
+                        $statement->bindParam(':edicao', $edicao);
+                        $statement->bindParam(':editora', $editora);
+                        $statement->bindParam(':ano_publicado', $ano_publicado);
+                        $statement->bindParam(':num_paginas', $num_paginas);
+                        $statement->bindParam(':quantidade_livros', $quantidade_livros);
+                        $statement->bindParam(':foto', $novo_nome);
+                        $statement->bindParam(':livro_id', $livro_id); // Substitua "livro_id" pelo nome correto da coluna que identifica o livro a ser atualizado
+
+                        if ($statement->execute()) {
+                            $div_message = "<div id='demo_7'></div>";
+                            echo $nome_obra;
+                            echo $id_livro;
+                        } else {
+                            $div_message = "<div id='demo_2'></div>";
+                        }
+                    }
+                }
+            }
+        }
+    } catch (PDOException $e) {
+        // Tratar a exceção gerada
+        $error_message = $e->getMessage();
+        $div_message = "<div class='bg-danger''>$error_message</div>";
+    }
+}
+
 $diretorio = "../imgs/"; //define o diretorio para onde enviaremos o arquivo
 
 $id = $_SESSION['id']; // ARMAZENHO O ID QUE VEIO DO VALUE
@@ -207,21 +283,6 @@ if ($stmt->execute() == true) {
                             </a>
                         </li>
                         <li>
-                            <a href="#" class="nav-link my-3 text-white-50 ">
-                                Cadastrar Funcionarios
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link my-3 text-white-50">
-                                Lista de Usuarios
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link my-3 text-white-50">
-                                Lista de Funcionarios
-                            </a>
-                        </li>
-                        <li>
                             <div class="dropdown">
                                 <a href="#" class="nav-link my-3 text-white-50 dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                                     <strong>Conta</strong>
@@ -244,77 +305,192 @@ if ($stmt->execute() == true) {
 
             <div class="col-md-9 col-12 my-5">
                 <div class="row">
-                    <form action="" method="post" enctype="multipart/form-data">
-                        <div class="row">
-                            <h1 class="text-center" style="color: #BF9363;">Informações do Livro</h1>
-                        </div>
-                        <div class="form-group">
+
+                    <?php
+                    if (isset($_GET["alterar"])) {
+                        // Validação dos campos do formulário
+
+                        if (isset($_GET['alterar'])) {
+                            $query_alterar = 'SELECT * FROM `livros` WHERE `id` = :id';
+                            $statement_alterar = $connect->prepare($query_alterar);
+                            $statement_alterar->bindParam(':id', $_GET['alterar']);
+
+                            if ($statement_alterar->execute()) {
+                                if ($statement_alterar->rowCount() > 0) {
+                                    $result = $statement_alterar->fetchAll();
+                                    foreach ($result as $row) {
+                                        // Resto do código dentro do loop
+                                    }
+                                } else {
+                                    echo 'erro 003';
+                                }
+                            } else {
+                                echo 'Erro ao executar a consulta.';
+                            }
+                        } else {
+                            echo 'A variável de sessão $_SESSION[\'alterar\'] não está definida.';
+                        }
+
+                        $div_message = "";
+                    }
+                    if (isset($_GET['alterar'])) {
+                    ?>
+
+                        <form action="" method="post" enctype="multipart/form-data">
                             <div class="row">
-                                <div class="col-md-6 col-12">
-                                    <label for="nome_obra">Nome da obra</label>
-                                    <input type="text" class="form-control" id="nome_obra" name="nome_obra" maxlength="130" placeholder="Ex: Carlos Almeida" required pattern=".{3,}">
-                                </div>
-                                <div class="col-md-6 col-12">
-                                    <label for="cod_isbn">COD ISBN:</label>
-                                    <input type="text" class="form-control" id="cod_isbn" name="cod_isbn" maxlength="20" placeholder="Ex: 0000185188679 " onkeypress="return soNumeros(event)" required pattern=".{3,}">
-                                </div>
+                                <h1 class="text-center" style="color: #BF9363;">Atualizando livro</h1>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6 col-12">
-                                    <label for="autor_id">Autor da obra</label>
-                                    <select class="form-control text-uppercase" name="autor_id" required>
-                                        <option value="0">Selecione o autor</option>
-                                        <?php
-                                        $query_autores = 'SELECT `id`,`aut_nome_completo` FROM `autores`';
-                                        $stm = $connect->prepare($query_autores);
-                                        if ($stm->execute()) {
-                                            if ($stm->rowCount() > 0) {
-                                                $result = $stm->fetchAll();
-                                                foreach ($result as $row) {
-                                                    $selected = ($row['id'] == $autor_id) ? 'selected' : ''; // Verifica se é o autor selecionado
-                                                    echo "<option value='{$row['id']}' $selected>{$row['aut_nome_completo']}</option>";
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <label for="nome_obra">Nome da obra</label>
+                                        <input value="<?php echo $row['lib_nome_obra'] ?>" type="text" class="form-control" id="nome_obra" name="nome_obra" maxlength="130" placeholder="Ex: Carlos Almeida" required pattern=".{3,}">
+
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <label for="cod_isbn">COD ISBN:</label>
+                                        <input value="<?php echo $row['lib_codigo_isbn'] ?>" type="text" class="form-control" id="cod_isbn" name="cod_isbn" maxlength="20" placeholder="Ex: 0000185188679 " onkeypress="return soNumeros(event)" required pattern=".{3,}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <label for="autor_id">Autor da obra</label>
+                                        <select class="form-control text-uppercase" name="autor_id" required>
+                                            <option value="0">Selecione o autor</option>
+                                            <?php
+                                            $query_autores = 'SELECT `id`,`aut_nome_completo` FROM `autores`';
+                                            $stm = $connect->prepare($query_autores);
+                                            if ($stm->execute()) {
+                                                if ($stm->rowCount() > 0) {
+                                                    $result = $stm->fetchAll();
+                                                    foreach ($result as $row1) {
+                                                        $selected = ($row1['id'] == $autor_id) ? 'selected' : ''; // Verifica se é o autor selecionado
+                                                        echo "<option value='{$row1['id']}' $selected>{$row1['aut_nome_completo']}</option>";
+                                                    }
                                                 }
                                             }
-                                        }
-                                        ?>
-                                    </select>
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <label for="editora">Editora:</label>
+                                        <input value="<?php echo $row['lib_editora'] ?>" type="text" class="form-control" id="editora" name="editora" maxlength="100" placeholder="Ex: Livros Brasil" onkeypress="return soTexto(event)" required pattern=".{3,}">
+                                    </div>
+
                                 </div>
-                                <div class="col-md-6 col-12">
-                                    <label for="editora">Editora:</label>
-                                    <input type="text" class="form-control" id="editora" name="editora" maxlength="100" placeholder="Ex: Livros Brasil" onkeypress="return soTexto(event)" required pattern=".{3,}">
+                                <div class="row">
+                                    <div class="col-md-3 col-12">
+                                        <label for="edicao">Edição da obra:</label>
+                                        <input value="<?php echo $row['lib_edicao'] ?>" type="text" class="form-control" id="edicao" name="edicao" placeholder="Ex: 1, 2, 3.." maxlength="20" onkeypress="return soNumeros(event)" required pattern=".{1,}">
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <label for="ano_publicado">Ano publicado:</label>
+                                        <input value="<?php echo $row['lib_ano_publicacao'] ?>" type="text" class="form-control" id="ano_publicado" name="ano_publicado" maxlength="4" placeholder="Ex: 2010" onkeypress="return soNumeros(event)" required pattern=".{4,}">
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <label for="num_paginas">Numero de páginas:</label>
+                                        <input value="<?php echo $row['lib_numero_paginas'] ?>" type="text" class="form-control" id="num_paginas" name="num_paginas" placeholder="Ex: 150" maxlength="10" onkeypress="return soNumeros(event)" required pattern=".{1,}">
+                                    </div>
+                                    <div class="col-md-3 col-12">
+                                        <label for="quantidade_livros">Quantidade de livros:</label>
+                                        <input value="<?php echo $row['lib_quantidade'] ?>" type="text" class="form-control text-uppercase" id="quantidade_livros" name="quantidade_livros" maxlength="10" onkeypress="return soNumeros(event)" placeholder="Ex: 8" required pattern=".{1,}">
+                                    </div>
                                 </div>
 
+                                <div class="row my-5">
+                                    <div class="col-md-4 d-flex justify-content-center">
+                                        <div class="row d-flex justify-content-center">
+                                            <h5 class="text-center mb-5" style="color: #BF9363;">Foto atual</h5>
+                                            <img id="img" class="image-mask" src="../imgs/<?php echo $row['lib_caminho_imagem']; ?>">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="row d-flex mt-5">
+                                            <label for="foto">Mudar foto:</label>
+                                            <input type="file" class="form-control d-flex align-content-end my-2" id="inputImg" required name="foto">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mt-2 d-flex justify-content-center">
+                                    <button class="btn btn-success alterar_livro" name="alterar_livro">Confirmar atualizações</button>
+                                </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-4 col-12">
-                                    <label for="edicao">Edição da obra:</label>
-                                    <input type="text" class="form-control" id="edicao" name="edicao" placeholder="Ex: 1, 2, 3.." maxlength="20" onkeypress="return soNumeros(event)" required pattern=".{1,}">
-                                </div>
-                                <div class="col-md-4 col-12">
-                                    <label for="ano_publicado">Ano publicado:</label>
-                                    <input type="text" class="form-control" id="ano_publicado" name="ano_publicado" maxlength="4" placeholder="Ex: 2010" onkeypress="return soNumeros(event)" required pattern=".{4,}">
-                                </div>
-                                <div class="col-md-4 col-12">
-                                    <label for="num_paginas">Numero de páginas:</label>
-                                    <input type="text" class="form-control" id="num_paginas" name="num_paginas" placeholder="Ex: 150" maxlength="10" onkeypress="return soNumeros(event)" required pattern=".{1,}">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4 col-12">
-                                    <label for="quantidade_livros">Quantidade de livros:</label>
-                                    <input type="text" class="form-control text-uppercase" id="quantidade_livros" name="quantidade_livros" maxlength="10" onkeypress="return soNumeros(event)" placeholder="Ex: 8" required pattern=".{1,}">
-                                </div>
+                        </form>
 
-                                <div class="col-md-8 col-12">
-                                    <label for="foto">Foto do livro:</label>
-                                    <input type="file" class="form-control my-2" required name="foto">
+                    <?php } else { ?>
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <div class="row">
+                                <h1 class="text-center" style="color: #BF9363;">Informações do Livro</h1>
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <label for="nome_obra">Nome da obra</label>
+                                        <input type="text" class="form-control" id="nome_obra" name="nome_obra" maxlength="130" placeholder="Ex: Carlos Almeida" required pattern=".{3,}">
+
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <label for="cod_isbn">COD ISBN:</label>
+                                        <input type="text" class="form-control" id="cod_isbn" name="cod_isbn" maxlength="20" placeholder="Ex: 0000185188679 " onkeypress="return soNumeros(event)" required pattern=".{3,}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6 col-12">
+                                        <label for="autor_id">Autor da obra</label>
+                                        <select class="form-control text-uppercase" name="autor_id" required>
+                                            <option value="0">Selecione o autor</option>
+                                            <?php
+                                            $query_autores = 'SELECT `id`,`aut_nome_completo` FROM `autores`';
+                                            $stm = $connect->prepare($query_autores);
+                                            if ($stm->execute()) {
+                                                if ($stm->rowCount() > 0) {
+                                                    $result = $stm->fetchAll();
+                                                    foreach ($result as $row) {
+                                                        $selected = ($row['id'] == $autor_id) ? 'selected' : ''; // Verifica se é o autor selecionado
+                                                        echo "<option value='{$row['id']}' $selected>{$row['aut_nome_completo']}</option>";
+                                                    }
+                                                }
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-6 col-12">
+                                        <label for="editora">Editora:</label>
+                                        <input type="text" class="form-control" id="editora" name="editora" maxlength="100" placeholder="Ex: Livros Brasil" onkeypress="return soTexto(event)" required pattern=".{3,}">
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-12">
+                                        <label for="edicao">Edição da obra:</label>
+                                        <input type="text" class="form-control" id="edicao" name="edicao" placeholder="Ex: 1, 2, 3.." maxlength="20" onkeypress="return soNumeros(event)" required pattern=".{1,}">
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <label for="ano_publicado">Ano publicado:</label>
+                                        <input type="text" class="form-control" id="ano_publicado" name="ano_publicado" maxlength="4" placeholder="Ex: 2010" onkeypress="return soNumeros(event)" required pattern=".{4,}">
+                                    </div>
+                                    <div class="col-md-4 col-12">
+                                        <label for="num_paginas">Numero de páginas:</label>
+                                        <input type="text" class="form-control" id="num_paginas" name="num_paginas" placeholder="Ex: 150" maxlength="10" onkeypress="return soNumeros(event)" required pattern=".{1,}">
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4 col-12">
+                                        <label for="quantidade_livros">Quantidade de livros:</label>
+                                        <input type="text" class="form-control text-uppercase" id="quantidade_livros" name="quantidade_livros" maxlength="10" onkeypress="return soNumeros(event)" placeholder="Ex: 8" required pattern=".{1,}">
+                                    </div>
+                                    <div class="col-md-8 col-12">
+                                        <label for="foto">Foto do livro:</label>
+                                        <input type="file" class="form-control" required name="foto">
+                                    </div>
+                                </div>
+                                <div class="mt-2 d-flex justify-content-center">
+                                    <button class="btn btn-primary cadastrar_livro" name="cadastrar_livro">Cadastrar</button>
                                 </div>
                             </div>
-                            <div class="mt-2 d-flex justify-content-center">
-                                <button class="btn btn-primary cadastrar_livro" name="cadastrar_livro">Cadastrar</button>
-                            </div>
-                        </div>
-                    </form>
+                        </form>
+                    <?php } ?>
+
                 </div>
             </div>
         </div>
@@ -339,6 +515,7 @@ if ($stmt->execute() == true) {
         let b = document.getElementById('demo_4');
         let d = document.getElementById('demo_5');
         let f = document.getElementById('demo_6');
+        let u = document.getElementById('demo_7');
         if (x) {
             swal({
                 icon: 'error',
@@ -381,6 +558,12 @@ if ($stmt->execute() == true) {
                 title: 'Formato de imagem invalido',
                 text: 'Tente novamente!'
             });
+        } else if (u) {
+            swal({
+                icon: 'success',
+                title: 'Livro atualizado com sucesso',
+                text: 'Obrigado por mater tudo em ordem!'
+            });
         }
     </script>
 
@@ -413,6 +596,15 @@ if ($stmt->execute() == true) {
                 return true; // Permite a entrada
             } else {
                 return false; // Bloqueia a entrada
+            }
+        }
+
+        let img = document.getElementById('img');
+        let inputImg = document.getElementById('inputImg');
+
+        inputImg.onchange = (e) => {
+            if (inputImg.files[0]) {
+                img.src = URL.createObjectURL(inputImg.files[0]);
             }
         }
         var div1 = document.getElementById('div1');
