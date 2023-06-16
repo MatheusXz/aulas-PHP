@@ -178,115 +178,117 @@ if (isset($_POST['login_user'])) {
 
 <body>
     <?php echo $div_message; ?>
-    <div class="forms row container_login">
-        <div class=" form sign-up " style="background: rgba(0, 0, 0, 0.75); color: white;">
-            <form action="" method="post" enctype="multipart/form-data">
-                <div class="row">
-                    <h1 class="text-center" style="color: #BF9363;">Library System</h1>
-                </div>
-                <h5 class="text-center">Cadastro</h5>
-                <div class="form-group">
+    <div class="container">
+        <div class="forms row container_login">
+            <div class=" form sign-up " style="background: rgba(0, 0, 0, 0.75); color: white;">
+                <form action="" method="post" enctype="multipart/form-data">
                     <div class="row">
-                        <div class="col-md-6 col-12">
-                            <label for="nome">Nome completo</label>
-                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="nome" name="nome" maxlength="100" autocomplete="off" onkeypress="return soTexto(event)" placeholder="Ex: Carlos Almeida" required pattern=".{3,}">
-                        </div>
-                        <div class="col-md-6 col-12">
-                            <label for="cpf">CPF:</label>
-                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="cpf" name="cpf" maxlength="11" placeholder="1234568901" autocomplete="off" onkeypress="return soNumeros(event)" autocomplete="off"  required pattern=".{11,}">
-                            <small class="text-muted fw-bold">somente números</small>
-                        </div>
+                        <h1 class="text-center" style="color: #BF9363;">Library System</h1>
                     </div>
-                    <div class="row">
+                    <h5 class="text-center">Cadastro</h5>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-md-6 col-12">
+                                <label for="nome">Nome completo</label>
+                                <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="nome" name="nome" maxlength="100" autocomplete="off" onkeypress="return soTexto(event)" placeholder="Ex: Carlos Almeida" required pattern=".{3,}">
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <label for="cpf">CPF:</label>
+                                <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="cpf" name="cpf" maxlength="11" placeholder="1234568901" autocomplete="off" onkeypress="return soNumeros(event)" autocomplete="off" required pattern=".{11,}">
+                                <small class="text-muted fw-bold">somente números</small>
+                            </div>
+                        </div>
+                        <div class="row">
 
-                        <div class="col-md-6 col-12">
-                            <label for="data_de_nascimento">Data de nascimento:</label>
-                            <input type="date" class="form-control text-uppercase" id="data_de_nascimento" name="data_de_nascimento" maxlength="8" required pattern=".{2,}">
+                            <div class="col-md-6 col-12">
+                                <label for="data_de_nascimento">Data de nascimento:</label>
+                                <input type="date" class="form-control text-uppercase" id="data_de_nascimento" name="data_de_nascimento" maxlength="8" required pattern=".{2,}">
+                            </div>
+                            <div class="col-md-6 col-12">
+                                <label for="telefone">Telefone:</label>
+                                <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="telefone" name="telefone" placeholder="Ex: 11 9 9999 9999" maxlength="11" autocomplete="off" onkeypress="return soNumeros(event)" required pattern=".{11,}">
+                            </div>
                         </div>
-                        <div class="col-md-6 col-12">
-                            <label for="telefone">Telefone:</label>
-                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="telefone" name="telefone" placeholder="Ex: 11 9 9999 9999" maxlength="11" autocomplete="off" onkeypress="return soNumeros(event)" required pattern=".{11,}">
+                        <div class="row">
+                            <div class="col-md-8 col-12">
+                                <label for="logradouro">Endereço (Rua/Av):</label>
+                                <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="logradouro" name="logradouro" maxlength="150" placeholder="Ex: Av. Brasil" autocomplete="off" onkeypress="return soTexto(event)" required pattern=".{3,}">
+                            </div>
+                            <div class="col-md-4 col-12">
+                                <label for="numero_casa">Número:</label>
+                                <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="numero_casa" name="numero_casa" maxlength="10" placeholder="Ex: 175" autocomplete="off" onkeypress="return soNumeros(event)" required pattern=".{1,}">
+                            </div>
                         </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8 col-12">
-                            <label for="logradouro">Endereço (Rua/Av):</label>
-                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="logradouro" name="logradouro" maxlength="150" placeholder="Ex: Av. Brasil" autocomplete="off" onkeypress="return soTexto(event)" required pattern=".{3,}">
+                        <div class="row">
+                            <div class="col-md-8 col-12">
+                                <label for="bairro">Bairro:</label>
+                                <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="bairro" name="bairro" placeholder="Ex: Centro" maxlength="100" autocomplete="off" onkeypress="return soTexto(event)" required pattern=".{1,}">
+                            </div>
+
+                            <div class="col-md-4 col-12">
+                                <label for="estado">Estado:</label>
+                                <input type="text" onpaste="return false" ondrop="return false" class="form-control text-uppercase" id="estado" name="estado" maxlength="2" autocomplete="off" onkeypress="return soTexto(event)" placeholder="Ex: SP" required pattern=".{2,}">
+                            </div>
                         </div>
-                        <div class="col-md-4 col-12">
-                            <label for="numero_casa">Número:</label>
-                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="numero_casa" name="numero_casa" maxlength="10" placeholder="Ex: 175" autocomplete="off" onkeypress="return soNumeros(event)" required pattern=".{1,}">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-8 col-12">
-                            <label for="bairro">Bairro:</label>
-                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="bairro" name="bairro" placeholder="Ex: Centro" maxlength="100" autocomplete="off" onkeypress="return soTexto(event)" required pattern=".{1,}">
+                        <div class="row">
+                            <div class="col-md-7 col-12">
+                                <label for="cidade">Cicade:</label>
+                                <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="cidade" name="cidade" maxlength="100" autocomplete="off" onkeypress="return soTexto(event)" placeholder="Ex: Luiziânia" required pattern=".{1,}">
+                            </div>
+                            <div class="col-md-5 col-12">
+                                <label for="cep">CEP:</label>
+                                <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="cep" name="cep" placeholder="Ex: 16340000" maxlength="8" autocomplete="off" onkeypress="return soNumeros(event)" required pattern=".{8,}">
+                            </div>
+
                         </div>
 
-                        <div class="col-md-4 col-12">
-                            <label for="estado">Estado:</label>
-                            <input type="text" onpaste="return false" ondrop="return false" class="form-control text-uppercase" id="estado" name="estado" maxlength="2" autocomplete="off" onkeypress="return soTexto(event)" placeholder="Ex: SP" required pattern=".{2,}">
+                        <div class="row">
+                            <div class="col-md-12 col-12">
+                                <label for="email">E-mail:</label>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="name@exemplo.com" maxlength="100" required pattern=".{7,}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 col-12">
+                                <label for="SENHA">Senha:</label>
+                                <input type="password" class="form-control" id="senha" maxlength="100" name="senha" placeholder="*********" required pattern=".{8,}">
+                                <small class="text-muted fw-bold">certifique-se de ter pelo menos 8 caracteres pelo menos, incluindo um número e uma letra maiúscula.</small>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 d-flex  justify-content-center">
+                                <img id="img" class="image-mask" src="../../src/img/Gallery-PNG.png">
+                            </div>
+                            <div class="col-md-8 ">
+                                <label for="foto">Foto para perfil:</label>
+                                <input type="file" class="form-control d-flex align-content-end my-2 " id="inputImg" required name="foto">
+                            </div>
+                        </div>
+                        <div class="mt-2 d-flex justify-content-between">
+                            <button class="btn text-muted btn-outline-light link ">Já tenho uma conta</button>
+                            <button class="btn btn-primary criar_user" name="cadastrar">Cadastrar</button>
                         </div>
                     </div>
+                </form>
+            </div>
+            <div class="form sign-in" style="background: rgba(0, 0, 0, 0.75); color: white;">
+                <form action="" method="post">
                     <div class="row">
-                        <div class="col-md-7 col-12">
-                            <label for="cidade">Cicade:</label>
-                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="cidade" name="cidade" maxlength="100" autocomplete="off" onkeypress="return soTexto(event)" placeholder="Ex: Luiziânia" required pattern=".{1,}">
-                        </div>
-                        <div class="col-md-5 col-12">
-                            <label for="cep">CEP:</label>
-                            <input type="text" onpaste="return false" ondrop="return false" class="form-control" id="cep" name="cep" placeholder="Ex: 16340000" maxlength="8" autocomplete="off" onkeypress="return soNumeros(event)" required pattern=".{8,}">
-                        </div>
-
+                        <h1 class="text-center" style="color: #BF9363;">Library System</h1>
                     </div>
-
-                    <div class="row">
-                        <div class="col-md-12 col-12">
-                            <label for="email">E-mail:</label>
-                            <input type="email" class="form-control" id="email" name="email" placeholder="name@exemplo.com" maxlength="100" required pattern=".{7,}">
+                    <h5 class="text-center">Login</h5>
+                    <div class="form-group">
+                        <label for="email">E-mail:</label>
+                        <input type="email" class="form-control" id="myTextField" name="email" placeholder="name@exemplo.com" required pattern=".{7,}">
+                        <label for="SENHA">Senha:</label>
+                        <input type="password" class="form-control" id="senha" name="senha" placeholder="*********" required pattern=".{8,}">
+                        <div class="my-5 d-flex justify-content-between">
+                            <button class="btn text-muted btn-outline-light link">Criar uma nova conta</button>
+                            <button class="btn btn-primary login_user" name="login_user">Entrar</button>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12 col-12">
-                            <label for="SENHA">Senha:</label>
-                            <input type="password" class="form-control" id="senha" maxlength="100" name="senha" placeholder="*********" required pattern=".{8,}">
-                            <small class="text-muted fw-bold">certifique-se de ter pelo menos 8 caracteres pelo menos, incluindo um número e uma letra maiúscula.</small>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4 d-flex  justify-content-center">
-                            <img id="img" class="image-mask" src="../../src/img/Gallery-PNG.png">
-                        </div>
-                        <div class="col-md-8 ">
-                            <label for="foto">Foto para perfil:</label>
-                            <input type="file" class="form-control d-flex align-content-end my-2 " id="inputImg" required name="foto">
-                        </div>
-                    </div>
-                    <div class="mt-2 d-flex justify-content-between">
-                        <button class="btn text-muted btn-outline-light link ">Já tenho uma conta</button>
-                        <button class="btn btn-primary criar_user" name="cadastrar">Cadastrar</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-        <div class="form sign-in" style="background: rgba(0, 0, 0, 0.75); color: white;">
-            <form action="" method="post">
-                <div class="row">
-                    <h1 class="text-center" style="color: #BF9363;">Library System</h1>
-                </div>
-                <h5 class="text-center">Login</h5>
-                <div class="form-group">
-                    <label for="email">E-mail:</label>
-                    <input type="email" class="form-control" id="myTextField" name="email" placeholder="name@exemplo.com" required pattern=".{7,}">
-                    <label for="SENHA">Senha:</label>
-                    <input type="password" class="form-control" id="senha" name="senha" placeholder="*********" required pattern=".{8,}">
-                    <div class="my-5 d-flex justify-content-between">
-                        <button class="btn text-muted btn-outline-light link">Criar uma nova conta</button>
-                        <button class="btn btn-primary login_user" name="login_user">Entrar</button>
-                    </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
     </div>
 

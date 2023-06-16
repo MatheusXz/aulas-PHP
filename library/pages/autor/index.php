@@ -98,10 +98,10 @@ if (isset($_POST['cadastrar_autor'])) {
 
 $diretorio = "../imgs/"; //define o diretorio para onde enviaremos o arquivo
 
-$id = $_SESSION['id']; // ARMAZENHO O ID QUE VEIO DO VALUE
+$id_s = $_SESSION['id']; // ARMAZENHO O ID QUE VEIO DO VALUE
 
 $stmt = $connect->prepare('SELECT * FROM usuarios WHERE id = :id');
-$stmt->bindValue(':id', $id);
+$stmt->bindValue(':id', $id_s);
 
 if ($stmt->execute() == true) {
     if ($stmt->rowCount() > 0) {

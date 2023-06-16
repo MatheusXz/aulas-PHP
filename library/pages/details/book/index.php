@@ -90,9 +90,6 @@ if ($stmt->execute() == true) {
                         <p class="text-left text-white-50 fw-bolder mt-2">Descrição</p>
                     </div>
                     <div class="row">
-                        <p class="text-left text-white"><?php echo $row['lib_edicao'] ?></p>
-                    </div>
-                    <div class="row">
                         <p class="text-left text-white">A obra tem sido publicada em <span class="aqui-vou por o ano"><?php echo $row['lib_ano_publicacao'] ?></span>.
                         <div class="col-6">
                             <p>Editora <span class="" style="color: #BF9363;"><?php echo $row['lib_editora'] ?></span></p>

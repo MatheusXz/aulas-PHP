@@ -94,6 +94,7 @@ if (isset($_POST['cadastrar_livro'])) {
                             $div_message = "<div id='demo_1'></div>";
                         } else {
                             $div_message = "<div id='demo_2'></div>";
+                            unlink($diretorio . $novo_nome);
                         }
                     }
                 }
@@ -105,6 +106,33 @@ if (isset($_POST['cadastrar_livro'])) {
         $div_message = "<div class='bg-danger''>$error_message</div>";
     }
 }
+if (isset($_GET['excluir'])) {
+    $livro_id = $_GET['excluir'];
+    $diretorio = "../imgs/";
+
+    // Obter o caminho da imagem antes de excluir o registro
+    $query_select_imagem = 'SELECT lib_caminho_imagem FROM `livros` WHERE id = :livro_id';
+    $statement_select_imagem = $connect->prepare($query_select_imagem);
+    $statement_select_imagem->bindParam(':livro_id', $livro_id);
+    $statement_select_imagem->execute();
+    $row = $statement_select_imagem->fetch(PDO::FETCH_ASSOC);
+    $caminho_imagem = $row['lib_caminho_imagem'];
+
+    // Excluir a imagem do diretório
+    unlink($diretorio . $caminho_imagem);
+
+    // Excluir o registro do banco de dados
+    $query_excluir = 'DELETE FROM `livros` WHERE id = :livro_id';
+    $statement_excluir = $connect->prepare($query_excluir);
+    $statement_excluir->bindParam(':livro_id', $livro_id);
+
+    if ($statement_excluir->execute()) {
+        $div_message = "<div id='demo_5'></div>";
+    } else {
+        $div_message = "<div id='demo_2'></div>";
+    }
+}
+
 
 if (isset($_POST['alterar_livro'])) {
 
@@ -132,6 +160,7 @@ if (isset($_POST['alterar_livro'])) {
             if ($statement_cod_isbn->rowCount() > 0) {
                 $div_message = "<div id='demo_0'></div>";
             } else {
+
                 $query_atualizar = 'UPDATE `livros` SET
                 lib_codigo_isbn = :cod_isbn,
                 lib_nome_obra = :nome_obra,
@@ -166,12 +195,11 @@ if (isset($_POST['alterar_livro'])) {
                         $statement->bindParam(':num_paginas', $num_paginas);
                         $statement->bindParam(':quantidade_livros', $quantidade_livros);
                         $statement->bindParam(':foto', $novo_nome);
-                        $statement->bindParam(':livro_id', $livro_id); // Substitua "livro_id" pelo nome correto da coluna que identifica o livro a ser atualizado
+                        $statement->bindParam(':livro_id', $id_livro); // Substitua "livro_id" pelo nome correto da coluna que identifica o livro a ser atualizado
 
                         if ($statement->execute()) {
                             $div_message = "<div id='demo_7'></div>";
-                            echo $nome_obra;
-                            echo $id_livro;
+                            echo $autor_id;
                         } else {
                             $div_message = "<div id='demo_2'></div>";
                         }
@@ -196,7 +224,7 @@ $stmt->bindValue(':id', $id);
 if ($stmt->execute() == true) {
     if ($stmt->rowCount() > 0) {
         $result = $stmt->fetchAll();
-        foreach ($result as $row) {
+        foreach ($result as $row2) {
             //             unlink($diretorio . $row['user_caminho_imagem']); // DELETA DA PASTA A IMAGEM REFERENTE AO NOME (se quiser)
             // COMANDO DE EXCLUIR DEPOIS
         }
@@ -253,7 +281,7 @@ if ($stmt->execute() == true) {
                 <div class="row">
                     <div class="col-md-3 col-12">
                         <div class="image-mask">
-                            <img class="img-thumbnail" src="<?php echo " ../imgs/" . $row['user_caminho_imagem'] . ""; ?>" alt="photoProfile">
+                            <img class="img-thumbnail" src="<?php echo " ../imgs/" . $row2['user_caminho_imagem'] . ""; ?>" alt="photoProfile">
                         </div>
                     </div>
                 </div>
@@ -516,6 +544,7 @@ if ($stmt->execute() == true) {
         let d = document.getElementById('demo_5');
         let f = document.getElementById('demo_6');
         let u = document.getElementById('demo_7');
+        let e = document.getElementById('demo_8');
         if (x) {
             swal({
                 icon: 'error',
@@ -548,9 +577,9 @@ if ($stmt->execute() == true) {
             });
         } else if (d) {
             swal({
-                icon: 'error',
-                title: 'Ooops! CPF já existente',
-                text: 'Tente novamente ou acesse sua conta!'
+                icon: 'success',
+                title: 'Livro excluido com sucesso!',
+                text: 'Continue assim dedicado!'
             });
         } else if (f) {
             swal({
@@ -563,6 +592,12 @@ if ($stmt->execute() == true) {
                 icon: 'success',
                 title: 'Livro atualizado com sucesso',
                 text: 'Obrigado por mater tudo em ordem!'
+            });
+        } else if (u) {
+            swal({
+                icon: 'error',
+                title: 'Erro: 008 - Exclusão',
+                text: 'Tente novamente!'
             });
         }
     </script>

@@ -8,10 +8,10 @@ if (isset($_GET['sair']) || !isset($_SESSION['nome']) || !isset($_SESSION['id'])
     exitSession($loca);
 }
 
-$id = $_GET['id'];
+$id_get = $_GET['id'];
 
 // Validação do ID (exemplo)
-if (!is_numeric($id)) {
+if (!is_numeric($id_get)) {
     // Lógica para lidar com um ID inválido, como exibir uma mensagem de erro ou redirecionar para outra página
     // Por exemplo:
     echo '<div style="background-color: #FFCCCC; padding: 10px; border: 1px solid #FF0000; color: #FF0000;">ID inválido</div>';
@@ -19,14 +19,14 @@ if (!is_numeric($id)) {
 }
 
 // Sanitização do ID (exemplo usando a função filter_var)
-$id = filter_var($id, FILTER_SANITIZE_NUMBER_INT);
-$stmt = $connect->prepare('SELECT livros.*, autores.* FROM livros INNER JOIN autores ON livros.autor_id = autores.id WHERE autores.id = :id');
-$stmt->bindValue(':id', $id);
-$stmt->execute();
+$id_get = filter_var($id_get, FILTER_SANITIZE_NUMBER_INT);
+$stmt_inner = $connect->prepare('SELECT livros.*, autores.* FROM livros INNER JOIN autores ON livros.autor_id = autores.id WHERE autores.id = :id');
+$stmt_inner->bindValue(':id', $id_get);
+$stmt_inner->execute();
 
-if ($stmt->execute() == true) {
-    if ($stmt->rowCount() > 0) {
-        $result = $stmt->fetchAll();
+if ($stmt_inner->execute() == true) {
+    if ($stmt_inner->rowCount() > 0) {
+        $result = $stmt_inner->fetchAll();
         foreach ($result as $row2) {
         }
     } else {
@@ -131,9 +131,9 @@ if ($stmt->execute() == true) {
 
                         <div class="row">
                             <?php
-                            $query_livros_id = 'SELECT livros.*, autores.aut_nome_completo FROM livros INNER JOIN autores ON livros.autor_id = :id';
+                            $query_livros_id = 'SELECT livros.*, autores.aut_nome_completo FROM livros INNER JOIN autores ON livros.autor_id = autores.id WHERE autores.id = :id';
                             $stmt = $connect->prepare($query_livros_id);
-                            $stmt->bindValue(':id', $id);
+                            $stmt->bindValue(':id', $id_get);
 
 
                             if ($stmt->execute()) {
