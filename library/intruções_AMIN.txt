@@ -1,0 +1,7 @@
+PROFESSORA AQUI ESTA O ACESSO admin
+email: admin@etec.sp.gov.br
+senha: 12341234
+
+USUARIO COMUM 
+email: matheus@gmail.com
+senha: 12341234

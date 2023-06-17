@@ -19,6 +19,22 @@ $id = $_SESSION['id']; // ARMAZENHO O ID QUE VEIO DO VALUE
 
 $stmt = $connect->prepare('SELECT * FROM usuarios WHERE id = :id');
 $stmt->bindValue(':id', $id);
+$countSearch = 0;
+$countOffSearch = 0;
+
+$query_livros = "SELECT livros.*, autores.aut_nome_completo FROM livros INNER JOIN autores ON livros.autor_id = autores.id";
+if (isset($_POST['pesquisar'])) {
+    $div_message = '';
+    $pesquisar = $_POST['pesquisa_feita'];
+    $query_livros .= " WHERE livros.lib_nome_obra LIKE '%{$pesquisar}%'";
+    $stm = $connect->prepare($query_livros);
+    $stm->execute();
+    $countSearch = $stm->rowCount();
+} else {
+    $stm = $connect->prepare($query_livros);
+    $stm->execute();
+    $countOffSearch = $stm->rowCount();
+}
 
 if ($stmt->execute() == true) {
     if ($stmt->rowCount() > 0) {
@@ -32,7 +48,6 @@ if ($stmt->execute() == true) {
     }
 }
 
-$query_livros = 'SELECT * FROM `livros`';
 
 ?>
 
@@ -76,6 +91,55 @@ $query_livros = 'SELECT * FROM `livros`';
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0.2) 100%);
             padding: 10px;
         }
+
+        .input-container {
+            position: relative;
+            /* margin: 50px auto; */
+            width: 100%;
+        }
+
+        .input-container input[type="text"] {
+            font-size: 20px;
+            width: 100%;
+            border: none;
+            border-bottom: 2px solid #ccc;
+            padding: 5px 0;
+            background-color: transparent;
+            color: aqua;
+            outline: none;
+        }
+
+        .input-container .label {
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: #fff;
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .input-container input[type="text"]:focus~.label,
+        .input-container input[type="text"]:valid~.label {
+            top: -20px;
+            font-size: 16px;
+            /* color: #333; */
+        }
+
+        .input-container .underline {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            height: 2px;
+            width: 100%;
+            /* background-color: #333; */
+            transform: scaleX(0);
+            transition: all 0.3s ease;
+        }
+
+        .input-container input[type="text"]:focus~.underline,
+        .input-container input[type="text"]:valid~.underline {
+            transform: scaleX(1);
+        }
     </style>
 
 </head>
@@ -99,7 +163,7 @@ $query_livros = 'SELECT * FROM `livros`';
 
                     <ul class="navbar-nav flex-column mb-5">
                         <li class="nav-item">
-                            <a href="#" class="nav-link my-3 text-white active">
+                            <a href="index.php" class="nav-link my-3 text-white active">
                                 Início
                             </a>
                         </li>
@@ -136,13 +200,26 @@ $query_livros = 'SELECT * FROM `livros`';
 
             <div class="col-md-9 col-12 my-5">
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-6">
                         <h6 class="">Explore e embarque em uma jornada literária 🥳</h6>
                     </div>
-                    <?php if ($_SESSION["nivel_acesso"] == "funcionario") { ?>
-                    <div class="col-md-4 d-flex justify-content-end">
-                        <a href="" class="btn btn-light">Área administrativa</a>
+                    <div class="col-md-4">
+                        <form action="" method="post">
+                            <!-- <input type="text" placeholder="O que você esta procurando..." class="form-control form-control-sm border rounded p-1 w-7"> -->
+                            <div class="input-container">
+                                <input type="text" name="pesquisa_feita" id="input" required="">
+                                <label for="input" class="label">O que você esta procurando...</label>
+                                <div class="underline"></div>
+                            </div>
                     </div>
+                    <div class="col-md-2">
+                        <button class="btn" style="background-color: #BF9363;" name="pesquisar" type="submit">Pesquisar</button>
+                    </div>
+                    </form>
+                    <?php if ($_SESSION["nivel_acesso"] == "funcionario") { ?>
+                        <div class="col-md-4 d-flex justify-content-end">
+                            <a href="" class="btn btn-light">Área administrativa</a>
+                        </div>
                     <?php } ?>
                     <div class="row">
                         <div class="d-flex">
@@ -158,32 +235,56 @@ $query_livros = 'SELECT * FROM `livros`';
 
                     <div class="row hidden" id="div1">
                         <?php
-                        $query_livros = 'SELECT livros.*, autores.aut_nome_completo FROM livros INNER JOIN autores ON livros.autor_id = autores.id';
-                        $stm = $connect->prepare($query_livros);
-                        if ($stm->execute()) {
-                            if ($stm->rowCount() > 0) {
-                                $result = $stm->fetchAll();
-                                foreach ($result as $row) {
-                        ?>
-                                    <div class="col-md-3 col-12 my-3 d-flex justify-content-center">
-                                        <a href="pages/details/book/index.php?id=<?php echo $row['id'] ?>">
-                                            <div class="card">
-                                                <img src="pages/imgs/<?php echo $row['lib_caminho_imagem'] ?>" class="card-img" alt="...">
-                                                <div class="card-img-overlay">
-                                                    <div class="card-content">
-                                                        <h5 class="card-title text-white" style=""><?php echo $row['lib_nome_obra'] ?></h5>
-                                                        <p class="card-text text-truncate text-white"><?php echo $row['aut_nome_completo'] ?></p>
-                                                    </div>
-                                                </div>
 
+
+                        if ($countSearch > 0) {
+                            $result = $stm->fetchAll();
+                            foreach ($result as $row) {
+                        ?>
+                                <div class="col-md-3 col-12 my-3 d-flex justify-content-center">
+                                    <a href="pages/details/book/index.php?id=<?php echo $row['id'] ?>">
+                                        <div class="card">
+                                            <img src="pages/imgs/<?php echo $row['lib_caminho_imagem'] ?>" class="card-img" alt="...">
+                                            <div class="card-img-overlay">
+                                                <div class="card-content">
+                                                    <h5 class="card-title text-white" style=""><?php echo $row['lib_nome_obra'] ?></h5>
+                                                    <p class="card-text text-truncate text-white"><?php echo $row['aut_nome_completo'] ?></p>
+                                                </div>
                                             </div>
-                                        </a>
-                                    </div>
+
+                                        </div>
+                                    </a>
+                                </div>
+                            <?php
+                            }
+                        } else if ($countOffSearch > 0) {
+                            $result = $stm->fetchAll();
+                            foreach ($result as $row) {
+                            ?>
+                                <div class="col-md-3 col-12 my-3 d-flex justify-content-center">
+                                    <a href="pages/details/book/index.php?id=<?php echo $row['id'] ?>">
+                                        <div class="card">
+                                            <img src="pages/imgs/<?php echo $row['lib_caminho_imagem'] ?>" class="card-img" alt="...">
+                                            <div class="card-img-overlay">
+                                                <div class="card-content">
+                                                    <h5 class="card-title text-white" style=""><?php echo $row['lib_nome_obra'] ?></h5>
+                                                    <p class="card-text text-truncate text-white"><?php echo $row['aut_nome_completo'] ?></p>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </a>
+                                </div>
+
+
                         <?php
-                                }
+
                             }
                         }
+
                         ?>
+
+
                     </div>
 
                     <div class="row my-5 hidden" id="div2">
