@@ -24,6 +24,7 @@ if (isset($_POST['cadastrar'])) {
     $modelo_car         = $_POST['modelo'];
     $ano_car            = $_POST['ano'];
     $preco_car          = $_POST['preco'];
+    $status             = 'on';
 
     if (!isset($nome_car, $fabricante_car, $cor_car, $modelo_car, $ano_car, $preco_car)) {
         // Alguma variável não foi definida
@@ -52,7 +53,7 @@ if (isset($_POST['cadastrar'])) {
             :modelo,
             :ano,
             :preco,
-            default
+            :s
         )';
         $stm = $connect->prepare($query_cadastrar);
 
@@ -63,6 +64,7 @@ if (isset($_POST['cadastrar'])) {
         $stm->bindParam(':modelo',      $modelo_car);
         $stm->bindParam(':ano',         $ano_car);
         $stm->bindParam(':preco',       $preco_car);
+        $stm->bindParam(':s',           $status);
 
         // VERIFICA SE EXECUTOU TUDO CERTO
         if ($stm->execute()) {

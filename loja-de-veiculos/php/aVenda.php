@@ -37,7 +37,7 @@ if (isset($_POST['pesquisa'])) {
         }
 
         $stmth = $connect->prepare($querySearch);
-        $stmth->bindValue(":id", $id);
+        // $stmth->bindValue(":id", $id);
         $stmth->execute();
         $countSearch = $stmth->rowCount();
     }
@@ -45,7 +45,7 @@ if (isset($_POST['pesquisa'])) {
     $div_message = '';
     $querySqlStatusOn = "SELECT * FROM carros_car WHERE car_status = 'on'";
     $stmth = $connect->prepare($querySqlStatusOn);
-    $stmth->bindValue(':id', $_SESSION['id_user']);
+    // $stmth->bindValue(':id', $_SESSION['id_user']);
     $stmth->execute();
     $countStatusOn = $stmth->rowCount();
 }
