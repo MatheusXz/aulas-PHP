@@ -96,15 +96,14 @@ if (isset($_POST['cadastrar'])) {
         $error_message = $e->getMessage();
         $div_message = "<div class='bg-danger''>$error_message</div>";
     }
-}
-if (isset($_POST['login_user'])) {
-    $email              =                                 strtolower($_POST["email"]);
-    // PUXANDO DADOS DO LOGIN
-    $query_login        =  "SELECT * FROM `usuarios` WHERE `user_email` = :email";
+} elseif (isset($_POST['login_user'])) {
 
-    $stm                =                             $connect->prepare($query_login);
-    $stm->execute(array(':email'    =>                                       $email));
+    $email = strtolower($_POST["email"]);
+    $query_login = "SELECT * FROM `usuarios` WHERE `user_email` = :email";
+    $stm = $connect->prepare($query_login);
+    $stm->execute(array(':email' => $email));
     $count = $stm->rowCount();
+
     if ($count > 0) {
         $result = $stm->fetchAll();
         foreach ($result as $row) {

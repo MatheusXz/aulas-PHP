@@ -1,5 +1,9 @@
 -- Criação da tabela `usuarios`
-use s222_matheus35;
+
+CREATE DATABASE library;
+
+use library;
+
 CREATE TABLE usuarios (
   id INT(11) AUTO_INCREMENT PRIMARY KEY,
   user_nome VARCHAR(100) NOT NULL, -- feito
@@ -60,7 +64,7 @@ CREATE TABLE emprestimos (
   id_livro INT NOT NULL,
   emp_data_emprestimo DATETIME NOT NULL,
   emp_data_devolucao DATETIME NOT NULL,
-  emp_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+  emp_data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   FOREIGN KEY (id_usuario) REFERENCES usuarios(id),
   FOREIGN KEY (id_livro) REFERENCES livros(id)
 );
@@ -68,5 +72,3 @@ CREATE TABLE emprestimos (
 DROP TABLE emprestimos;
 DROP TABLE livros;
 DROP TABLE usuarios;
-
-MUDAR CPF E EMAIL PARA UNIQUE
