@@ -1,12 +1,5 @@
 <?php
 
-// $config = array(
-//     'host' => '10.67.22.216',
-//     'dbname' => 's222_matheus35',
-//     'user' => 's222_bda',
-//     'pass' => 's22022',
-// );
-
 $config = array(
     'host' => 'localhost',
     'dbname' => 'carros',

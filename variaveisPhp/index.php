@@ -33,7 +33,7 @@
     $subt = $peso - $altura;
     $mult = $peso * $altura;
     $div = $peso / $altura;
-    $mod = $peso % $altura;
+    $mod = fmod($peso, $altura);
 
     $imc = $peso / ($altura * $altura);
 

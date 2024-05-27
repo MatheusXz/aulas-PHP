@@ -31,29 +31,40 @@ $saldoComprador = getCompradorSaldo($connect, $idCompradorLogado);
 
 if (isset($_POST['pesquisa'])) {
 
-
     if (empty($_POST['pesquisa_feita'])) {
         $div_message = "<div id='demo_0'></div>";
-    } elseif (empty($_POST['s_fab']) && empty($_POST['s_mod']) && empty($_POST['s_ano'])) {
-        $div_message = "<div id='demo_1'></div>";
     } else {
         $pesquisar = $_POST['pesquisa_feita'];
         $id = $_SESSION['id_user'];
 
         $querySearch = "SELECT * FROM carros_car WHERE car_status = 'on' AND user_id = :id";
+        $bindPesquisar = false;
 
-        if (isset($_POST['s_fab'])) {
-            $querySearch .= " AND car_fabricante LIKE '%{$pesquisar}%'";
-        }
-        if (isset($_POST['s_mod'])) {
-            $querySearch .= " AND car_modelo LIKE '%{$pesquisar}%'";
-        }
-        if (isset($_POST['s_ano'])) {
-            $querySearch .= " AND car_ano LIKE '%{$pesquisar}%'";
+        if (empty($_POST['s_fab']) && empty($_POST['s_mod']) && empty($_POST['s_ano'])) {
+            $querySearch .= " AND car_nome LIKE :pesquisar";
+            $bindPesquisar = true;
+        } elseif (!empty($pesquisar)) {
+            if (!empty($_POST['s_fab'])) {
+                $querySearch .= " AND car_fabricante LIKE :pesquisar";
+                $bindPesquisar = true;
+            }
+            if (!empty($_POST['s_mod'])) {
+                $querySearch .= " AND car_modelo LIKE :pesquisar";
+                $bindPesquisar = true;
+            }
+            if (!empty($_POST['s_ano'])) {
+                $querySearch .= " AND car_ano LIKE :pesquisar";
+                $bindPesquisar = true;
+            }
         }
 
         $stmth = $connect->prepare($querySearch);
-        $stmth->bindValue(":id", $id);
+        $stmth->bindValue(":id", $id, PDO::PARAM_INT);
+
+        if ($bindPesquisar) {
+            $stmth->bindValue(":pesquisar", '%' . $pesquisar . '%', PDO::PARAM_STR);
+        }
+
         $stmth->execute();
         $countSearch = $stmth->rowCount();
     }
@@ -175,7 +186,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                     <th scope="col">EXCLUIR</th>
                                 </tr>
                             </thead>
-                           
+
                             <tbody>
                                 <?php
                                 echo $div_message;
@@ -194,18 +205,7 @@ if (!isset($_SESSION['id_user']) || !isset($_SESSION['nome_user'])) {
                                         <td>" . $row['car_modelo'] . "</td>
                                         <td>" . $row['car_ano'] . "</td>
                                         <td>R$ " . number_format($row['car_preco'], 2, ',', '.') . "</td>
-                                        <td>
-                                            <form action='php/edit.php' method='GET'>
-                                                <input type='hidden' name='id' value='" . $row['id'] . "'>
-                                                <button type='submit' name='alter' class='noselect alterar'><span class='text'>Alterar</span><span class='icon'><img src='./img/sincronizar.svg' alt=''></span></button>
-                                            </form>
-                                        </td>
-                                        <td>
-                                            <form action='' method='POST'>
-                                                <input type='hidden' name='id' value='" . $row['id'] . "'>
-                                                <button type='submit' name='excluir' class='noselect delete'><span class='text'>Delete</span><span class='icon'><img src='./img/delete.svg' alt=''></span></button>
-                                            </form>
-                                        </td>
+                                       
                                     </tr>
                                     ";
                                         $i++;

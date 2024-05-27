@@ -4,7 +4,6 @@ require_once('conn.php');
 
 session_start();
 
-
 if (isset($_POST['sair'])) {
     $loca = 'location: login.php';
     exitSession($loca);
@@ -17,27 +16,38 @@ if (isset($_POST['pesquisa'])) {
     $pesquisar = $_POST['pesquisa_feita'];
     $id = $_SESSION['id_user'];
 
-
     if (empty($_POST['pesquisa_feita'])) {
         $div_message = "<div id='demo_0'></div>";
-    } elseif (empty($_POST['s_fab']) && empty($_POST['s_mod']) && empty($_POST['s_ano'])) {
-        $div_message = "<div id='demo_1'></div>";
     } else {
-
+        $pesquisar = $_POST['pesquisa_feita'];
+        $id = $_SESSION['id_user'];
         $querySearch = "SELECT * FROM carros_car WHERE car_status = 'on'";
+        $bindPesquisar = false;
 
-        if (isset($_POST['s_fab'])) {
-            $querySearch .= " AND car_fabricante LIKE '%{$pesquisar}%'";
-        }
-        if (isset($_POST['s_mod'])) {
-            $querySearch .= " AND car_modelo LIKE '%{$pesquisar}%'";
-        }
-        if (isset($_POST['s_ano'])) {
-            $querySearch .= " AND car_ano LIKE '%{$pesquisar}%'";
+        if (empty($_POST['s_fab']) && empty($_POST['s_mod']) && empty($_POST['s_ano'])) {
+            $querySearch .= " AND car_nome LIKE :pesquisar";
+            $bindPesquisar = true;
+        } elseif (!empty($pesquisar)) {
+            if (!empty($_POST['s_fab'])) {
+                $querySearch .= " AND car_fabricante LIKE :pesquisar";
+                $bindPesquisar = true;
+            }
+            if (!empty($_POST['s_mod'])) {
+                $querySearch .= " AND car_modelo LIKE :pesquisar";
+                $bindPesquisar = true;
+            }
+            if (!empty($_POST['s_ano'])) {
+                $querySearch .= " AND car_ano LIKE :pesquisar";
+                $bindPesquisar = true;
+            }
         }
 
         $stmth = $connect->prepare($querySearch);
-        // $stmth->bindValue(":id", $id);
+
+        if ($bindPesquisar) {
+            $stmth->bindValue(":pesquisar", '%' . $pesquisar . '%', PDO::PARAM_STR);
+        }
+
         $stmth->execute();
         $countSearch = $stmth->rowCount();
     }

@@ -1,3 +1,7 @@
+CREATE DATABASE carros;
+
+use carros;
+
 CREATE TABLE `Usuarios_car` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `user_nome` varchar(20) NOT NULL,
